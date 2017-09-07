@@ -8,4 +8,4 @@
 3. Aktiver virtual environment-et du nettopp lagde: `source venv/bin/activate`
 4. Installer nødvendige biblioteker: `pip install -r requirements.txt`
 5. Start prosjektet: `python3 manage.py runserver`
-6. Åpne [localhost:8000](localhost:8000) i nettleseren din.
+6. Åpne [localhost:8000](http://localhost:8000) i nettleseren din.
