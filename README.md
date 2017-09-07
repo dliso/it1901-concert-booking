@@ -1,1 +1,2 @@
-# it1901-concert-booking
+# IT1901 Prosjekt I
+## Festivalbookingsystem
