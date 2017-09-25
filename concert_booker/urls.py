@@ -20,6 +20,7 @@ from django.contrib.auth import views as auth_views
 from accounts import views as acc_views
 
 auth_urls = [
+    url(r'^signup/$', acc_views.SignUpView.as_view(), name='signup'),
     url(r'^login/$', auth_views.LoginView.as_view(), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
 ]
