@@ -51,10 +51,10 @@
                         {% if user.is_authenticated %}
                         <!-- TODO urls -->
                         <li><a href="">{{ user.username }}</a></li>
-                        <li><a href="">Log out</a></li>
+                        <li><a href="{% url 'auth:logout' %}?next={{ request.path }}">Log out</a></li>
                         {% else %}
                         <li><a href="">Sign up</a></li>
-                        <li><a href="">Log in</a></li>
+                        <li><a href="{% url 'auth:login' %}?next={{ request.path }}">Log in</a></li>
                         {% endif %}
                     </ul>
                 </div><!--/.nav-collapse -->
