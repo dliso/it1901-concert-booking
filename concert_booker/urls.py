@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from accounts import views as acc_views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', acc_views.Dashboard.as_view()),
 ]
