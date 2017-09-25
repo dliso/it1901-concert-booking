@@ -10,10 +10,11 @@ from bands import models as band_models
 class SignUpForm(UserCreationForm):
     groups = forms.ModelMultipleChoiceField(
         Group.objects, help_text="Select the groups you would like to be made"
-        " a member of. Site staff will review your requests.")
+        " a member of.", required=False)
     bands = forms.ModelMultipleChoiceField(
         band_models.Band.objects, help_text="Select the bands you would like"
-        " to be made a manager for. Site staff will review your requests.")
+        " to be made a manager for.",
+        required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
