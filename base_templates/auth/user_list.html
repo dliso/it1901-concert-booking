@@ -3,12 +3,10 @@
 {% block content %}
 <h1>User list</h1>
 
-<p>
-    {% if user.is_authenticated %}
-    Logged in as {{ user.username }}.
-    {% else %}
-    Not logged in.
-    {% endif %}
-</p>
+<ul>
+    {% for user in user_list %}
+    <li>{{ user.username }}</li>
+    {% endfor %}
+</ul>
 
 {% endblock content %}
