@@ -34,7 +34,12 @@ class Concert(models.Model):
     band_name = models.ForeignKey(Band)
     stage_name = models.ForeignKey(Stage)
     genre_music = models.ForeignKey(Genre)
-    concert_time = models.DateTimeField(default=timezone.now)
+    #created_time = models.DateTimeField(default=timezone.now, editable=False) #time concert object created
+    concert_time = models.DateTimeField(blank=True, null=True) #time concert happening
+    concert_description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name + " - " + self.concert_description
 
     # This model has to be expanded to include which bands are playing, what
     # stage it's happening on, technical requirements, who's performing
