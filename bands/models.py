@@ -18,6 +18,9 @@ class Band(models.Model):
 
 class Genre(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
+    description = models.TextField(blank=True)
+    def __str__(self):
+        return self.name + " - " + self.description
 
 
 class Stage(models.Model):
