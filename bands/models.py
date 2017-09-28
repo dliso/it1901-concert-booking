@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 MAX_CHARFIELD_LENGTH_GENERAL = 200
 MAX_BANDNAME_LENGTH = MAX_CHARFIELD_LENGTH_GENERAL
@@ -33,6 +34,7 @@ class Concert(models.Model):
     band_name = models.ForeignKey(Band)
     stage_name = models.ForeignKey(Stage)
     genre_music = models.ForeignKey(Genre)
+    concert_time = models.DateTimeField(default=timezone.now)
 
     # This model has to be expanded to include which bands are playing, what
     # stage it's happening on, technical requirements, who's performing
