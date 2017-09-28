@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>Stages</h1>
+
+<ul>
+    {% for stage in stage_list %}
+    {% include './stage_card.html' %}
+    {% endfor %}
+</ul>
+{% endblock content %}
