@@ -26,7 +26,8 @@ class Genre(models.Model):
 
 class Stage(models.Model):
     name = models.CharField(max_length=MAX_STAGENAME_LENGTH)
-
+    def __str__(self):
+        return self.name
 
 class Concert(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
