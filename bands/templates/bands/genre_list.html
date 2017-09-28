@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>Genres</h1>
+
+<ul>
+    {% for genre in genre_list %}
+    {% include './genre_card.html' %}
+    {% endfor %}
+</ul>
+{% endblock content %}
