@@ -31,9 +31,14 @@ stage_urls = [
     # url(r'^(?P<pk>[0-9]+)/$', band_views.StageList.as_view(), name='stagelist'),
 ]
 
+concert_urls = [
+    url(r'^$', band_views.ConcertList.as_view(), name='concertList')
+]
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include(auth_urls, namespace='auth')),
     url(r'^stages/', include(stage_urls, namespace='stages')),
     url(r'^$', acc_views.Dashboard.as_view()),
+    url(r'^concert/', include(concert_urls, namespace='concert'))
 ]
