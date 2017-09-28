@@ -6,3 +6,4 @@ from . import models
 
 class StageList(ListView):
     model = models.Stage
+
