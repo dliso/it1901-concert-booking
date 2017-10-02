@@ -53,3 +53,11 @@ class Concert(models.Model):
     # This model has to be expanded to include which bands are playing, what
     # stage it's happening on, technical requirements, who's performing
     # technical duties.
+
+
+class Festival(models.Model):
+    name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
+    concerts = models.ManyToManyField(Concert)
+
+    def __str__(self):
+        return self.name
