@@ -14,6 +14,8 @@ class Dashboard(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['band_list'] = band_models.Band.objects.all()
+        context['stage_list'] = band_models.Stage.objects.all()
+        context['festival_list'] = band_models.Festival.objects.all()
         return context
 
 
