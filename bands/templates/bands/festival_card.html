@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h1>
+            {{ festival.name }}
+        </h1>
+
+        <hr/> List
+
+        <h4>Concerts</h4>
+        <ul>
+            {% for concert in festival.concerts.all %}
+            <li>
+                {{ concert }}
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>

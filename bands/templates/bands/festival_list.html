@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>Festivals</h1>
+
+<ul class="list-unstyled">
+    {% for festival in festival_list %}
+    <li>
+        {% include './festival_card.html' %}
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

@@ -14,3 +14,5 @@ class GenreList(ListView):
     model = models.Genre
 
 
+class FestivalList(ListView):
+    model = models.Festival

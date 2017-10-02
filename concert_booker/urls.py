@@ -35,10 +35,17 @@ stage_urls = [
 concert_urls = [
     url(r'^$', band_views.ConcertList.as_view(), name='concertList')
 ]
+
+
 genre_urls = [
     url(r'^$', band_views.GenreList.as_view(), name='genrelist'),
-
 ]
+
+
+festival_urls = [
+    url(r'^$', band_views.FestivalList.as_view(), name='list'),
+]
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -46,5 +53,6 @@ urlpatterns = [
     url(r'^stages/', include(stage_urls, namespace='stages')),
     url(r'^genres/', include(genre_urls, namespace='genres')),
     url(r'^$', acc_views.Dashboard.as_view()),
-    url(r'^concert/', include(concert_urls, namespace='concert'))
+    url(r'^concert/', include(concert_urls, namespace='concert')),
+    url(r'^festival/', include(festival_urls, namespace='festival')),
 ]
