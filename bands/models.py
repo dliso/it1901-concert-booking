@@ -25,7 +25,15 @@ class Genre(models.Model):
 
 
 class Stage(models.Model):
+    STAGE_SIZE_CHOICES = (('S','Small'),
+                          ('M', 'Medium'),
+                          ('L', 'Large'))
+
     name = models.CharField(max_length=MAX_STAGENAME_LENGTH)
+
+    num_seats = models.IntegerField()
+    stage_size = models.CharField(choices=STAGE_SIZE_CHOICES, max_length=1)
+
     def __str__(self):
         return self.name
 
