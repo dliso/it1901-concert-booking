@@ -1,5 +1,5 @@
-from django.contrib.auth.models import User
 from django.contrib.auth import login
+from django.contrib.auth.models import Group, User
 from django.shortcuts import render
 from django.views.generic import FormView, ListView
 
@@ -16,6 +16,7 @@ class Dashboard(ListView):
         context['band_list'] = band_models.Band.objects.all()
         context['stage_list'] = band_models.Stage.objects.all()
         context['festival_list'] = band_models.Festival.objects.all()
+        context['group_list'] = Group.objects.all()
         return context
 
 

@@ -9,6 +9,20 @@
     {% endfor %}
 </ul>
 
+<h1>Groups</h1>
+{% for group in group_list %}
+<h4> {{ group }} </h4>
+
+<ul>
+    {% for member in group.user_set.all %}
+    <li> {{ member }} </li>
+    {% empty %}
+    No members.
+    {% endfor %}
+</ul>
+
+{% endfor %}
+
 <h1>Bands</h1>
 <ul>
     {% for band in band_list %}
