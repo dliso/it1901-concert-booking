@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>
+    {{ object }}
+</h1>
+
+<h2>Concerts</h2>
+<hr/>
+<ul>
+    {% for concert in festival.concerts.all %}
+    {{ concert }}
+    {% empty %}
+    No concerts added to festival yet.
+    {% endfor %}
+</ul>
+
+{% endblock content %}

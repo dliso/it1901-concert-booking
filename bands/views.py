@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 
 from . import models
+
 
 class StageList(ListView):
     model = models.Stage
@@ -15,4 +16,8 @@ class GenreList(ListView):
 
 
 class FestivalList(ListView):
+    model = models.Festival
+
+
+class FestivalDetail(DetailView):
     model = models.Festival
