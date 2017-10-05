@@ -9,8 +9,11 @@ class StageList(ListView):
 class ConcertList(ListView):
     model = models.Concert
 
+class TeknikerList(ListView):
+    model = models.Concert
 
 class GenreList(ListView):
     model = models.Genre
+
 
 

@@ -46,6 +46,8 @@ class Concert(models.Model):
     #created_time = models.DateTimeField(default=timezone.now, editable=False) #time concert object created
     concert_time = models.DateTimeField(blank=True, null=True) #time concert happening
     concert_description = models.TextField(blank=True)
+    light_tech = models.ManyToManyField(User, related_name='light_tech')
+    sound_tech = models.ManyToManyField(User, related_name='sound_tech')
 
     def __str__(self):
         return self.name + " - " + self.concert_description

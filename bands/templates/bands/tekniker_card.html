@@ -1,0 +1,10 @@
+<li>
+    {{% for lt in Concert.light_tech.all %}}
+        {{% if lt == user %}}
+            <h2> {{ Concert.name }} </h2>
+            <p> {{ Concert.concert_description}} </p>
+            <p> Scene: {{ Concert.stage_name }}</p>
+            <p> Tid: {{ Concert.concert_time }}</p>
+        {{% endif %}}
+    {% endfor %}
+</li>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>{{user.get_username}}, konsertene du jobber på: </h1>
+
+<ul>
+    {% for Concert in concert_list %}
+    {% include './teknikier_card.html' %}
+    {% endfor %}
+</ul>
+{% endblock content %}
