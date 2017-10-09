@@ -1,3 +1,6 @@
+from collections import namedtuple
+from itertools import groupby
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -63,3 +66,18 @@ class Festival(models.Model):
 
     def __str__(self):
         return self.name
+
+    def stages(self):
+        return Stage.objects.filter(concert__in=self.concerts.all())
+
+    def concerts_by_stage(self):
+        ConcertsByStage = namedtuple('ConcertsByStage', ['stage', 'concerts'])
+        concerts = self.concerts.order_by('stage_name')
+        grouped = groupby(concerts, lambda c: c.stage_name)
+        by_stage = [
+            {
+                'stage': stage,
+                'concerts': list(concs)
+            } for stage, concs in grouped
+        ]
+        return by_stage
