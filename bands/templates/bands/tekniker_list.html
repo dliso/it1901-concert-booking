@@ -2,11 +2,11 @@
 
 
 {% block content %}
-<h1>{{user.get_username}}, konsertene du jobber på: </h1>
+<h1>{{user.get_username}}, you work on the following concerts: </h1>
 
 <ul>
-    {% for Concert in concert_list %}
-    {% include './teknikier_card.html' %}
+    {% for object in object_list %}
+    {% include './tekniker_card.html' %}
     {% endfor %}
 </ul>
 {% endblock content %}
