@@ -7,6 +7,11 @@ from . import models
 class StageList(ListView):
     model = models.Stage
 
+
+class ConcertDetail(DetailView):
+    model = models.Concert
+
+
 class ConcertList(ListView):
     model = models.Concert
 
