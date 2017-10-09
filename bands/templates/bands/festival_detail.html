@@ -14,7 +14,7 @@
 <hr/>
 <ul>
     {% for concert in festival.concerts.all %}
-    {{ concert }}
+    {{ concert.stage_name }}
     {% empty %}
     No concerts added to festival yet.
     {% endfor %}
