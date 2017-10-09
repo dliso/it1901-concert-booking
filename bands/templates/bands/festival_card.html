@@ -1,17 +1,26 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <h1>
-            {{ festival.name }}
+            <a href="{% url 'festival:detail' festival.id %}">
+                {{ festival.name }}
+            </a>
         </h1>
 
         <hr/>
 
-        <h4>Concerts</h4>
+        <h4>Stage overview</h4>
         <ul>
-            {% for concert in festival.concerts.all %}
-            <li>
-                {{ concert }}
-            </li>
+            {% for stage in festival.concerts_by_stage %}
+            <li>{{ stage.stage }}</li>
+            <ul>
+                {% for concert in stage.concerts %}
+                <li>
+                    <a href="{% url 'concert:detail' concert.id %}">
+                        {{ concert.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
             {% endfor %}
         </ul>
 
