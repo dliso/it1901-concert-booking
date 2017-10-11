@@ -3,6 +3,7 @@ from itertools import groupby
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.shortcuts import reverse
 from django.utils import timezone
 
 MAX_CHARFIELD_LENGTH_GENERAL = 200
@@ -28,6 +29,7 @@ class TechnicalNeed(models.Model):
 class Genre(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
     description = models.TextField(blank=True)
+
     def __str__(self):
         return self.name + " - " + self.description
 
@@ -59,6 +61,9 @@ class Concert(models.Model):
     def __str__(self):
         return self.name + " - " + self.concert_description
 
+    def get_absolute_url(self):
+        return reverse('concert:detail', args=[self.id])
+
     # This model has to be expanded to include which bands are playing, what
     # stage it's happening on, technical requirements, who's performing
     # technical duties.
@@ -70,6 +75,9 @@ class Festival(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('festival:detail', args=[self.id])
 
     def stages(self):
         return Stage.objects.filter(concert__in=self.concerts.all())
