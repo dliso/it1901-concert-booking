@@ -33,7 +33,8 @@ stage_urls = [
 
 
 concert_urls = [
-    url(r'^$', band_views.ConcertList.as_view(), name='concertList')
+    url(r'^$', band_views.ConcertList.as_view(), name='concertList'),
+    url(r'^technician$', band_views.TechnicianList.as_view(), name='technicianList')
 ]
 genre_urls = [
     url(r'^$', band_views.GenreList.as_view(), name='genrelist'),
