@@ -11,4 +11,17 @@
 <h4>Stage: {{ concert.stage_name }}</h4>
 <h4>Time: {{ concert.concert_time }}</h4>
 
+<h2>Technical Requirements</h2>
+{% for requirements in concert.technicalneed_set.all %}
+
+<h3>Sound</h3>
+<pre>{{ requirements.sound }}</pre>
+
+<h3>Light</h3>
+<pre>{{ requirements.light }}</pre>
+{% endfor %}
+
+<h3>Other</h3>
+<pre>{{ requirements.other_technical_needs }}</pre>
+
 {% endblock content %}
