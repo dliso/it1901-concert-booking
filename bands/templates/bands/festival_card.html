@@ -1,13 +1,13 @@
 <div class="panel panel-default">
-    <div class="panel-body">
+    <div class="panel-heading">
         <h1>
             <a href="{% url 'festival:detail' festival.id %}">
                 {{ festival.name }}
             </a>
         </h1>
+    </div>
 
-        <hr/>
-
+    <div class="panel-body">
         <h4>Stage overview</h4>
         <ul>
             {% for stage in festival.concerts_by_stage %}

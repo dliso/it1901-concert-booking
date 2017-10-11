@@ -1,24 +1,30 @@
 <li>
-    <a href="{% url 'concert:detail' Concert.id %}">
-        <h2> {{ Concert.name }} </h2>
-    </a>
-    <p> {{ Concert.concert_description}} </p>
-    <p> Scene: {{ Concert.stage_name }}</p>
-    <p> Time: {{ Concert.concert_time }}</p>
-    <h3> Light technicians </h3>
-    <ul>
-        {% for lt in Concert.light_tech.all %}
-        <li>
-            {{ lt }}
-        </li>
-        {% endfor %}
-    </ul>
-    <h3> Sound technicians </h3>
-    <ul>
-        {% for st in Concert.sound_tech.all %}
-        <li>
-            {{ st }}
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="{% url 'concert:detail' Concert.id %}">
+                <h2> {{ Concert.name }} </h2>
+            </a>
+        </div>
+        <div class="panel-body">
+            <p> {{ Concert.concert_description}} </p>
+            <p> Scene: {{ Concert.stage_name }}</p>
+            <p> Time: {{ Concert.concert_time }}</p>
+            <h3> Light technicians </h3>
+            <ul>
+                {% for lt in Concert.light_tech.all %}
+                <li>
+                    {{ lt }}
+                </li>
+                {% endfor %}
+            </ul>
+            <h3> Sound technicians </h3>
+            <ul>
+                {% for st in Concert.sound_tech.all %}
+                <li>
+                    {{ st }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </li>
