@@ -4,7 +4,9 @@
 {% block content %}
 <h1>Concerts</h1>
 
-<ul>
+<a class="btn btn-primary" href="{% url 'admin:bands_concert_add' %}">Create concert</a>
+
+<ul class="list-unstyled">
     {% for Concert in concert_list %}
     {% include './concert_card.html' %}
     {% endfor %}

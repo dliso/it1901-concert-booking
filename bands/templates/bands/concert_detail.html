@@ -4,6 +4,10 @@
 {% block content %}
 
 <h1>{{ concert.name }}</h1>
+
+<a class="btn btn-primary" href="{% url 'admin:bands_concert_change' concert.id %}">Edit concert</a>
+<a class="btn btn-danger" href="{% url 'admin:bands_concert_delete' concert.id %}">Delete concert</a>
+
 <h4>Stage: {{ concert.stage_name }}</h4>
 <h4>Time: {{ concert.concert_time }}</h4>
 
