@@ -10,7 +10,6 @@ MAX_STAGENAME_LENGTH = MAX_CHARFIELD_LENGTH_GENERAL
 class Band(models.Model):
     name = models.CharField(max_length=MAX_BANDNAME_LENGTH)
     manager = models.ForeignKey(User, null=True, blank=True)
-    
 
     # This model has to be expanded to include at least genres.
 
