@@ -24,4 +24,24 @@
 <h3>Other</h3>
 <pre>{{ requirements.other_technical_needs }}</pre>
 
+<h2>Technical staff</h2>
+<h3>Sound</h3>
+<ul class="list-unstyled">
+    {% for sound_tech in concert.sound_tech.all %}
+    <li>
+        {{ sound_tech }}
+    </li>
+    {% endfor %}
+</ul>
+
+<h3>Light</h3>
+<ul class="list-unstyled">
+    {% for light_tech in concert.light_tech.all %}
+    <li>
+        {{ light_tech }}
+    </li>
+    {% endfor %}
+</ul>
+
+
 {% endblock content %}
