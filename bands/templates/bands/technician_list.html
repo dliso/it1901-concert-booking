@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>{{user.get_username}}, you work on the following concerts: </h1>
+
+<ul>
+    {% for object in object_list %}
+    {% include './technician_card.html' %}
+    {% endfor %}
+</ul>
+{% endblock content %}
