@@ -5,9 +5,6 @@ from rules import add_perm, always_deny, always_allow, predicate, is_superuser
 def is_manager(user, tech_need):
     if not tech_need:
         return False
-    print(tech_need)
-    print(tech_need.concert_name)
-    print(tech_need.concert_name.band_name.manager)
     return user == tech_need.concert_name.band_name.manager
 
 
