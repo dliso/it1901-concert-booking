@@ -12,8 +12,10 @@
 <h4>Time: {{ concert.concert_time }}</h4>
 
 <h2>Technical Requirements</h2>
+
 {% for requirements in concert.technicalneed_set.all %}
 
+<a class="btn btn-primary" href="{% url 'admin:bands_technicalneed_change' requirements.id %}">Edit requirements</a>
 <h3>Sound</h3>
 <pre>{{ requirements.sound }}</pre>
 
