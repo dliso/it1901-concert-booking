@@ -47,7 +47,6 @@ class Stage(models.Model):
 
 class Concert(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
-    unique_for_date = "pub_date"
     band_name = models.ForeignKey(Band)
     stage_name = models.ForeignKey(Stage)
     genre_music = models.ForeignKey(Genre)
