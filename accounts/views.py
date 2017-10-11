@@ -18,6 +18,7 @@ class Dashboard(ListView):
         context['stage_list'] = band_models.Stage.objects.all()
         context['festival_list'] = band_models.Festival.objects.all()
         context['group_list'] = Group.objects.all()
+        context['concert_list'] = band_models.Concert.objects.all()
         return context
 
 

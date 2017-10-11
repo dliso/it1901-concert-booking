@@ -54,6 +54,17 @@
     {% endfor %}
 </ul>
 
+<h1>Concerts</h1>
+<ul>
+    {% for concert in concert_list %}
+    <li>
+        <a href="{% url 'concert:detail' concert.id %}">
+            {{ concert }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
 <h1>Festivals</h1>
 <ul>
     {% for festival in festival_list %}
