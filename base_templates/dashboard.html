@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h1>Responsibilities</h1>
+<ul class="list-unstyled">
+    <li>
+        <a href="{% url 'concert:technicianList' %}">My technical responsibilities</a>
+    </li>
+</ul>
+
 <h1>Users</h1>
 
 <ul>
@@ -9,6 +16,7 @@
     {% endfor %}
 </ul>
 
+{% if group_list %}
 <h1>Groups</h1>
 {% for group in group_list %}
 <h4> {{ group }} </h4>
@@ -22,18 +30,27 @@
 </ul>
 
 {% endfor %}
+{% endif %}
 
 <h1>Bands</h1>
 <ul>
     {% for band in band_list %}
-    <li>{{ band }}</li>
+    <li>
+        <a href="{% url 'admin:bands_band_change' band.id %}">
+            {{ band }}
+        </a>
+    </li>
     {% endfor %}
 </ul>
 
 <h1>Stages</h1>
 <ul>
     {% for stage in stage_list %}
-    <li>{{ stage }}</li>
+    <li>
+        <a href="{% url 'admin:bands_stage_change' stage.id %}">
+            {{ stage }}
+        </a>
+    </li>
     {% endfor %}
 </ul>
 
