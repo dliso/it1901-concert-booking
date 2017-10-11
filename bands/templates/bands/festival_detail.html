@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% include './festival_card.html' %}
+
+<a class="btn btn-primary"
+   href="{% url 'admin:bands_festival_change' festival.id %}">
+    Edit</a>
+
+<a class="btn btn-danger"
+   href="{% url 'admin:bands_festival_delete' festival.id %}">
+    Delete</a>
+
+<!-- <h2>Concerts</h2> -->
+<!-- <hr/> -->
+<!-- <ul> -->
+<!-- {% for concert in festival.concerts.all %} -->
+<!-- {{ concert.stage_name }} -->
+<!-- {% empty %} -->
+<!-- No concerts added to festival yet. -->
+<!-- {% endfor %} -->
+<!-- </ul> -->
+
+{% endblock content %}

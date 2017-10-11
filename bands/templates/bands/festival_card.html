@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1>
+            <a href="{% url 'festival:detail' festival.id %}">
+                {{ festival.name }}
+            </a>
+        </h1>
+    </div>
+
+    <div class="panel-body">
+        <h4>Stage overview</h4>
+        <ul>
+            {% for stage in festival.concerts_by_stage %}
+            <li>{{ stage.stage }}</li>
+            <ul>
+                {% for concert in stage.concerts %}
+                <li>
+                    <a href="{% url 'concert:detail' concert.id %}">
+                        {{ concert.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>
