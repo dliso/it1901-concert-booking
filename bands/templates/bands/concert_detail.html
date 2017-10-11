@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>{{ concert.name }}</h1>
+
+<a class="btn btn-primary" href="{% url 'admin:bands_concert_change' concert.id %}">Edit concert</a>
+<a class="btn btn-danger" href="{% url 'admin:bands_concert_delete' concert.id %}">Delete concert</a>
+
+<h4>Stage: {{ concert.stage_name }}</h4>
+<h4>Time: {{ concert.concert_time }}</h4>
+
+<h2>Technical Requirements</h2>
+{% for requirements in concert.technicalneed_set.all %}
+
+<h3>Sound</h3>
+<pre>{{ requirements.sound }}</pre>
+
+<h3>Light</h3>
+<pre>{{ requirements.light }}</pre>
+
+<h3>Other</h3>
+<pre>{{ requirements.other_technical_needs }}</pre>
+{% endfor %}
+
+<h2>Technical staff</h2>
+<h3>Sound</h3>
+<ul class="list-unstyled">
+    {% for sound_tech in concert.sound_tech.all %}
+    <li>
+        {{ sound_tech }}
+    </li>
+    {% endfor %}
+</ul>
+
+<h3>Light</h3>
+<ul class="list-unstyled">
+    {% for light_tech in concert.light_tech.all %}
+    <li>
+        {{ light_tech }}
+    </li>
+    {% endfor %}
+</ul>
+
+
+{% endblock content %}

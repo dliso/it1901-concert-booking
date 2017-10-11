@@ -4,6 +4,7 @@ from . import models
 
 admin.site.register(models.Band)
 admin.site.register(models.Genre)
+admin.site.register(models.Festival)
 admin.site.register(models.TechnicalNeed)
 
 class StageAdmin(admin.ModelAdmin):
