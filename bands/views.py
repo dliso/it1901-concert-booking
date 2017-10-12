@@ -8,6 +8,9 @@ from . import models
 class StageList(LoginRequiredMixin, ListView):
     model = models.Stage
 
+class StageDetail(DetailView):
+    model = models.Stage
+
 
 class ConcertDetail(LoginRequiredMixin, DetailView):
     model = models.Concert
