@@ -26,6 +26,12 @@ class TechnicalNeed(models.Model):
     light = models.TextField(blank = True)
     other_technical_needs = models.TextField(blank = True)
 
+    def __str__(self):
+        return self.concert_name.__str__()
+
+    def get_absolute_url(self):
+        return self.concert_name.get_absolute_url()
+
 class Genre(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
     description = models.TextField(blank=True)
@@ -59,7 +65,7 @@ class Concert(models.Model):
     sound_tech = models.ManyToManyField(User, related_name='sound_tech')
 
     def __str__(self):
-        return self.name + " - " + self.concert_description
+        return self.name
 
     def get_absolute_url(self):
         return reverse('concert:detail', args=[self.id])

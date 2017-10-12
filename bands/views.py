@@ -1,21 +1,22 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
 from . import models
 
 
-class StageList(ListView):
+class StageList(LoginRequiredMixin, ListView):
     model = models.Stage
 
 
-class ConcertDetail(DetailView):
+class ConcertDetail(LoginRequiredMixin, DetailView):
     model = models.Concert
 
 
-class ConcertList(ListView):
+class ConcertList(LoginRequiredMixin, ListView):
     model = models.Concert
 
-class TechnicianList(ListView):
+class TechnicianList(LoginRequiredMixin, ListView):
     template_name = "bands/technician_list.html"
     queryset = models.Concert.objects.all()
     def get_template_names(self):
@@ -26,13 +27,13 @@ class TechnicianList(ListView):
         users_concerts = models.Concert.objects.all()
         return users_concerts
 
-class GenreList(ListView):
+class GenreList(LoginRequiredMixin, ListView):
     model = models.Genre
 
 
-class FestivalList(ListView):
+class FestivalList(LoginRequiredMixin, ListView):
     model = models.Festival
 
 
-class FestivalDetail(DetailView):
+class FestivalDetail(LoginRequiredMixin, DetailView):
     model = models.Festival

@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group, User
 from django.shortcuts import render
 from django.views.generic import FormView, ListView
@@ -8,7 +9,7 @@ from bands import models as band_models
 from . import forms
 
 
-class Dashboard(ListView):
+class Dashboard(LoginRequiredMixin, ListView):
     model = User
     template_name = 'dashboard.html'
 
