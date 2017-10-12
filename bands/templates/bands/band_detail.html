@@ -21,4 +21,19 @@
     {% endfor %}
 </table>
 
+{% comment %}
+TODO:
+Vi må finne ut hva vi skal gjøre dersom et band har spilt både
+uavhengige konserter og konserter på festival
+
+Filtrer på kun tidligere konserter
+{% endcomment %}
+
+<h3>Popularity</h3>
+<h5>Sold albums</h5>
+<p>{{ band.sold_albums }}</p>
+
+<h5>Total streams</h5>
+<p>{{ band.total_streams }}</p>
+
 {% endblock content %}
