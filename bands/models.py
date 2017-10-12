@@ -95,7 +95,7 @@ class Festival(models.Model):
         by_stage = [
             {
                 'stage': stage,
-                'concerts': list(concs)
+                'concerts': sorted(list(concs), key=lambda c: c.concert_time)
             } for stage, concs in grouped
         ]
         return by_stage
