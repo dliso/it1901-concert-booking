@@ -16,6 +16,7 @@
                 {% for concert in stage.concerts %}
                 <li>
                     <a href="{% url 'concert:detail' concert.id %}">
+                        {{ concert.concert_time|date:"d M Y H:i" }}
                         {{ concert.name }}
                     </a>
                 </li>
