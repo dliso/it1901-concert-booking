@@ -37,3 +37,6 @@ class FestivalList(LoginRequiredMixin, ListView):
 
 class FestivalDetail(LoginRequiredMixin, DetailView):
     model = models.Festival
+
+class BandDetail(DetailView):
+    model = models.Band

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<h1>{{ band.name }}</h1>
+
+<h3>Previous concerts</h3>
+<ul>
+{% for concert in band.concert_set.all %}
+<li>{{ concert }}
+    {{ concert.concert_time|date:"d M Y" }}</li>
+{% endfor %}
+</ul>
+
+{% endblock content %}

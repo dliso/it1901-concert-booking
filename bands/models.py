@@ -15,6 +15,12 @@ class Band(models.Model):
     name = models.CharField(max_length=MAX_BANDNAME_LENGTH)
     manager = models.ForeignKey(User, null=True, blank=True)
 
+    genre = models.ForeignKey('Genre', null=False, blank=False)
+    sold_albums = models.IntegerField(default=0)
+    total_streams = models.IntegerField(default=0)
+
+
+
     # This model has to be expanded to include at least genres.
 
     def __str__(self):
