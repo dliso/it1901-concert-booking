@@ -6,10 +6,18 @@
         <p> Time: {{ object.concert_time }}</p>
         {% if user in object.sound_tech.all and user in object.light_tech.all %}
             <p> Position: light and sound technician</p>
+            <h4> Technical requirements </h4>
+            <h5> Light </h5>
+            <pre>{{ object.technicalneed_set.first.light }}</pre>
+            <h5> Sound </h5>
+            <pre>{{ object.technicalneed_set.first.sound }}</pre>
         {% elif user in object.light_tech.all %}
             <p> Position: light technician</p>
+            <h4> Technical requirements </h4>
+            <pre>{{ object.technicalneed_set.first.light }}</pre>
         {% else %}
             <p> Position: sound technician</p>
+            <pre>{{ object.technicalneed_set.first.sound }}</pre>
         {% endif %}
     </li>
 {% endif %}
