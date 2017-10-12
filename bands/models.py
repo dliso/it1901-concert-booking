@@ -16,8 +16,8 @@ class Band(models.Model):
     manager = models.ForeignKey(User, null=True, blank=True)
 
     genre = models.ForeignKey('Genre', null=False, blank=False)
-    sold_albums = models.IntegerField(default=0)
-    total_streams = models.IntegerField(default=0)
+    sold_albums = models.PositiveIntegerField(default=0)
+    total_streams = models.PositiveIntegerField(default=0)
 
 
 

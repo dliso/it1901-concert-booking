@@ -5,11 +5,20 @@
 <h1>{{ band.name }}</h1>
 
 <h3>Previous concerts</h3>
-<ul>
-{% for concert in band.concert_set.all %}
-<li>{{ concert }}
-    {{ concert.concert_time|date:"d M Y" }}</li>
-{% endfor %}
-</ul>
+<table class="table">
+
+    <tr>
+        <th>Concert</th>
+        <th>Date</th>
+        <th>Festival</th>
+    </tr>
+    {% for concert in band.concert_set.all %}
+    <tr>
+        <td>{{ concert }}</td>
+        <td>{{ concert.concert_time|date:"d M Y" }}</td>
+        <td>{{ concert.festival_set.first }}</td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock content %}
