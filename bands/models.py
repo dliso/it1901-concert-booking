@@ -56,6 +56,9 @@ class Stage(models.Model):
     def all_bands(self):
         return Band.objects.filter(concert__stage_name=self)
 
+    def get_absolute_url(self):
+        return reverse("stages:detail", args=[self.id])
+
 class Concert(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
     band_name = models.ForeignKey(Band)
