@@ -19,7 +19,17 @@ class Band(models.Model):
     sold_albums = models.PositiveIntegerField(default=0)
     total_streams = models.PositiveIntegerField(default=0)
 
+    def previous_concerts(self):
+        return Concert.objects.filter(
+            concert_time__lt=timezone.now(),
+            band_name=self
+        ).order_by('-concert_time')
 
+    def upcoming_concerts(self):
+        return Concert.objects.filter(
+            concert_time__gt=timezone.now(),
+            band_name=self
+        ).order_by('-concert_time')
 
     # This model has to be expanded to include at least genres.
 
