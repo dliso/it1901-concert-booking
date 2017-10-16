@@ -5,12 +5,13 @@
 <h1>{{ band.name }}</h1>
 
 <h3>Previous concerts</h3>
+{% if band.previous_concerts %}
 <table class="table">
 
     <tr>
-        <th>Concert</th>
-        <th>Date</th>
-        <th>Festival</th>
+        <th class="col-md-4">Concert</th>
+        <th class="col-md-4">Date</th>
+        <th class="col-md-4">Festival</th>
     </tr>
     {% for concert in band.previous_concerts %}
     <tr>
@@ -21,26 +22,30 @@
     {% endfor %}
 </table>
 
+{% else %}
+<i>No previous concerts</i>
+{% endif %}
+
 <h3>Upcoming concerts</h3>
 {% if band.upcoming_concerts %}
 <table class="table">
 
     <tr>
-        <th>Concert</th>
-        <th>Date</th>
-        <th>Festival</th>
+        <th class="col-md-4">Concert</th>
+        <th class="col-md-4">Date</th>
+        <th class="col-md-4">Festival</th>
     </tr>
     {% for concert in band.upcoming_concerts %}
     <tr>
         <td>{{ concert }}</td>
         <td>{{ concert.concert_time|date:"d M Y" }}</td>
-        <td>{{ concert.festival_set.first|default_if_none:"Independent concert" }}</td>
+        <td>{{ concert.festival_set.first|default_if_none:"<i>Independent concert</i>" }}</td>
     </tr>
     {% endfor %}
 </table>
 
 {% else %}
-No upcoming concerts
+<i>No upcoming concerts</i>
 {% endif %}
 
 
