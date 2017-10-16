@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>{{stage.name}}</h1>
+
+
+<h2> Bands </h2>
+<ul>
+    {% for band in stage.all_bands %}
+    <li>
+        <a href="{{ band.get_absolute_url }}">
+        {{band}}
+            </a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

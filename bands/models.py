@@ -36,6 +36,9 @@ class Band(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("band:detail",args=[self.id])
+
 class TechnicalNeed(models.Model):
     concert_name = models.ForeignKey('Concert')
     sound = models.TextField(blank = True)
@@ -68,6 +71,12 @@ class Stage(models.Model):
 
     def __str__(self):
         return self.name
+
+    def all_bands(self):
+        return Band.objects.filter(concert__stage_name=self)
+
+    def get_absolute_url(self):
+        return reverse("stages:detail", args=[self.id])
 
 class Concert(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)

@@ -28,7 +28,7 @@ auth_urls = [
 
 stage_urls = [
     url(r'^$', band_views.StageList.as_view(), name='stagelist'),
-    # url(r'^(?P<pk>[0-9]+)/$', band_views.StageList.as_view(), name='stagelist'),
+    url(r'^(?P<pk>[0-9]+)/$', band_views.StageDetail.as_view(), name='detail'),
 ]
 
 
