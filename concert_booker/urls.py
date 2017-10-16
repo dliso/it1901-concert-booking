@@ -40,6 +40,7 @@ concert_urls = [
 
 band_urls = [
     url(r'^(?P<pk>[0-9]+)$', band_views.BandDetail.as_view(), name='detail'),
+    url(r'^$', band_views.BandList.as_view(), name='list')
 ]
 
 
