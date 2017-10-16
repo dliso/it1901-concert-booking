@@ -38,6 +38,10 @@ concert_urls = [
     url(r'^technician$', band_views.TechnicianList.as_view(), name='technicianList'),
 ]
 
+band_urls = [
+    url(r'^(?P<pk>[0-9]+)$', band_views.BandDetail.as_view(), name='detail'),
+]
+
 
 genre_urls = [
     url(r'^$', band_views.GenreList.as_view(), name='genrelist'),
@@ -59,4 +63,5 @@ urlpatterns = [
     url(r'^$', acc_views.Dashboard.as_view()),
     url(r'^concert/', include(concert_urls, namespace='concert')),
     url(r'^festival/', include(festival_urls, namespace='festival')),
+    url(r'^band/', include(band_urls, namespace='band')),
 ]

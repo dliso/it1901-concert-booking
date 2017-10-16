@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<h1>{{ band.name }}</h1>
+
+<h3>Previous concerts</h3>
+<table class="table">
+
+    <tr>
+        <th>Concert</th>
+        <th>Date</th>
+        <th>Festival</th>
+    </tr>
+    {% for concert in band.previous_concerts %}
+    <tr>
+        <td>{{ concert }}</td>
+        <td>{{ concert.concert_time|date:"d M Y" }}</td>
+        <td>{{ concert.festival_set.first|default_if_none:"<i>Independent concert</i>" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Upcoming concerts</h3>
+{% if band.upcoming_concerts %}
+<table class="table">
+
+    <tr>
+        <th>Concert</th>
+        <th>Date</th>
+        <th>Festival</th>
+    </tr>
+    {% for concert in band.upcoming_concerts %}
+    <tr>
+        <td>{{ concert }}</td>
+        <td>{{ concert.concert_time|date:"d M Y" }}</td>
+        <td>{{ concert.festival_set.first|default_if_none:"Independent concert" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+No upcoming concerts
+{% endif %}
+
+
+{% comment %}
+TODO:
+Vi må finne ut hva vi skal gjøre dersom et band har spilt både
+uavhengige konserter og konserter på festival
+
+Filtrer på kun tidligere konserter
+{% endcomment %}
+
+<h3>Popularity</h3>
+<h5>Sold albums</h5>
+<p>{{ band.sold_albums }}</p>
+
+<h5>Total streams</h5>
+<p>{{ band.total_streams }}</p>
+
+{% endblock content %}
