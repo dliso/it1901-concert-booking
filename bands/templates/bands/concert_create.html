@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="row">
+    <h1>Create concert</h1>
+
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input name="" class="btn btn-primary" type="submit" value="Submit"/>
+    </form>
+</div>
+
+{% endblock content %}

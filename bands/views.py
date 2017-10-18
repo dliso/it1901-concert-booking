@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView
 
 from . import models
 
@@ -36,3 +36,11 @@ class FestivalList(ListView):
 
 class FestivalDetail(DetailView):
     model = models.Festival
+
+
+class ConcertCreate(CreateView):
+    """View for creating concerts. We need to add some JavaScript to compute
+    price suggestions, so we can't just use the admin page."""
+    model = models.Concert
+    fields = '__all__'
+    template_name = 'bands/concert_create.html'
