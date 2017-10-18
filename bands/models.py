@@ -57,6 +57,7 @@ class Concert(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
     band_name = models.ForeignKey(Band)
     stage_name = models.ForeignKey(Stage)
+    ticket_price = models.DecimalField(max_digits=10, decimal_places=2)
     genre_music = models.ForeignKey(Genre)
     #created_time = models.DateTimeField(default=timezone.now, editable=False) #time concert object created
     concert_time = models.DateTimeField(blank=True, null=True) #time concert happening
