@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView
+from django.views.generic import CreateView, DetailView, ListView
 
 from . import models
 
@@ -41,5 +41,14 @@ class FestivalList(LoginRequiredMixin, ListView):
 class FestivalDetail(LoginRequiredMixin, DetailView):
     model = models.Festival
 
+
 class BandDetail(DetailView):
     model = models.Band
+
+    
+class ConcertCreate(CreateView):
+    """View for creating concerts. We need to add some JavaScript to compute
+    price suggestions, so we can't just use the admin page."""
+    model = models.Concert
+    fields = '__all__'
+    template_name = 'bands/concert_create.html'
