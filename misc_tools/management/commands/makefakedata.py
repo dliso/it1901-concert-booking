@@ -1,8 +1,9 @@
-from random import choice, randint
+from random import choice, choices, randint
 
 from django.contrib.auth.models import Group, User
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
+from django.utils import timezone
 
 from bands import models
 
@@ -140,8 +141,25 @@ class Command(BaseCommand):
         # ========================================
         Concert = models.Concert
         taglines = [' - A New Hope', ' Strike Back', '']
+        times = [timezone.now()]
+        stages = models.Stage.objects.all()
+        genres = models.Genre.objects.all()
+        light_techs = Group.objects.get(name='light_technician').user_set.all()
+        audio_techs = Group.objects.get(name='audio_technician').user_set.all()
         for band in models.Band.objects.all():
             sow(f"{band}")
+            for _ in range(randint(0,5)):
+                tagline = choice(taglines)
+                concert = Concert.objects.create(
+                    name=f'{band.name} {tagline}',
+                    band_name=band,
+                    stage_name=choice(stages),
+                    genre_music=choice(genres),
+                    concert_time=choice(times),
+                )
+                concert.light_tech = choices(light_techs, k=randint(1,5))
+                concert.sound_tech = choices(audio_techs, k=randint(1,5))
+                concert.save()
 
         # Festivals
         # ========================================
