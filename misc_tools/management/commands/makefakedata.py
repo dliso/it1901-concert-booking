@@ -141,7 +141,12 @@ class Command(BaseCommand):
         # ========================================
         Concert = models.Concert
         taglines = [' - A New Hope', ' Strike Back', '']
-        times = [timezone.now()]
+        times = []
+        now = timezone.now()
+        year = now.year
+        years = list(range(year - 2, year + 2))
+        for year in years:
+            times.append(now.replace(year=year))
         stages = models.Stage.objects.all()
         genres = models.Genre.objects.all()
         light_techs = Group.objects.get(name='light_technician').user_set.all()
@@ -163,3 +168,12 @@ class Command(BaseCommand):
 
         # Festivals
         # ========================================
+        Festival = models.Festival
+        names = ['Testivalen']
+        for year in years:
+            for name in names:
+                full_name = f'{name} {year}'
+                if not Festival.objects.filter(name=full_name).exists():
+                    festival = Festival.objects.create(name=full_name)
+                    festival.concerts = Concert.objects.filter(concert_time__year=year)
+                    festival.save()
