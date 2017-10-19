@@ -46,3 +46,7 @@ class BandDetail(DetailView):
 
 class BandList(ListView):
     model = models.Band
+
+class FestivalPRDetail(LoginRequiredMixin, DetailView):
+    model = models.Festival
+    template_name = "bands/festival_pr_detail.html"
