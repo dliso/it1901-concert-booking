@@ -6,15 +6,25 @@
 <h1>{{stage.name}}</h1>
 
 
-<h2> Bands </h2>
+<h2> Previous artists on this stage </h2>
 <ul>
-    {% for band in stage.all_bands %}
+    {% for concert in stage.previous_five_concerts %}
     <li>
-        <a href="{{ band.get_absolute_url }}">
-        {{band}}
+        <a href="{{ concert.get_absolute_url }}">
+        {{concert}}
+            {{concert.concert_time}}
             </a>
     </li>
     {% endfor %}
 </ul>
-
+<h2>Upcoming artists</h2>
+<ul>
+    {% for concert in stage.upcoming_five_concerts %}
+    <li>
+        <a href="{{ concert.get_absolute_url }}">
+        {{concert}}
+            {{concert.concert_time}}
+            </a>
+    </li>
+    {% endfor %}</ul>
 {% endblock content %}
