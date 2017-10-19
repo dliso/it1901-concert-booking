@@ -5,6 +5,11 @@
 
 <h1>{{stage.name}}</h1>
 
+<form method="post" action="/search_band/">
+    {% csrf_token %}
+    {{form.as_ul}}
+    <div class="form-group"><input value="Search" type="submit" class="btn btn-primary" /> </div>
+</form>
 
 <h2> Previous artists on this stage </h2>
 <table class="table">
