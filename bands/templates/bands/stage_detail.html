@@ -7,16 +7,30 @@
 
 
 <h2> Previous artists on this stage </h2>
-<ul>
+<table class="table">
+    <tr>
+        <th>Concert Name</th>
+        <th>Artist</th>
+        <th>Time</th>
+    </tr>
     {% for concert in stage.previous_five_concerts %}
-    <li>
-        <a href="{{ concert.get_absolute_url }}">
-        {{concert}}
-            {{concert.concert_time}}
+    <tr>
+        <td>
+            <a href="{{ concert.get_absolute_url }}">
+                {{concert}}
             </a>
-    </li>
+        </td>
+        <td>
+            <a href="{{concert.band_name.get_absolute_url}}">
+                {{concert.band_name}}
+            </a>
+        </td>
+        <td>
+            {{concert.concert_time}}
+        </td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
 <h2>Upcoming artists</h2>
 <ul>
     {% for concert in stage.upcoming_five_concerts %}
