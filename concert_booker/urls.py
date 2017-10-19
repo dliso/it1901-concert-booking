@@ -28,7 +28,7 @@ auth_urls = [
 
 stage_urls = [
     url(r'^$', band_views.StageList.as_view(), name='stagelist'),
-    # url(r'^(?P<pk>[0-9]+)/$', band_views.StageList.as_view(), name='stagelist'),
+    url(r'^(?P<pk>[0-9]+)/$', band_views.StageDetail.as_view(), name='detail'),
 ]
 
 
@@ -37,6 +37,10 @@ concert_urls = [
     url(r'^create/$', band_views.ConcertCreate.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)$', band_views.ConcertDetail.as_view(), name='detail'),
     url(r'^technician$', band_views.TechnicianList.as_view(), name='technicianList'),
+]
+
+band_urls = [
+    url(r'^(?P<pk>[0-9]+)$', band_views.BandDetail.as_view(), name='detail'),
 ]
 
 
@@ -60,4 +64,5 @@ urlpatterns = [
     url(r'^$', acc_views.Dashboard.as_view()),
     url(r'^concert/', include(concert_urls, namespace='concert')),
     url(r'^festival/', include(festival_urls, namespace='festival')),
+    url(r'^band/', include(band_urls, namespace='band')),
 ]
