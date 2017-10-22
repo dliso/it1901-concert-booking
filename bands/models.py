@@ -32,11 +32,11 @@ class Band(models.Model):
             band_name=self
         ).order_by('-concert_time')
 
-    def genre_concerts(self):
-        return Concert.objects.filter(
-            concert_name = concerts
-            genre = genre_music
-        ).order_by(genre_music)
+    #def genre_concerts(self):
+    #    return Concert.objects.filter(
+    #        concert_name = concerts
+    #        genre = genre_music
+    #    ).order_by(genre_music)
     # This model has to be expanded to include at least genres.
 
     def __str__(self):
