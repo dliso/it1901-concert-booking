@@ -16,6 +16,7 @@ class Band(models.Model):
     manager = models.ForeignKey(User, null=True, blank=True)
 
     genre = models.ForeignKey('Genre', null=False, blank=False)
+    concerts = models.ManyToManyField(Concert)
     sold_albums = models.PositiveIntegerField(default=0)
     total_streams = models.PositiveIntegerField(default=0)
 
@@ -31,6 +32,11 @@ class Band(models.Model):
             band_name=self
         ).order_by('-concert_time')
 
+    def genre_concerts(self):
+        return Concert.objects.filter(
+            concert_name = concerts
+            genre = genre_music
+        ).order_by(genre_music)
     # This model has to be expanded to include at least genres.
 
     def __str__(self):
@@ -125,3 +131,15 @@ class Festival(models.Model):
             } for stage, concs in grouped
         ]
         return by_stage
+
+    def concerts_by_genre(self):
+        ConcertByGenre = namedtuple('ConcertByGenre', ['genre', 'concerts'])
+        concerts = self.concerts.order_by('genre_music')
+        collected = groupby(concerts, lambda  c: c.genre_music)
+        by_genre = [
+            {
+                'genre': genre,
+                'concerts': sorted(list(concs), key=lambda c: c.concert_time)
+            } for stage, concs in collected
+        ]
+        return by_genre
