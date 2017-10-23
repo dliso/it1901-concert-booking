@@ -13,6 +13,34 @@
    href="{% url 'admin:bands_festival_delete' festival.id %}">
     Delete</a>
 
+<h3> Concerts sorted by Genre</h3>
+    <table class="table">
+    <tr>
+        <th>Genre</th>
+        <th>Concerts</th>
+        <th>Stages</th>
+        <th>Attendees</th>
+    </tr>
+    {% for genre in festival.concerts_by_genre %}
+    <tr>
+        <td>{{ genre.genre }}</td>
+        {% for concert in genre.concerts %}
+            <td>{{ concert }}</td>
+
+                {% for stages in festival.concerts_by_genre %}
+                    <td>{{ stages }}</td>
+
+                    {% for attendees in festival.concert_by_genre %}
+                        <td>{{ attendees }}</td>
+                    {% endfor %}
+
+
+                {% endfor %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
 <!-- <h2>Concerts</h2> -->
 <!-- <hr/> -->
 <!-- <ul> -->

@@ -134,11 +134,13 @@ class Festival(models.Model):
     def concerts_by_genre(self):
         ConcertByGenre = namedtuple('ConcertByGenre', ['genre', 'concerts'])
         concerts = self.concerts.order_by('genre_music')
-        collected = groupby(concerts, lambda  c: c.genre_music)
+        stages = models.ForeignKey('stage_name')
+        attendees = models.ForeignKey('num_seats')
+        collected = groupby(concerts, lambda c: c.genre_music)
         by_genre = [
             {
                 'genre': genre,
-                'concerts': sorted(list(concs), key=lambda c: c.concert_time)
-            } for stage, concs in collected
+                'concerts': sorted(list(concs), key=lambda c: c.concert_time),
+            } for genre, concs in collected
         ]
         return by_genre
