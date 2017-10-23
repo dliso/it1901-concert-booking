@@ -6,12 +6,13 @@
 <h1>{{stage.name}}</h1>
 
 
-<h2> Bands </h2>
+<h4><br> Bands playing on this stage</h4>
+
 <ul>
     {% for band in stage.all_bands %}
     <li>
         <a href="{{ band.get_absolute_url }}">
-        {{band}}
+        {{ band }}
             </a>
     </li>
     {% endfor %}

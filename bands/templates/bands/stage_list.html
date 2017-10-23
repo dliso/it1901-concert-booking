@@ -4,9 +4,21 @@
 {% block content %}
 <h1>Stages</h1>
 
-<ul>
+<table class="table">
+
+    <tr>
+        <th class="col-md-4 col-sm-4 col-xs-4">Stage</th>
+        <th class="col-md-4 col-sm-4 col-xs-4">Size</th>
+        <th class="col-md-4 col-sm-4 col-xs-4">Number of seats</th>
+    </tr>
     {% for stage in stage_list %}
-    {% include './stage_card.html' %}
+    <tr>
+        <td><a href="{{ stage.get_absolute_url }}" >{{ stage.name }} </a></td>
+        <td>{{ stage.stage_size }}</td>
+        <td>{{ stage.num_seats }}</td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
+
+
 {% endblock content %}
