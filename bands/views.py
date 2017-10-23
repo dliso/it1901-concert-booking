@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
+from rules.contrib.views import PermissionRequiredMixin
 
 from . import models
 
@@ -47,6 +48,8 @@ class BandDetail(DetailView):
 class BandList(ListView):
     model = models.Band
 
-class FestivalPRDetail(LoginRequiredMixin, DetailView):
+class FestivalPRDetail(PermissionRequiredMixin, DetailView):
     model = models.Festival
     template_name = "bands/festival_pr_detail.html"
+
+    permission_required = 'bands.concert.view_pr_details'
