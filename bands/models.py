@@ -15,10 +15,29 @@ class Band(models.Model):
     name = models.CharField(max_length=MAX_BANDNAME_LENGTH)
     manager = models.ForeignKey(User, null=True, blank=True)
 
+    genre = models.ForeignKey('Genre', null=False, blank=False)
+    sold_albums = models.PositiveIntegerField(default=0)
+    total_streams = models.PositiveIntegerField(default=0)
+
+    def previous_concerts(self):
+        return Concert.objects.filter(
+            concert_time__lt=timezone.now(),
+            band_name=self
+        ).order_by('-concert_time')
+
+    def upcoming_concerts(self):
+        return Concert.objects.filter(
+            concert_time__gt=timezone.now(),
+            band_name=self
+        ).order_by('-concert_time')
+
     # This model has to be expanded to include at least genres.
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("band:detail",args=[self.id])
 
 class TechnicalNeed(models.Model):
     concert_name = models.ForeignKey('Concert')
@@ -52,6 +71,12 @@ class Stage(models.Model):
 
     def __str__(self):
         return self.name
+
+    def all_bands(self):
+        return Band.objects.filter(concert__stage_name=self)
+
+    def get_absolute_url(self):
+        return reverse("stages:detail", args=[self.id])
 
 class Concert(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
@@ -96,7 +121,7 @@ class Festival(models.Model):
         by_stage = [
             {
                 'stage': stage,
-                'concerts': list(concs)
+                'concerts': sorted(list(concs), key=lambda c: c.concert_time)
             } for stage, concs in grouped
         ]
         return by_stage

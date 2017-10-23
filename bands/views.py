@@ -8,6 +8,9 @@ from . import models
 class StageList(LoginRequiredMixin, ListView):
     model = models.Stage
 
+class StageDetail(DetailView):
+    model = models.Stage
+
 
 class ConcertDetail(LoginRequiredMixin, DetailView):
     model = models.Concert
@@ -39,6 +42,10 @@ class FestivalDetail(LoginRequiredMixin, DetailView):
     model = models.Festival
 
 
+class BandDetail(DetailView):
+    model = models.Band
+
+    
 class ConcertCreate(CreateView):
     """View for creating concerts. We need to add some JavaScript to compute
     price suggestions, so we can't just use the admin page."""
