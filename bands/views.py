@@ -58,11 +58,24 @@ class ConcertCreate(CreateView):
     fields = '__all__'
     template_name = 'bands/concert_create.html'
 
+
 class BandSearch(FormView):
     form_class = forms.SearchForm
     success_url = "."
     template_name = "bands/band_search.html"
+    search_results = "Nothing found"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_results'] = self.search_results
+        return context
 
     def form_valid(self, form):
         print(form.data)
-        return super().form_valid(form)
+        stages = form.data.get('stage', [])
+        query = form.data.get('query', '')
+        self.search_results = models.Band.objects.filter(
+            name__contains=query,
+            concert__stage_name__in=stages
+        )
+        return self.get(self.request)
