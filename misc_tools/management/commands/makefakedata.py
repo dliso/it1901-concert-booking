@@ -161,6 +161,7 @@ class Command(BaseCommand):
                     stage_name=choice(stages),
                     genre_music=choice(genres),
                     concert_time=choice(times),
+                    ticket_price=randint(100,1000),
                 )
                 concert.light_tech = choices(light_techs, k=randint(1,5))
                 concert.sound_tech = choices(audio_techs, k=randint(1,5))

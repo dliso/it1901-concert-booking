@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.views.generic import CreateView, DetailView, ListView
+from django.shortcuts import render, HttpResponse
+from django.views.generic import CreateView, DetailView, ListView, FormView
+from django import forms
 
 from . import models
 
@@ -8,8 +9,16 @@ from . import models
 class StageList(LoginRequiredMixin, ListView):
     model = models.Stage
 
+class SearchForm(forms.Form):
+    query = forms.fields.CharField()
+
 class StageDetail(DetailView):
     model = models.Stage
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = SearchForm()
+        return context
 
 
 class ConcertDetail(LoginRequiredMixin, DetailView):
@@ -52,3 +61,8 @@ class ConcertCreate(CreateView):
     model = models.Concert
     fields = '__all__'
     template_name = 'bands/concert_create.html'
+
+class BandSearch(FormView):
+    form_class = SearchForm
+    success_url = "."
+    template_name = "bands/band_search.html"

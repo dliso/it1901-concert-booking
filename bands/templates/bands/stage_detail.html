@@ -5,16 +5,60 @@
 
 <h1>{{stage.name}}</h1>
 
+<form method="post" action="/search_band/">
+    {% csrf_token %}
+    {{form.as_ul}}
+    <div class="form-group"><input value="Search" type="submit" class="btn btn-primary" /> </div>
+</form>
 
-<h2> Bands </h2>
-<ul>
-    {% for band in stage.all_bands %}
-    <li>
-        <a href="{{ band.get_absolute_url }}">
-        {{band}}
+<h3> Previous artists </h3>
+<table class="table">
+    <tr>
+        <th class="col-md-4">Concert Name</th>
+        <th class="col-md-4">Artist</th>
+        <th class="col-md-4">Time</th>
+    </tr>
+    {% for concert in stage.previous_five_concerts %}
+    <tr>
+        <td>
+            <a href="{{ concert.get_absolute_url }}">
+                {{concert}}
             </a>
-    </li>
+        </td>
+        <td>
+            <a href="{{concert.band_name.get_absolute_url}}">
+                {{concert.band_name}}
+            </a>
+        </td>
+        <td>
+            {{concert.concert_time}}
+        </td>
+    </tr>
     {% endfor %}
-</ul>
-
+</table>
+<h3>Upcoming artists</h3>
+<table class="table">
+    <tr>
+        <th class="col-md-4">Concert Name</th>
+        <th class="col-md-4">Artist</th>
+        <th class="col-md-4">Time</th>
+    </tr>
+    {% for concert in stage.upcoming_five_concerts %}
+    <tr>
+        <td>
+            <a href="{{ concert.get_absolute_url }}">
+                {{concert}}
+            </a>
+        </td>
+        <td>
+            <a href="{{concert.band_name.get_absolute_url}}">
+                {{concert.band_name}}
+            </a>
+        </td>
+        <td>
+            {{concert.concert_time}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock content %}
