@@ -27,15 +27,15 @@
         {% for concert in genre.concerts %}
             <td>{{ concert }}</td>
 
-                {% for stages in festival.concerts_by_genre %}
-                    <td>{{ stages }}</td>
+                <!--{% for scene in festival.concerts_by_genre %}
+                    <td>{{ scene.scene }}</td>
 
                     {% for attendees in festival.concert_by_genre %}
-                        <td>{{ attendees }}</td>
+                        <td>{{ attendees.attendees }}</td>
                     {% endfor %}
 
 
-                {% endfor %}
+                {% endfor %}--!>
         {% endfor %}
     </tr>
     {% endfor %}
