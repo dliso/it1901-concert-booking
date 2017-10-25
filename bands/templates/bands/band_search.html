@@ -1,30 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 
 {% block content %}
 <h1>Band search</h1>
 
-<div class="col-md-6">
-    <h3>Search</h3>
-    <form method="post" action="." class="">
-        {% crispy form %}
-    </form>
-</div>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Search</h3>
+        <form method="post" action="." class="">
+            {% crispy form %}
+        </form>
+    </div>
 
-<div class="col-md-6">
-    <h3>Results</h3>
-    {% if search_results %}
-    <ul class="list-group">
-        {% for band in search_results %}
-        <li class="list-group-item">
-            <a href="{{ band.get_absolute_url }}">{{ band.name }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No results</p>
-    {% endif %}
+    <div class="col-md-6">
+        <h3>Results</h3>
+        {% if search_results %}
+        <ul class="list-group">
+            {% for band in search_results %}
+            <li class="list-group-item">
+                <a href="{{ band.get_absolute_url }}">{{ band.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No results</p>
+        {% endif %}
+    </div>
 </div>
 
 {% endblock content %}
