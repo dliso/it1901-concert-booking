@@ -13,11 +13,11 @@ class SearchForm(forms.Form):
         required=False
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, show_stages=True, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'query',
-            'stage'
+            Field('stage', type='' if show_stages else 'hidden')
         )
         self.helper.add_input(Submit('submit', 'Submit'))
