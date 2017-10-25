@@ -63,7 +63,7 @@ class BandSearch(FormView):
     form_class = forms.SearchForm
     success_url = "."
     template_name = "bands/band_search.html"
-    search_results = "Nothing found"
+    search_results = None
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
