@@ -13,7 +13,10 @@ class StageDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = SearchForm()
+        form = forms.SearchForm(
+            show_stages=False,
+            initial={'stage': [self.get_object()]})
+        context["form"] = form
         return context
 
 
