@@ -77,8 +77,8 @@ class BandSearch(FormView):
         print(form.data)
         stages = form.data.get('stage', [])
         query = form.data.get('query', '')
-        self.search_results = models.Band.objects.filter(
-            name__contains=query,
-            concert__stage_name__in=stages
-        )
+        results = models.Band.objects.filter(name__contains=query)
+        if stages:
+            results = results.filter(concert__stage_name__in=stages)
+        self.search_results = results
         return self.get(self.request)
