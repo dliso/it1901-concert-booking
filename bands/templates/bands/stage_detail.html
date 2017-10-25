@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 
 {% block content %}
@@ -6,9 +7,7 @@
 <h1>{{stage.name}}</h1>
 
 <form method="post" action="/search_band/">
-    {% csrf_token %}
-    {{form.as_ul}}
-    <div class="form-group"><input value="Search" type="submit" class="btn btn-primary" /> </div>
+    {% crispy form %}
 </form>
 
 <h3> Previous artists </h3>

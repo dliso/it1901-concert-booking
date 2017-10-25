@@ -5,12 +5,26 @@
 {% block content %}
 <h1>Band search</h1>
 
-<h2>Results</h2>
-{{ search_results }}
+<div class="col-md-6">
+    <h3>Search</h3>
+    <form method="post" action="." class="">
+        {% crispy form %}
+    </form>
+</div>
 
-<form method="post" action="." class="">
-    {% crispy form %}
-</form>
-{{ request.POST }}
+<div class="col-md-6">
+    <h3>Results</h3>
+    {% if search_results %}
+    <ul class="list-group">
+        {% for band in search_results %}
+        <li class="list-group-item">
+            <a href="{{ band.get_absolute_url }}">{{ band.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No results</p>
+    {% endif %}
+</div>
 
 {% endblock content %}
