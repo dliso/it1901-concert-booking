@@ -18,6 +18,6 @@ class SearchForm(forms.Form):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'query',
-            Field('stage', type='' if show_stages else 'hidden')
+            Div(Field('stage', type='' if show_stages else 'hidden', css_class="highlight"), css_class="horizontal-checkboxes")
         )
         self.helper.add_input(Submit('submit', 'Submit'))
