@@ -9,6 +9,11 @@
 
     <div class="panel-body">
         <h4>Stage overview</h4>
+        {% if not festival.concerts_by_stage %}
+            <div class="alert alert-warning">
+                Overview is not available yet
+            </div>
+        {% endif %}
         <ul>
             {% for stage in festival.concerts_by_stage %}
             <li>{{ stage.stage }}</li>
