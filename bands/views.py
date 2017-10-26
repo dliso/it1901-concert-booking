@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.shortcuts import HttpResponse, render
-from django.views.generic import CreateView, DetailView, FormView, ListView
+from django.views.generic import (CreateView, DetailView, FormView, ListView,
+                                  TemplateView)
 
 from . import forms, models
 
@@ -82,3 +84,9 @@ class BandSearch(FormView):
             results = results.filter(concert__stage_name__in=stages)
         self.search_results = results
         return self.get(self.request)
+
+
+class ConcertReport(ListView):
+    model = models.Concert
+    template_name = 'bands/concert_report.html'
+    paginate_by = 25

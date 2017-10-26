@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'rules.apps.AutodiscoverRulesConfig',
+    'bootstrap_pagination',
     'accounts',
     'bands',
     'misc_tools',

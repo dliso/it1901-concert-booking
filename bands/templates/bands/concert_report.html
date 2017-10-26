@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_pagination %}
+
+
+{% block content %}
+
+<h1>Concert reports</h1>
+
+<ul>
+    {% for concert in concert_list %}
+    <li>
+        {{ concert }}
+    </li>
+    {% endfor %}
+</ul>
+
+
+
+{% bootstrap_paginate page_obj %}
+
+{% endblock content %}
