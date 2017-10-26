@@ -28,6 +28,8 @@ auth_urls = [
 
 stage_urls = [
     url(r'^$', band_views.StageList.as_view(), name='stagelist'),
+    url(r'^(?P<stage_pk>[0-9]+)/economy/$',
+        band_views.StageEconReport.as_view(), name='econreport'),
     url(r'^(?P<pk>[0-9]+)/$', band_views.StageDetail.as_view(), name='detail'),
 ]
 

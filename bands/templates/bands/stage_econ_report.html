@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_pagination %}
+{% load humanize %}
+
+
+{% block content %}
+<h1>{{ stage }}</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Summary</h3>
+        <div class="row">
+            {% for title, summary_dict in summary %}
+            <div class="col-md-4">
+                <h4> {{ title }} </h4>
+                <table class="table">
+                    {% for k,v in summary_dict.items %}
+                    <tr>
+                        <td class="col-xs-6 col-sm-6 col-md-6">
+                            {{ k }}
+                        </td>
+                        <td>
+                            {{ v }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<h3>Details</h3>
+<table class="table">
+    <tr>
+        <th>Concert name</th>
+        <th>Artist</th>
+        <th>Date</th>
+        <th class="text-right">Ticket price</th>
+        <th class="text-right">Tickets sold</th>
+        <th class="text-right">Total expenses</th>
+        <th class="text-right">Profit</th>
+    </tr>
+    {% for concert in concert_list %}
+    <tr>
+        <td><a href="{{ concert.get_absolute_url }}">{{ concert.name }}</a></td>
+        <td><a href="{{ concert.band_name.get_absolute_url }}">{{ concert.band_name }}</a></td>
+        <td>{{ concert.concert_time|date:"d M Y" }}</td>
+        <td class="text-right">{{ concert.ticket_price|intcomma }}</td>
+        <td class="text-right">{{ concert.tickets_sold|intcomma }}</td>
+        <td class="text-right">{{ concert.total_expenses|intcomma }}</td>
+        <td class="text-right">{{ concert.profit|intcomma }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% bootstrap_paginate page_obj %}
+
+{% endblock content %}
