@@ -11,6 +11,9 @@ from . import forms, models
 
 class StageList(LoginRequiredMixin, ListView):
     model = models.Stage
+    queryset = models.Stage.objects \
+                     .annotate(num_concerts=Count('concert')) \
+                     .order_by('-num_concerts')
 
 class StageDetail(DetailView):
     model = models.Stage
