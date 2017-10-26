@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <h1>{{ offer.band.name }}</h1>
+
+
+    <h4>Stage: {{ offer.time }}</h4>
+    <h4>Time: {{ concert.price }}</h4>
+
+    {% load crispy_forms_tags %}
+
+    {% block content1 %}
+        {% crispy form %}
+    {% endblock content1 %}
+
+{% endblock content %}

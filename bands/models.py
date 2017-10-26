@@ -99,3 +99,13 @@ class Festival(models.Model):
             } for stage, concs in grouped
         ]
         return by_stage
+
+class Offer(models.Model):
+    price = models.DecimalField(max_digits=13, decimal_places=2, default=0)
+    band = models.ForeignKey(Band)
+    time = models.DateTimeField(blank=True, null=True)
+    accepted_status = models.BooleanField(default=False)
+    is_pending_status = models.BooleanField(default=True)
+
+    def get_absolute_url(self):
+        return reverse('concert:offerList', args=[self.id])
