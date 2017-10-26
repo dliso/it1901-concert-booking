@@ -7,15 +7,28 @@
 
 <h1>Concert reports</h1>
 
-<ul>
+<table class="table">
+    <tr>
+        <th>Concert name</th>
+        <th>Artist</th>
+        <th>Stage</th>
+        <th>Date</th>
+        <th class="text-right">Tickets sold</th>
+        <th class="text-right">Total expenses</th>
+        <th class="text-right">Profit</th>
+    </tr>
     {% for concert in concert_list %}
-    <li>
-        {{ concert }}
-    </li>
+    <tr>
+        <td><a href="{{ concert.get_absolute_url }}">{{ concert.name }}</a></td>
+        <td><a href="{{ concert.band_name.get_absolute_url }}">{{ concert.band_name }}</a></td>
+        <td><a href="{{ concert.stage_name.get_absolute_url }}">{{ concert.stage_name }}</a></td>
+        <td>{{ concert.concert_time|date:"d M Y" }}</td>
+        <td class="text-right">{{ concert.tickets_sold }}</td>
+        <td class="text-right">{{ concert.total_expenses }}</td>
+        <td class="text-right">{{ concert.profit }}</td>
+    </tr>
     {% endfor %}
-</ul>
-
-
+</table>
 
 {% bootstrap_paginate page_obj %}
 

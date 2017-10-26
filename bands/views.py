@@ -89,4 +89,5 @@ class BandSearch(FormView):
 class ConcertReport(ListView):
     model = models.Concert
     template_name = 'bands/concert_report.html'
-    paginate_by = 25
+    paginate_by = 15
+    queryset = models.Concert.objects.order_by('-concert_time')

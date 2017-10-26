@@ -102,6 +102,23 @@ class Concert(models.Model):
     def get_absolute_url(self):
         return reverse('concert:detail', args=[self.id])
 
+    def ticket_price(self):
+        # TODO Actual implementation
+        return 20 * len(self.name)
+
+    def tickets_sold(self):
+        # TODO Actual implementation
+        return 15 * sum(map(len, [self.name, self.band_name.name]))
+
+    def total_expenses(self):
+        # TODO Actual implementation
+        return 13579 * sum(map(len,
+                               [self.stage_name.name, self.band_name.name]))
+
+    def profit(self):
+        # TODO Actual implementation
+        return self.ticket_price()*self.tickets_sold() - self.total_expenses()
+
     # This model has to be expanded to include which bands are playing, what
     # stage it's happening on, technical requirements, who's performing
     # technical duties.
