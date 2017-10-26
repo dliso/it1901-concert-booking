@@ -103,7 +103,7 @@ class Concert(models.Model):
 
 class Festival(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
-    concerts = models.ManyToManyField(Concert)
+    concerts = models.ManyToManyField(Concert, null=True)
 
     def __str__(self):
         return self.name
