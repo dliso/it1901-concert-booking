@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>Your offers</h1>
+<ul class="list-unstyled">
+    {% for offer in offer_list %}
+        {% if offer.is_pending_status == False and offer.band.manager == user and offer.accepted_status == False%}
+            {% include './offerManager_card.html' %}
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endblock content %}

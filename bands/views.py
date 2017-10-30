@@ -56,6 +56,10 @@ class OfferView(FormView):
         data = form.cleaned_data
         o = models.Offer()
         o.band = data['band']
+        o.concert_description = data['concert_description']
+        o.concert_name = data['concert_name']
+        o.stage = data['stage']
+        o.genre = o.band.genre
         o.price = data['price']
         o.time = data['time']
         o.save()
@@ -66,23 +70,56 @@ class OfferList(ListView):
     model = models.Offer
     template_name = 'bands/offer_list.html'
 
-class OfferDetail(DetailView):
+
+class OfferDetail(FormView, DetailView):
     model = models.Offer
-
-
-class OfferDetail(FormView):
     form_class = forms.OfferDetailForm
     template_name = 'bands/offer_detail.html'
 
+
     def get_success_url(self):
         req = self.request
-        return req.GET.get('next', '/')
+        return req.GET.get('next', '/offer')
 
     def form_valid(self, form):
         data = form.cleaned_data
         if data['acceptable'] == True:
-            n = 1
-        else:
-            n = 2
+            offers = models.Offer.objects.all()
+            for o in offers:
+                if str(o.id) == self.kwargs['pk']:
+                    o.is_pending_status = False
+                    o.save()
+        return super().form_valid(form)
 
+class OfferManagerList(ListView):
+    model = models.Offer
+    template_name = 'bands/offerManager_list.html'
+
+class OfferManagerDetail(FormView, DetailView):
+    model = models.Offer
+    form_class = forms.OfferManagerDetailForm
+    template_name = 'bands/offerManager_detail.html'
+
+    def get_success_url(self):
+        req = self.request
+        return req.GET.get('next', '/offer/manager')
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        if data['acceptable'] == True:
+            offers = models.Offer.objects.all()
+            for o in offers:
+                if str(o.id) == self.kwargs['pk']:
+                    o.accepted_status = True
+
+                    c = models.Concert()
+                    c.name = o.concert_name
+                    c.band_name = o.band
+                    c.stage_name = o.stage
+                    c.genre_music = o.band.genre
+                    c.concert_time = o.time
+                    c.concert_description = o.concert_description
+
+                    o.save()
+                    c.save()
         return super().form_valid(form)

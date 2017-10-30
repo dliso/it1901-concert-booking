@@ -11,9 +11,18 @@ MAX_BANDNAME_LENGTH = MAX_CHARFIELD_LENGTH_GENERAL
 MAX_STAGENAME_LENGTH = MAX_CHARFIELD_LENGTH_GENERAL
 
 
+class Genre(models.Model):
+    name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name + " - " + self.description
+
+
 class Band(models.Model):
     name = models.CharField(max_length=MAX_BANDNAME_LENGTH)
     manager = models.ForeignKey(User, null=True, blank=True)
+    genre = models.ForeignKey(Genre)
 
     # This model has to be expanded to include at least genres.
 
@@ -31,13 +40,6 @@ class TechnicalNeed(models.Model):
 
     def get_absolute_url(self):
         return self.concert_name.get_absolute_url()
-
-class Genre(models.Model):
-    name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.name + " - " + self.description
 
 
 class Stage(models.Model):
@@ -102,10 +104,14 @@ class Festival(models.Model):
 
 class Offer(models.Model):
     price = models.DecimalField(max_digits=13, decimal_places=2, default=0)
+    concert_name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
     band = models.ForeignKey(Band)
     time = models.DateTimeField(blank=True, null=True)
     accepted_status = models.BooleanField(default=False)
     is_pending_status = models.BooleanField(default=True)
+    stage = models.ForeignKey(Stage)
+    genre = models.ForeignKey(Genre)
+    concert_description = models.TextField(blank=True)
 
     def get_absolute_url(self):
-        return reverse('concert:offerList', args=[self.id])
+        return reverse('offer:offerDetail', args=[self.id])
