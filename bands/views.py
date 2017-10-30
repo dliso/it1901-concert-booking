@@ -33,6 +33,8 @@ class ConcertDetail(LoginRequiredMixin, DetailView):
 
 class ConcertList(LoginRequiredMixin, ListView):
     model = models.Concert
+    paginate_by = 15
+    queryset = models.Concert.objects.order_by('-concert_time')
 
 class TechnicianList(LoginRequiredMixin, ListView):
     template_name = "bands/technician_list.html"
