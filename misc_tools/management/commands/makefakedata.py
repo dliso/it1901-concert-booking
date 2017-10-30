@@ -5,7 +5,8 @@ from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils import timezone
 
-from bands import models
+from bands import groups, models
+from bands.groups import Groups
 
 
 class Command(BaseCommand):
@@ -14,16 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         sow = self.stdout.write
 
-        # Groups
-        # ========================================
-        groups_to_make = [
-            'band_manager',
-            'booking_manager',
-            'chief_booking_manager',
-            'technical_staff',
-            'audio_technician',
-            'light_technician',
-        ]
+        groups_to_make = [g.value for g in groups.Groups]
 
         existing_groups = Group.objects.all()
 
@@ -39,26 +31,29 @@ class Command(BaseCommand):
         password = 'qweqweqwe'
         all_users = User.objects.all()
         # Admin
+        sow('--- creating admin')
         try:
             admin_user = User.objects.create_superuser('admin', '', password)
         except IntegrityError:
             sow('user already exists')
 
         # Technical staff
-        general_group = Group.objects.get(name='technical_staff')
+        sow('--- creating tech staff')
+        # general_group = Group.objects.get(name='technical_staff')
         for i in range(20):
-            for tech_type in ['light_technician', 'audio_technician']:
+            for tech_type in [Groups.LIGHT_TECHS.value, Groups.AUDIO_TECHS.value]:
                 name = f'{tech_type}_{i}'
                 if not User.objects.filter(username=name).exists():
                     user = User.objects.create_user(name, '', password)
                     specific_group = Group.objects.get(name=tech_type)
                     specific_group.user_set.add(user)
-                    general_group.user_set.add(user)
+                    # general_group.user_set.add(user)
                 else:
                     sow(f"{name} already exists")
 
         # Stages
         # ========================================
+        sow('--- creating stages')
         stage_names = [
             "here", "hick", "high", "hind", "hoar", "holy", "home", "homy",
             "hued", "huge", "hung", "hush", "iced", "icky", "idle", "iffy",
@@ -85,6 +80,7 @@ class Command(BaseCommand):
 
         # Genres
         # ========================================
+        sow('--- creating genres')
         genres = ['Pop', 'Gangster rap']
         for genre in genres:
             if not models.Genre.objects.filter(name=genre).exists():
@@ -95,6 +91,7 @@ class Command(BaseCommand):
 
         # Bands
         # ========================================
+        sow('--- creating bands')
         band_names = [
             "Adam and the Ants", "Add N to (X)", "Adele", "The Adverts",
             "Akercocke", "Alabama 3", "The Alan Parsons Project",
@@ -139,6 +136,7 @@ class Command(BaseCommand):
 
         # Concerts
         # ========================================
+        sow('--- creating concerts')
         Concert = models.Concert
         taglines = [' - A New Hope', ' Strike Back', '']
         times = []
@@ -149,8 +147,8 @@ class Command(BaseCommand):
             times.append(now.replace(year=year))
         stages = models.Stage.objects.all()
         genres = models.Genre.objects.all()
-        light_techs = Group.objects.get(name='light_technician').user_set.all()
-        audio_techs = Group.objects.get(name='audio_technician').user_set.all()
+        light_techs = Group.objects.get(name=Groups.LIGHT_TECHS.value).user_set.all()
+        audio_techs = Group.objects.get(name=Groups.AUDIO_TECHS.value).user_set.all()
         for band in models.Band.objects.all():
             sow(f"{band}")
             for _ in range(randint(0,5)):
