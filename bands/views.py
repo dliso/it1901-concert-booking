@@ -119,12 +119,15 @@ class StageEconReport(PermissionRequiredMixin, ListView):
         num_concerts = len(qs)
         avg_ticket_price = sum([q.ticket_price for q in qs]) / num_concerts
 
+        top_concert = sorted(qs, key=lambda q: -q.profit())[0]
+        avg_tickets_sold = sum([q.tickets_sold() for q in qs]) / num_concerts
+
         return (title, {
             'Total profit': sum([q.profit() for q in qs]),
             'Total tickets sold': sum([q.tickets_sold() for q in qs]),
-            'Avg. ticket price': avg_ticket_price,
-            'Avg. tickets sold': sum(
-                [q.tickets_sold() for q in qs]) / num_concerts,
+            'Avg. ticket price': f'{avg_ticket_price:.2f}',
+            'Avg. tickets sold': f'{avg_tickets_sold:.2f}',
+            'Top band': f'{top_concert.band_name}\n{top_concert.profit()}',
         })
 
     def stats_between(self, title, start_date=None, end_date=None):
