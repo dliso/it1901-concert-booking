@@ -5,6 +5,7 @@ from django.shortcuts import HttpResponse, render
 from django.utils import timezone
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
                                   TemplateView)
+from rules.contrib.views import PermissionRequiredMixin
 
 from . import forms, models
 
@@ -100,10 +101,11 @@ class ConcertReport(ListView):
     queryset = models.Concert.objects.order_by('-concert_time')
 
 
-class StageEconReport(ListView):
+class StageEconReport(PermissionRequiredMixin, ListView):
     model = models.Concert
     template_name = 'bands/stage_econ_report.html'
     paginate_by = 15
+    permission_required = 'stage.view_econ_report'
 
     def get_object(self):
         return models.Stage.objects.get(pk=self.kwargs['stage_pk'])
