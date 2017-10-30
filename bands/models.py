@@ -84,6 +84,13 @@ class Stage(models.Model):
     def upcoming_five_concerts(self):
         return self.concert_set.order_by("concert_time").filter(concert_time__gte=timezone.now())[:5]
 
+    def previous_concerts(self):
+        return self.concert_set.order_by("-concert_time").filter(concert_time__lte=timezone.now())
+
+    def upcoming_concerts(self):
+        return self.concert_set.order_by("concert_time").filter(concert_time__gte=timezone.now())
+
+
 class Concert(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
     band_name = models.ForeignKey(Band)
