@@ -38,6 +38,7 @@
         <th>Concert name</th>
         <th>Artist</th>
         <th>Date</th>
+        <th>Genre</th>
         <th class="text-right">Ticket price</th>
         <th class="text-right">Tickets sold</th>
         <th class="text-right">Total expenses</th>
@@ -48,6 +49,7 @@
         <td><a href="{{ concert.get_absolute_url }}">{{ concert.name }}</a></td>
         <td><a href="{{ concert.band_name.get_absolute_url }}">{{ concert.band_name }}</a></td>
         <td>{{ concert.concert_time|date:"d M Y" }}</td>
+        <td>{{ concert.band_name.genre.name }}</td>
         <td class="text-right">{{ concert.ticket_price|intcomma }}</td>
         <td class="text-right">{{ concert.tickets_sold|intcomma }}</td>
         <td class="text-right">{{ concert.total_expenses|intcomma }}</td>
