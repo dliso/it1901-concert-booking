@@ -51,6 +51,17 @@ class Command(BaseCommand):
                 else:
                     sow(f"{name} already exists")
 
+        # PR managers
+        sow('--- creating PR managers')
+        pr_group = Group.objects.get(name=Groups.PR_MANAGERS.value)
+        for i in range(5):
+            name = f'pr_manager_{i}'
+            if not User.objects.filter(username=name).exists():
+                user = User.objects.create_user(name, '', password)
+                pr_group.user_set.add(user)
+            else:
+                sow(f"{name} already exists")
+
         # Stages
         # ========================================
         sow('--- creating stages')
