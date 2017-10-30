@@ -116,7 +116,7 @@ class Concert(models.Model):
 
     def profit(self):
         # TODO Actual implementation
-        return self.ticket_price()*self.tickets_sold() - self.total_expenses()
+        return self.ticket_price*self.tickets_sold() - self.total_expenses()
 
     # This model has to be expanded to include which bands are playing, what
     # stage it's happening on, technical requirements, who's performing

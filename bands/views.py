@@ -115,7 +115,7 @@ class StageEconReport(ListView):
 
     def compile_stats(self, qs, title):
         num_concerts = len(qs)
-        avg_ticket_price = sum([q.ticket_price() for q in qs]) / num_concerts
+        avg_ticket_price = sum([q.ticket_price for q in qs]) / num_concerts
 
         return (title, {
             'Total profit': sum([q.profit() for q in qs]),
