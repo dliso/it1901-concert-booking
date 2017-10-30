@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap_pagination %}
 
 
 {% block content %}
@@ -9,9 +10,11 @@
 <ul class="list-unstyled">
     {% for festival in festival_list %}
     <li>
-        {% include './festival_card.html' %}
+        {% include './festival_small_card.html' %}
     </li>
     {% endfor %}
 </ul>
+
+{% bootstrap_paginate page_obj %}
 
 {% endblock content %}

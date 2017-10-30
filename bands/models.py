@@ -147,3 +147,9 @@ class Festival(models.Model):
             } for stage, concs in grouped
         ]
         return by_stage
+
+    def first_concert(self):
+        return self.concerts.order_by('concert_time').first()
+
+    def last_concert(self):
+        return self.concerts.order_by('-concert_time').first()

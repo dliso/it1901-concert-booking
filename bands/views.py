@@ -54,6 +54,7 @@ class GenreList(LoginRequiredMixin, ListView):
 
 class FestivalList(LoginRequiredMixin, ListView):
     model = models.Festival
+    paginate_by = 5
 
 
 class FestivalDetail(LoginRequiredMixin, DetailView):
