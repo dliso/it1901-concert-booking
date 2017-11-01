@@ -9,6 +9,7 @@ from . import forms, models
 
 class StageList(LoginRequiredMixin, ListView):
     model = models.Stage
+    paginate_by = 12
     queryset = models.Stage.objects \
                      .annotate(num_concerts=Count('concert')) \
                      .order_by('-num_concerts')
@@ -31,7 +32,7 @@ class ConcertDetail(LoginRequiredMixin, DetailView):
 
 class ConcertList(LoginRequiredMixin, ListView):
     model = models.Concert
-    paginate_by = 15
+    paginate_by = 12
     queryset = models.Concert.objects.order_by('-concert_time')
 
 class TechnicianList(LoginRequiredMixin, ListView):
@@ -51,7 +52,7 @@ class GenreList(LoginRequiredMixin, ListView):
 
 class FestivalList(LoginRequiredMixin, ListView):
     model = models.Festival
-    paginate_by = 5
+    paginate_by = 6
 
 
 class FestivalDetail(LoginRequiredMixin, DetailView):
@@ -145,8 +146,9 @@ class BandDetail(DetailView):
 
 class BandList(ListView):
     model = models.Band
+    paginate_by = 24
 
-    
+
 class ConcertCreate(CreateView):
     """View for creating concerts. We need to add some JavaScript to compute
     price suggestions, so we can't just use the admin page."""
