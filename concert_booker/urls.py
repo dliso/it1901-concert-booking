@@ -58,6 +58,7 @@ festival_urls = [
 
 
 urlpatterns = [
+    url(r'^search_band/$', band_views.BandSearch.as_view()),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include(auth_urls, namespace='auth')),
     url(r'^stages/', include(stage_urls, namespace='stages')),

@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.views.generic import CreateView, DetailView, ListView
+from django.shortcuts import HttpResponse, render
+from django.views.generic import CreateView, DetailView, FormView, ListView
 
-from . import models
+from . import forms, models
 
 
 class StageList(LoginRequiredMixin, ListView):
@@ -10,6 +10,14 @@ class StageList(LoginRequiredMixin, ListView):
 
 class StageDetail(DetailView):
     model = models.Stage
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = forms.SearchForm(
+            show_stages=False,
+            initial={'stage': [self.get_object()]})
+        context["form"] = form
+        return context
 
 
 class ConcertDetail(LoginRequiredMixin, DetailView):
@@ -56,3 +64,25 @@ class ConcertCreate(CreateView):
     model = models.Concert
     fields = '__all__'
     template_name = 'bands/concert_create.html'
+
+
+class BandSearch(FormView):
+    form_class = forms.SearchForm
+    success_url = "."
+    template_name = "bands/band_search.html"
+    search_results = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_results'] = self.search_results
+        return context
+
+    def form_valid(self, form):
+        print(form.data)
+        stages = form.data.get('stage', [])
+        query = form.data.get('query', '')
+        results = models.Band.objects.filter(name__contains=query)
+        if stages:
+            results = results.filter(concert__stage_name__in=stages)
+        self.search_results = results
+        return self.get(self.request)

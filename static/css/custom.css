@@ -16,6 +16,21 @@ html {
     background-color: #f5f5f5;
 }
 
-.container .row {
-    margin: 20px 0;
+.highlight {
+    background-color: yellow;
+}
+
+.horizontal-checkboxes .controls {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.horizontal-checkboxes .checkbox {
+    min-width: 9em;
+    height: 2em;
+    margin: 0;
+}
+
+.checkbox + .checkbox {
+    margin-top: 0;
 }

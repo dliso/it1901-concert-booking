@@ -9,13 +9,15 @@
 <table class="table">
 
     <tr>
-        <th class="col-md-4">Concert</th>
-        <th class="col-md-4">Date</th>
-        <th class="col-md-4">Festival</th>
+        <th class="col-md-3">Concert</th>
+        <th class="col-md-3">Stage</th>
+        <th class="col-md-3">Date</th>
+        <th class="col-md-3">Festival</th>
     </tr>
     {% for concert in band.previous_concerts %}
     <tr>
         <td>{{ concert }}</td>
+        <td>{{ concert.stage_name }}</td>
         <td>{{ concert.concert_time|date:"d M Y" }}</td>
         <td>{{ concert.festival_set.first|default_if_none:"<i>Independent concert</i>" }}</td>
     </tr>
@@ -32,13 +34,15 @@
 <table class="table">
 
     <tr>
-        <th class="col-md-4">Concert</th>
-        <th class="col-md-4">Date</th>
-        <th class="col-md-4">Festival</th>
+        <th class="col-md-3">Concert</th>
+        <th class="col-md-3">Stage</th>
+        <th class="col-md-3">Date</th>
+        <th class="col-md-3">Festival</th>
     </tr>
     {% for concert in band.upcoming_concerts %}
     <tr>
         <td>{{ concert }}</td>
+        <td>{{ concert.stage_name }}</td>
         <td>{{ concert.concert_time|date:"d M Y" }}</td>
         <td>{{ concert.festival_set.first|default_if_none:"<i>Independent concert</i>" }}</td>
     </tr>
