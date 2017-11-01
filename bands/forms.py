@@ -1,8 +1,10 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Layout, Submit
 from django import forms
+from django.contrib.auth.models import Group, User
 
 from . import models as band_models
+from . import groups
 
 
 class OfferForm(forms.Form):
@@ -88,3 +90,25 @@ class SearchForm(forms.Form):
             Field('stage', type='checkbox' if show_stages else 'hidden'),
         )
         self.helper.add_input(Submit('submit', 'Search'))
+
+
+class ConcertForm(forms.ModelForm):
+    class Meta:
+        model = band_models.Concert
+        exclude = []
+
+    sound_tech = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.get(name=groups.Groups.AUDIO_TECHS.value).user_set,
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    light_tech = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.get(name=groups.Groups.LIGHT_TECHS.value).user_set,
+        widget=forms.CheckboxSelectMultiple
+    )
+
+
+class ConcertTechForm(ConcertForm):
+    class Meta:
+        model = band_models.Concert
+        fields = ['light_tech', 'sound_tech']
