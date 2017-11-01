@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
+from django.db.models import Count, Min
 from django.utils import timezone
 from django.views.generic import CreateView, DetailView, FormView, ListView
 from rules.contrib.views import PermissionRequiredMixin
@@ -53,6 +53,10 @@ class GenreList(LoginRequiredMixin, ListView):
 class FestivalList(LoginRequiredMixin, ListView):
     model = models.Festival
     paginate_by = 6
+    queryset = models.Festival \
+                     .objects \
+                     .annotate(start_time=Min('concerts__concert_time')) \
+                     .order_by('-start_time')
 
 
 class FestivalDetail(LoginRequiredMixin, DetailView):
