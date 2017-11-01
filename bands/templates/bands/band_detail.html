@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<h1>{{ band.name }}</h1>
+
+<h4><b>Previous concerts</b></h4>
+{% if band.previous_concerts %}
+<table class="table">
+
+    <tr>
+        <th class="col-md-3">Concert</th>
+        <th class="col-md-3">Stage</th>
+        <th class="col-md-3">Date</th>
+        <th class="col-md-3">Festival</th>
+    </tr>
+    {% for concert in band.previous_concerts %}
+    <tr>
+        <td>{{ concert }}</td>
+        <td>{{ concert.stage_name }}</td>
+        <td>{{ concert.concert_time|date:"d M Y" }}</td>
+        <td>{{ concert.festival_set.first|default_if_none:"<i>Independent concert</i>" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<div class="row"><i>No previous concerts<br></i></div>
+{% endif %}
+
+
+<h4><b>Upcoming concerts</b></h4>
+{% if band.upcoming_concerts %}
+<table class="table">
+
+    <tr>
+        <th class="col-md-3">Concert</th>
+        <th class="col-md-3">Stage</th>
+        <th class="col-md-3">Date</th>
+        <th class="col-md-3">Festival</th>
+    </tr>
+    {% for concert in band.upcoming_concerts %}
+    <tr>
+        <td>{{ concert }}</td>
+        <td>{{ concert.stage_name }}</td>
+        <td>{{ concert.concert_time|date:"d M Y" }}</td>
+        <td>{{ concert.festival_set.first|default_if_none:"<i>Independent concert</i>" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<div class="row"><i>No upcoming concerts<br></i></div>
+{% endif %}
+
+
+{% comment %}
+TODO:
+Vi må finne ut hva vi skal gjøre dersom et band har spilt både
+uavhengige konserter og konserter på festival
+
+Filtrer på kun tidligere konserter
+{% endcomment %}
+
+<h4><b>Popularity</b></h4>
+<table class="table">
+    <tr>
+        <th class="col-md-4">Sold albums</th>
+        <th class="col-md-4">Total streams</th>
+        <th class="col-md-4"> </th>
+    </tr>
+    <tr>
+        <td>{{ band.sold_albums }}</td>
+        <td>{{ band.total_streams }}</td>
+        <td> </td>
+    </tr>
+
+</table>
+
+
+{% endblock content %}
