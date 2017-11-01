@@ -34,3 +34,7 @@ html {
 .checkbox + .checkbox {
     margin-top: 0;
 }
+
+.unset-margin {
+    margin: inherit;
+}
