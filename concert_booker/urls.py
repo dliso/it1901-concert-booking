@@ -39,6 +39,8 @@ concert_urls = [
     url(r'^report/$', band_views.ConcertReport.as_view(), name='report'),
     url(r'^create/$', band_views.ConcertCreate.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)$', band_views.ConcertDetail.as_view(), name='detail'),
+    url(r'^(?P<pk>[0-9]+)/edit$', band_views.ConcertEdit.as_view(), name='edit'),
+    url(r'^(?P<pk>[0-9]+)/edit_tech$', band_views.ConcertEditTech.as_view(), name='edit_tech'),
     url(r'^technician$', band_views.TechnicianList.as_view(), name='technicianList'),
 ]
 

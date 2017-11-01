@@ -31,10 +31,26 @@ html {
     margin: 0;
 }
 
-.checkbox + .checkbox {
-    margin-top: 0;
+.checkbox {
+    margin-top: -5px;
+    padding-top: 0;
 }
 
 .unset-margin {
     margin: inherit;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.controls > p {
+    width: 100%;
+}
+
+.controls > .checkbox {
+    flex: 1 0 auto;
+    width: 25%;
 }

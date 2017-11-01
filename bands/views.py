@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Min
 from django.utils import timezone
-from django.views.generic import CreateView, DetailView, FormView, ListView
+from django.views.generic import (CreateView, DetailView, FormView, ListView,
+                                  UpdateView)
 from rules.contrib.views import PermissionRequiredMixin
 
 from . import forms, models
@@ -157,8 +158,24 @@ class ConcertCreate(CreateView):
     """View for creating concerts. We need to add some JavaScript to compute
     price suggestions, so we can't just use the admin page."""
     model = models.Concert
-    fields = '__all__'
     template_name = 'bands/concert_create.html'
+    form_class = forms.ConcertForm
+
+
+class ConcertEdit(UpdateView):
+    """View for creating concerts. We need to add some JavaScript to compute
+    price suggestions, so we can't just use the admin page."""
+    model = models.Concert
+    template_name = 'bands/concert_create.html'
+    form_class = forms.ConcertForm
+
+
+class ConcertEditTech(UpdateView):
+    """View for creating concerts. We need to add some JavaScript to compute
+    price suggestions, so we can't just use the admin page."""
+    model = models.Concert
+    template_name = 'bands/concert_create.html'
+    form_class = forms.ConcertTechForm
 
 
 class BandSearch(FormView):
@@ -178,7 +195,7 @@ class BandSearch(FormView):
         query = form.data.get('query', '')
         results = models.Band.objects.filter(name__contains=query)
         if stages:
-            results = results.filter(concert__stage_name__in=stages)
+            results = results.filter(concert__stage_name=stages).distinct()
         self.search_results = results
         return self.get(self.request)
 

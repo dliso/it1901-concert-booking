@@ -114,6 +114,9 @@ class Concert(models.Model):
     def get_absolute_url(self):
         return reverse('concert:detail', args=[self.id])
 
+    def edit_tech_url(self):
+        return reverse('concert:edit_tech', args=[self.id])
+
     def tickets_sold(self):
         # TODO Actual implementation
         return 15 * sum(map(len, [self.name, self.band_name.name]))

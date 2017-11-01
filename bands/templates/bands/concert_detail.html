@@ -27,6 +27,7 @@
 {% endfor %}
 
 <h2>Technical staff</h2>
+<a class="btn btn-primary" href="{{ concert.edit_tech_url }}">Edit tech staff</a>
 <h3>Sound</h3>
 <ul class="list-unstyled">
     {% for sound_tech in concert.sound_tech.all %}
