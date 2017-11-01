@@ -67,16 +67,10 @@ class Command(BaseCommand):
         sow('--- creating stages')
         stage_names = [
             "here", "hick", "high", "hind", "hoar", "holy", "home", "homy",
-            "hued", "huge", "hung", "hush", "iced", "icky", "idle", "iffy",
-            "ilka", "iron", "jake", "jerk", "jive", "junk", "jury", "just",
-            "keen", "kind", "king", "lacy", "laic", "lame", "lang", "lank",
-            "last", "late", "lazy", "lead", "lean", "left", "less", "levo",
-            "lewd", "lief", "life", "like", "limp", "lite", "live", "loco",
-            "logy", "lone",
         ]
         stage_sizes = models.Stage.STAGE_SIZE_CHOICES
         for name in stage_names:
-            name = name.capitalize()
+            name = name.capitalize() + ' Stage'
             if not models.Stage.objects.filter(name=name).exists():
                 try:
                     models.Stage.objects.create(
@@ -141,7 +135,10 @@ class Command(BaseCommand):
                 new_manager_name += '_manager'
                 sow(f'{new_manager_name}')
 
-                manager = User.objects.create_user(new_manager_name, '', password)
+                if User.objects.filter(username=new_manager_name).exists():
+                    manager = User.objects.get(username=new_manager_name)
+                else:
+                    manager = User.objects.create_user(new_manager_name, '', password)
                 Band.objects.create(name=band_name, manager=manager,
                                     genre=choice(models.Genre.objects.all()))
 
@@ -149,11 +146,15 @@ class Command(BaseCommand):
         # ========================================
         sow('--- creating concerts')
         Concert = models.Concert
-        taglines = [' - A New Hope', ' Strike Back', '']
+        Concert.objects.all().delete()
+        taglines = [' - A New Hope', ' Strike Back', ' Return', ' II', ' III', ' IV']
         times = []
         now = timezone.now()
         year = now.year
         years = list(range(year - 2, year + 2))
+        months = [8, 9, 10]
+        days = list(range(1, 30))
+        hours = [16, 18, 20, 22]
         for year in years:
             times.append(now.replace(year=year))
         stages = models.Stage.objects.all()
@@ -169,7 +170,12 @@ class Command(BaseCommand):
                     band_name=band,
                     stage_name=choice(stages),
                     genre_music=choice(genres),
-                    concert_time=choice(times),
+                    concert_time=timezone.datetime(
+                        choice(years),
+                        choice(months),
+                        choice(days),
+                        choice(hours),
+                    ),
                     ticket_price=randint(100,1000),
                 )
                 concert.light_tech = choices(light_techs, k=randint(1,5))
@@ -179,6 +185,7 @@ class Command(BaseCommand):
         # Festivals
         # ========================================
         Festival = models.Festival
+        Festival.objects.all().delete()
         names = ['Testivalen']
         for year in years:
             for name in names:
