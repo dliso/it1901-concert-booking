@@ -200,6 +200,10 @@ class StageEconReport(PermissionRequiredMixin, ListView):
 
     def compile_stats(self, qs, title):
         num_concerts = len(qs)
+        if num_concerts == 0:
+            return (title, {
+                'No tickets sold': '',
+            })
         avg_ticket_price = sum([q.ticket_price for q in qs]) / num_concerts
 
         top_concert = sorted(qs, key=lambda q: -q.profit())[0]
