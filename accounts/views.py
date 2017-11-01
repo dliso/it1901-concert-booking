@@ -20,6 +20,7 @@ class Dashboard(LoginRequiredMixin, ListView):
         context['festival_list'] = band_models.Festival.objects.all()
         context['group_list'] = Group.objects.all()
         context['concert_list'] = band_models.Concert.objects.all()
+        context['upcoming_concerts'] = band_models.Concert.upcoming()[:5]
         return context
 
 

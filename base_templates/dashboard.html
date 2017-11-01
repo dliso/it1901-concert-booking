@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load rules %}
 
 {% block content %}
 <h1>Responsibilities</h1>
@@ -7,6 +8,47 @@
         <a href="{% url 'concert:technicianList' %}">My technical responsibilities</a>
     </li>
 </ul>
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <h3>Upcoming concerts</h3>
+        <ul class="list-group">
+            {% for concert in upcoming_concerts %}
+            <li class="list-group-item">
+                <a href="">
+                    {{ concert }}
+                </a>
+                <br/>
+                {{ concert.concert_time }}
+            </li>
+            {% empty %}
+            No upcoming concerts.
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="col-sm-4">
+        <h3>Pending offers</h3>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Your roles</h3>
+        <ul>
+
+            {% has_perm 'book_concert' user as can_book_concert %}
+            {% if can_book_concert %}
+            <li>
+                Concert booker
+            </li>
+            {% endif %}
+
+        </ul>
+    </div>
+</div>
 
 {% comment %}
 <h1>Users</h1>
@@ -32,8 +74,6 @@
 
 {% endfor %}
 {% endif %}
-
-{% endcomment %}
 
 <h1>Bands</h1>
 <ul>
@@ -76,5 +116,7 @@
     </li>
     {% endfor %}
 </ul>
+
+{% endcomment %}
 
 {% endblock content %}
