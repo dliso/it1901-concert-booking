@@ -162,20 +162,24 @@ class ConcertCreate(CreateView):
     form_class = forms.ConcertForm
 
 
-class ConcertEdit(UpdateView):
+class ConcertEdit(PermissionRequiredMixin, UpdateView):
     """View for creating concerts. We need to add some JavaScript to compute
     price suggestions, so we can't just use the admin page."""
     model = models.Concert
     template_name = 'bands/concert_create.html'
     form_class = forms.ConcertForm
 
+    permission_required = 'concert.edit'
 
-class ConcertEditTech(UpdateView):
+
+class ConcertEditTech(PermissionRequiredMixin, UpdateView):
     """View for creating concerts. We need to add some JavaScript to compute
     price suggestions, so we can't just use the admin page."""
     model = models.Concert
     template_name = 'bands/concert_create.html'
     form_class = forms.ConcertTechForm
+
+    permission_required = 'concert.edit_tech_staff'
 
 
 class BandSearch(FormView):
