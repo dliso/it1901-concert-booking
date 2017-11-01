@@ -3,7 +3,7 @@
 
 {% block content %}
 
-{% include './festival_card.html' %}
+<h1>{{ festival.name }}</h1>
 
 <a class="btn btn-primary"
    href="{% url 'admin:bands_festival_change' festival.id %}">
@@ -12,6 +12,24 @@
 <a class="btn btn-danger"
    href="{% url 'admin:bands_festival_delete' festival.id %}">
     Delete</a>
+
+<h3>Stage overview</h3>
+{% for stage in festival.concerts_by_stage %}
+<h4>{{ stage.stage }}</h4>
+<ul class="list-unstyled">
+    {% for concert in stage.concerts %}
+    <li>
+        <a href="{% url 'concert:detail' concert.id %}">
+            {{ concert.concert_time|date:"d M Y H:i" }}
+            {{ concert.name }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% endfor %}
+
+
+<!-- {% include './festival_card.html' %} -->
 
 <!-- <h2>Concerts</h2> -->
 <!-- <hr/> -->

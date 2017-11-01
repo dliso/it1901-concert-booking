@@ -90,6 +90,9 @@ class Stage(models.Model):
     def upcoming_concerts(self):
         return self.concert_set.order_by("concert_time").filter(concert_time__gte=timezone.now())
 
+    def econ_report_url(self):
+        return reverse("stages:econreport", args=[self.id])
+
 
 class Concert(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
@@ -108,6 +111,19 @@ class Concert(models.Model):
 
     def get_absolute_url(self):
         return reverse('concert:detail', args=[self.id])
+
+    def tickets_sold(self):
+        # TODO Actual implementation
+        return 15 * sum(map(len, [self.name, self.band_name.name]))
+
+    def total_expenses(self):
+        # TODO Actual implementation
+        return 13579 * sum(map(len,
+                               [self.stage_name.name, self.band_name.name]))
+
+    def profit(self):
+        # TODO Actual implementation
+        return self.ticket_price*self.tickets_sold() - self.total_expenses()
 
     # This model has to be expanded to include which bands are playing, what
     # stage it's happening on, technical requirements, who's performing
@@ -138,3 +154,9 @@ class Festival(models.Model):
             } for stage, concs in grouped
         ]
         return by_stage
+
+    def first_concert(self):
+        return self.concerts.order_by('concert_time').first()
+
+    def last_concert(self):
+        return self.concerts.order_by('-concert_time').first()
