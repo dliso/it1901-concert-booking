@@ -65,6 +65,7 @@ class Command(BaseCommand):
         # Stages
         # ========================================
         sow('--- creating stages')
+        models.Stage.objects.all().delete()
         stage_names = [
             "here", "hick", "high", "hind", "hoar", "holy", "home", "homy",
         ]
@@ -76,7 +77,7 @@ class Command(BaseCommand):
                     models.Stage.objects.create(
                         name=f'{name}',
                         num_seats=randint(1,10)*100,
-                        stage_size=choice(stage_sizes)
+                        stage_size=choice(stage_sizes)[0]
                     )
                 except IntegrityError:
                     sow("couldn't create stage")
