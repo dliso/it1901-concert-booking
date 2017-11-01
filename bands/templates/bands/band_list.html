@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>Bands</h1>
+
+<ul class="list-unstyled">
+    {% for band in band_list %}
+    {% include './band_card.html' %}
+    {% endfor %}
+</ul>
+{% endblock content %}

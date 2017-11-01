@@ -16,23 +16,24 @@
     {% crispy form %}
 </form>
 
-<h3> Previous artists </h3>
+{% if upcoming_concerts %}
+<a href="{{stage.get_absolute_url}}upcoming"><h3>Upcoming artists</h3></a>
 <table class="table">
     <tr>
-        <th class="col-md-4">Concert Name</th>
         <th class="col-md-4">Artist</th>
+        <th class="col-md-4">Concert</th>
         <th class="col-md-4">Time</th>
     </tr>
-    {% for concert in stage.previous_five_concerts %}
+    {% for concert in upcoming_concerts%}
     <tr>
-        <td>
-            <a href="{{ concert.get_absolute_url }}">
-                {{concert}}
-            </a>
-        </td>
         <td>
             <a href="{{concert.band_name.get_absolute_url}}">
                 {{concert.band_name}}
+            </a>
+        </td>
+        <td>
+            <a href="{{ concert.get_absolute_url }}">
+                {{concert}}
             </a>
         </td>
         <td>
@@ -41,23 +42,26 @@
     </tr>
     {% endfor %}
 </table>
-<h3>Upcoming artists</h3>
+{% endif %}
+
+{% if previous_concerts %}
+<a href="{{stage.get_absolute_url}}previous"><h3>Previous artists</h3></a>
 <table class="table">
     <tr>
-        <th class="col-md-4">Concert Name</th>
         <th class="col-md-4">Artist</th>
+        <th class="col-md-4">Concert</th>
         <th class="col-md-4">Time</th>
     </tr>
-    {% for concert in stage.upcoming_five_concerts %}
+    {% for concert in previous_concerts %}
     <tr>
-        <td>
-            <a href="{{ concert.get_absolute_url }}">
-                {{concert}}
-            </a>
-        </td>
         <td>
             <a href="{{concert.band_name.get_absolute_url}}">
                 {{concert.band_name}}
+            </a>
+        </td>
+        <td>
+            <a href="{{ concert.get_absolute_url }}">
+                {{concert}}
             </a>
         </td>
         <td>
@@ -66,4 +70,7 @@
     </tr>
     {% endfor %}
 </table>
+{% endif %}
+
 {% endblock content %}
+

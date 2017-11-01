@@ -64,6 +64,10 @@ class FestivalDetail(LoginRequiredMixin, DetailView):
 class BandDetail(DetailView):
     model = models.Band
 
+
+class BandList(ListView):
+    model = models.Band
+
     
 class ConcertCreate(CreateView):
     """View for creating concerts. We need to add some JavaScript to compute

@@ -4,7 +4,7 @@
 
 <h1>{{ band.name }}</h1>
 
-<h3>Previous concerts</h3>
+<h4><b>Previous concerts</b></h4>
 {% if band.previous_concerts %}
 <table class="table">
 
@@ -25,10 +25,11 @@
 </table>
 
 {% else %}
-<i>No previous concerts</i>
+<div class="row"><i>No previous concerts<br></i></div>
 {% endif %}
 
-<h3>Upcoming concerts</h3>
+
+<h4><b>Upcoming concerts</b></h4>
 {% if band.upcoming_concerts %}
 <table class="table">
 
@@ -49,7 +50,7 @@
 </table>
 
 {% else %}
-<i>No upcoming concerts</i>
+<div class="row"><i>No upcoming concerts<br></i></div>
 {% endif %}
 
 
@@ -61,11 +62,20 @@ uavhengige konserter og konserter på festival
 Filtrer på kun tidligere konserter
 {% endcomment %}
 
-<h3>Popularity</h3>
-<h5>Sold albums</h5>
-<p>{{ band.sold_albums }}</p>
+<h4><b>Popularity</b></h4>
+<table class="table">
+    <tr>
+        <th class="col-md-4">Sold albums</th>
+        <th class="col-md-4">Total streams</th>
+        <th class="col-md-4"> </th>
+    </tr>
+    <tr>
+        <td>{{ band.sold_albums }}</td>
+        <td>{{ band.total_streams }}</td>
+        <td> </td>
+    </tr>
 
-<h5>Total streams</h5>
-<p>{{ band.total_streams }}</p>
+</table>
+
 
 {% endblock content %}
