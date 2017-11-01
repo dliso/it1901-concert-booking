@@ -127,6 +127,12 @@ class Concert(models.Model):
         # TODO Actual implementation
         return self.ticket_price*self.tickets_sold() - self.total_expenses()
 
+    @classmethod
+    def upcoming(self):
+        return self.objects \
+                   .filter(concert_time__gte=timezone.now()) \
+                   .order_by('concert_time')
+
     # This model has to be expanded to include which bands are playing, what
     # stage it's happening on, technical requirements, who's performing
     # technical duties.
