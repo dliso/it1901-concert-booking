@@ -13,14 +13,20 @@
 
 <div class="row">
     <div class="col-md-12">
-{% bootstrap_paginate page_obj %}
+        {% bootstrap_paginate page_obj %}
     </div>
 </div>
 
-<ul class="list-unstyled">
+<div class="row">
     {% for Concert in concert_list %}
     {% include './concert_card.html' %}
     {% endfor %}
-</ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% bootstrap_paginate page_obj %}
+    </div>
+</div>
 
 {% endblock content %}
