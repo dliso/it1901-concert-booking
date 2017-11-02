@@ -67,6 +67,13 @@ class FestivalDetail(LoginRequiredMixin, DetailView):
 class BookingDashboard(TemplateView):
     template_name = 'bands/booking_dashboard.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pending_offers'] = models.Offer.pending()[:5]
+        context['accepted_offers'] = models.Offer.accepted()[:5]
+        context['rejected_offers'] = models.Offer.rejected()[:5]
+        return context
+
 
 class OfferView(FormView):
     form_class = forms.OfferForm

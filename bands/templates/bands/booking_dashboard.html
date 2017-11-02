@@ -1,5 +1,94 @@
 {% extends 'base.html' %}
+{% load static %}
 
+{% block extra_head %}
+<link rel='stylesheet' type='text/css' href="{% static 'fullcalendar/dist/fullcalendar.css' %}" />
+<script type='text/javascript' src="{% static 'moment/moment.js' %}"></script>
+<script type='text/javascript' src="{% static 'fullcalendar/dist/fullcalendar.js' %}"></script>
+{% endblock extra_head %}
 
 {% block content %}
+<h1>Booking Dashboard</h1>
+
+<div class="row">
+    <div class="col-sm-12">
+        <a class="btn btn-primary" href="{% url 'offer:new' %}?next={{ request.path }}">
+            Make an offer
+        </a>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <h3>Pending offers</h3>
+        <ul class="list-group">
+            {% for offer in pending_offers %}
+            <li class="list-group-item">
+                <a href="{{ offer.get_absolute_url }}">
+                    {{ offer.concert_name }}
+                </a>
+                <p>
+                    {{ offer.band }}
+                </p>
+            </li>
+            {% empty %}
+            No pending offers.
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="col-sm-4">
+        <h3>Accepted offers</h3>
+        <ul class="list-group">
+            {% for offer in accepted_offers %}
+            <li class="list-group-item">
+                <a href="{{ offer.get_absolute_url }}">
+                    {{ offer.concert_name }}
+                </a>
+                <p>
+                    {{ offer.band }}
+                </p>
+            </li>
+            {% empty %}
+            No pending offers.
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="col-sm-4">
+        <h3>Rejected offers</h3>
+        <ul class="list-group">
+            {% for offer in rejected_offers %}
+            <li class="list-group-item">
+                <a href="{{ offer.get_absolute_url }}">
+                    {{ offer.concert_name }}
+                </a>
+                <p>
+                    {{ offer.band }}
+                </p>
+            </li>
+            {% empty %}
+            No pending offers.
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Calendar</h3>
+        <div id="calendar"></div>
+    </div>
+</div>
+
+<script>
+ $(document).ready(() => {
+     $("#calendar").fullCalendar({
+         events: '/schedule/api/occurrences?calendar_slug=default',
+     })
+ })
+</script>
+
 {% endblock content %}

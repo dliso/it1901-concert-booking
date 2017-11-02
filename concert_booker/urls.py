@@ -89,4 +89,5 @@ urlpatterns = [
     url(r'^offer/', include(offer_urls, namespace='offer')),
     url(r'^band/', include(band_urls, namespace='band')),
     url(r'', include(dashboard_urls, namespace='dashboards')),
+    url(r'^schedule/', include('schedule.urls'), name='scheduler'),
 ]
