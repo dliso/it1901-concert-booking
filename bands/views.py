@@ -1,19 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-<<<<<<< HEAD
-from django.shortcuts import render
-from django.views.generic import DetailView, ListView, FormView
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.contrib.auth.mixins import UserPassesTestMixin
-=======
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core import serializers
 from django.db.models import Count, Min
 from django.utils import timezone
-from django.core import serializers
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
                                   UpdateView)
 from rules.contrib.views import PermissionRequiredMixin
->>>>>>> master
 
 from . import forms, models
 
