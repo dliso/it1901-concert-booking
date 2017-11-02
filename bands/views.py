@@ -18,6 +18,8 @@ class StageList(LoginRequiredMixin, ListView):
 
 class StageDetail(DetailView):
     model = models.Stage
+    show_upcoming = 0
+    show_previous = 0
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -25,6 +27,14 @@ class StageDetail(DetailView):
             show_stages=False,
             initial={'stage': [self.get_object()]})
         context["form"] = form
+        context["upcoming_concerts"] = \
+            self.get_object() \
+                .upcoming_concerts()[:(None if self.show_upcoming == 'all'
+                                       else self.show_upcoming)]
+        context["previous_concerts"] = \
+            self.get_object() \
+                .previous_concerts()[:(None if self.show_previous == 'all'
+                                       else self.show_previous)]
         return context
 
 
