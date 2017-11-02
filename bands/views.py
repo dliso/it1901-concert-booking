@@ -1,4 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core import serializers
 from django.db.models import Count, Min
 from django.utils import timezone
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
@@ -27,8 +28,10 @@ class StageDetail(DetailView):
         return context
 
 
-class ConcertDetail(LoginRequiredMixin, DetailView):
+class ConcertDetail(LoginRequiredMixin, DetailView, FormView):
     model = models.Concert
+
+
 
 
 class ConcertList(LoginRequiredMixin, ListView):
@@ -75,9 +78,14 @@ class BookingDashboard(TemplateView):
         return context
 
 
-class OfferView(FormView):
+class OfferView(UserPassesTestMixin, FormView):
     form_class = forms.OfferForm
     template_name = 'bands/offer.html'
+
+
+    def test_func(self):
+        return self.request.user.groups.filter(name="booking_responsibles").exists()
+
 
     def get_success_url(self):
         req = self.request
@@ -97,16 +105,22 @@ class OfferView(FormView):
 
         return super().form_valid(form)
 
-class OfferList(ListView):
+class OfferList(UserPassesTestMixin, ListView):
     model = models.Offer
     template_name = 'bands/offer_list.html'
 
+    def test_func(self):
+        return self.request.user.groups.filter(name="booking_chiefs").exists()
 
-class OfferDetail(FormView, DetailView):
+
+class OfferDetail(UserPassesTestMixin, FormView, DetailView):
     model = models.Offer
     form_class = forms.OfferDetailForm
     template_name = 'bands/offer_detail.html'
 
+
+    def test_func(self):
+        return self.request.user.groups.filter(name="booking_chiefs").exists()
 
     def get_success_url(self):
         req = self.request
@@ -122,14 +136,20 @@ class OfferDetail(FormView, DetailView):
                     o.save()
         return super().form_valid(form)
 
-class OfferManagerList(ListView):
+class OfferManagerList(UserPassesTestMixin, ListView):
     model = models.Offer
     template_name = 'bands/offerManager_list.html'
 
-class OfferManagerDetail(FormView, DetailView):
+    def test_func(self):
+        return self.request.user.groups.filter(name="managers").exists()
+
+class OfferManagerDetail(UserPassesTestMixin, FormView, DetailView):
     model = models.Offer
     form_class = forms.OfferManagerDetailForm
     template_name = 'bands/offerManager_detail.html'
+
+    def test_func(self):
+        return self.request.user.groups.filter(name="managers").exists()
 
     def get_success_url(self):
         req = self.request
@@ -172,6 +192,11 @@ class ConcertCreate(CreateView):
     template_name = 'bands/concert_create.html'
     form_class = forms.ConcertForm
 
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['stage_info'] = serializers.serialize("json", models.Stage.objects.all())
+        return context
+
 
 class ConcertEdit(PermissionRequiredMixin, UpdateView):
     """View for creating concerts. We need to add some JavaScript to compute
@@ -192,7 +217,7 @@ class ConcertEditTech(PermissionRequiredMixin, UpdateView):
 
     permission_required = 'concert.edit_tech_staff'
 
-
+    
 class BandSearch(FormView):
     form_class = forms.SearchForm
     success_url = "."
