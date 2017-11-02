@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Min
 from django.utils import timezone
+from django.core import serializers
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
                                   UpdateView)
 from rules.contrib.views import PermissionRequiredMixin
@@ -161,6 +162,11 @@ class ConcertCreate(CreateView):
     template_name = 'bands/concert_create.html'
     form_class = forms.ConcertForm
 
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['stage_info'] = serializers.serialize("json", models.Stage.objects.all())
+        return context
+
 
 class ConcertEdit(PermissionRequiredMixin, UpdateView):
     """View for creating concerts. We need to add some JavaScript to compute
@@ -181,7 +187,7 @@ class ConcertEditTech(PermissionRequiredMixin, UpdateView):
 
     permission_required = 'concert.edit_tech_staff'
 
-
+    
 class BandSearch(FormView):
     form_class = forms.SearchForm
     success_url = "."
