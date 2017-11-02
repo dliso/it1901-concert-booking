@@ -186,3 +186,11 @@ class Offer(models.Model):
 
     def get_absolute_url(self):
         return reverse('offer:offerDetail', args=[self.id])
+
+    def status(self):
+        if self.accepted_status:
+            return 'Accepted'
+        elif self.is_pending_status:
+            return 'Pending'
+        else:
+            return 'Rejected'

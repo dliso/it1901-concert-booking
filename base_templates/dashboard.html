@@ -19,8 +19,9 @@
                 <a href="">
                     {{ concert }}
                 </a>
-                <br/>
-                {{ concert.concert_time }}
+                <p>
+                    {{ concert.concert_time }}
+                </p>
             </li>
             {% empty %}
             No upcoming concerts.
@@ -30,6 +31,23 @@
 
     <div class="col-sm-4">
         <h3>Pending offers</h3>
+        <ul class="list-group">
+            {% for offer in pending_offers %}
+            <li class="list-group-item">
+                <a href="{{ offer.get_absolute_url }}">
+                    {{ offer.concert_name }}
+                </a>
+                <p>
+                    {{ offer.band }}
+                </p>
+                <p>
+                    {{ offer.status }}
+                </p>
+            </li>
+            {% empty %}
+            No pending offers.
+            {% endfor %}
+        </ul>
     </div>
 
 </div>
