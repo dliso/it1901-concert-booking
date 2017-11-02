@@ -19,6 +19,7 @@ from django.contrib.auth import views as auth_views
 
 from accounts import views as acc_views
 from bands import views as band_views
+from bands import api_views
 
 auth_urls = [
     url(r'^signup/$', acc_views.SignUpView.as_view(), name='signup'),
@@ -77,6 +78,12 @@ dashboard_urls = [
 ]
 
 
+api_urls = [
+    url(r'^occurrences/$', api_views.occurrences,
+        name='occurrences'),
+]
+
+
 urlpatterns = [
     url(r'^search_band/$', band_views.BandSearch.as_view()),
     url(r'^admin/', admin.site.urls),
@@ -90,4 +97,5 @@ urlpatterns = [
     url(r'^band/', include(band_urls, namespace='band')),
     url(r'', include(dashboard_urls, namespace='dashboards')),
     url(r'^schedule/', include('schedule.urls'), name='scheduler'),
+    url(r'^api/', include(api_urls, namespace='api')),
 ]

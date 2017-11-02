@@ -86,7 +86,12 @@
 <script>
  $(document).ready(() => {
      $("#calendar").fullCalendar({
-         events: '/schedule/api/occurrences?calendar_slug=default',
+         events: '{% url "api:occurrences" %}',
+         header: {
+             right: 'month,basicWeek,basicDay',
+             left: 'prev,today,next'
+         },
+         firstDay: 1
      })
  })
 </script>

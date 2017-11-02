@@ -111,6 +111,19 @@ class Concert(models.Model):
     def __str__(self):
         return self.name
 
+    def json(self):
+        return {
+            'id': self.pk,
+            'title': self.name,
+            'start': self.concert_time,
+            'end': self.concert_time + timezone.timedelta(hours=2),
+            'existed': False,
+            'event_id': self.pk,
+            'rule': None,
+            'end_recurring_period': None,
+            'calendar': 'default',
+        }
+
     def get_absolute_url(self):
         return reverse('concert:detail', args=[self.id])
 
