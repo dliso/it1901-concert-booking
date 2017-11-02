@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.db.models import Avg, Count
 from django.shortcuts import HttpResponse, render
 from django.utils import timezone
+from django.core import serializers
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
                                   TemplateView)
 from rules.contrib.views import PermissionRequiredMixin
@@ -75,7 +76,10 @@ class ConcertCreate(CreateView):
     model = models.Concert
     fields = '__all__'
     template_name = 'bands/concert_create.html'
-
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['stage_info'] = serializers.serialize("json", models.Stage.objects.all())
+        return context
 
 class BandSearch(FormView):
     form_class = forms.SearchForm
