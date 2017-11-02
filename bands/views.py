@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Min
 from django.utils import timezone
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
-                                  UpdateView)
+                                  TemplateView, UpdateView)
 from rules.contrib.views import PermissionRequiredMixin
 
 from . import forms, models
@@ -62,6 +62,10 @@ class FestivalList(LoginRequiredMixin, ListView):
 
 class FestivalDetail(LoginRequiredMixin, DetailView):
     model = models.Festival
+
+
+class BookingDashboard(TemplateView):
+    template_name = 'bands/booking_dashboard.html'
 
 
 class OfferView(FormView):

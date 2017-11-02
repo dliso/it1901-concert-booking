@@ -71,6 +71,11 @@ offer_urls = [
 ]
 
 
+dashboard_urls = [
+    url(r'^bookingdashboard/$', band_views.BookingDashboard.as_view(),
+        name='booking'),
+]
+
 
 urlpatterns = [
     url(r'^search_band/$', band_views.BandSearch.as_view()),
@@ -83,4 +88,5 @@ urlpatterns = [
     url(r'^festival/', include(festival_urls, namespace='festival')),
     url(r'^offer/', include(offer_urls, namespace='offer')),
     url(r'^band/', include(band_urls, namespace='band')),
+    url(r'', include(dashboard_urls, namespace='dashboards')),
 ]
