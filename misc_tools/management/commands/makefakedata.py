@@ -65,8 +65,10 @@ class Command(BaseCommand):
         # Stages
         # ========================================
         sow('--- creating stages')
+        models.Stage.objects.all().delete()
         stage_names = [
             "here", "hick", "high", "hind", "hoar", "holy", "home", "homy",
+            "cake", "butter", "orange", "panda", "pudding", "snake"
         ]
         stage_sizes = models.Stage.STAGE_SIZE_CHOICES
         for name in stage_names:
@@ -76,7 +78,7 @@ class Command(BaseCommand):
                     models.Stage.objects.create(
                         name=f'{name}',
                         num_seats=randint(1,10)*100,
-                        stage_size=choice(stage_sizes)
+                        stage_size=choice(stage_sizes)[0]
                     )
                 except IntegrityError:
                     sow("couldn't create stage")
@@ -147,12 +149,13 @@ class Command(BaseCommand):
         sow('--- creating concerts')
         Concert = models.Concert
         Concert.objects.all().delete()
+        models.TechnicalNeed.objects.all().delete()
         taglines = [' - A New Hope', ' Strike Back', ' Return', ' II', ' III', ' IV']
         times = []
         now = timezone.now()
         year = now.year
-        years = list(range(year - 2, year + 2))
-        months = [8, 9, 10]
+        years = list(range(year - 5, year + 2))
+        months = [9, 10, 11]
         days = list(range(1, 30))
         hours = [16, 18, 20, 22]
         for year in years:
@@ -161,6 +164,14 @@ class Command(BaseCommand):
         genres = models.Genre.objects.all()
         light_techs = Group.objects.get(name=Groups.LIGHT_TECHS.value).user_set.all()
         audio_techs = Group.objects.get(name=Groups.AUDIO_TECHS.value).user_set.all()
+
+        # Requirements
+        audio_reqs = ['speakers', 'microphones', 'monitors', 'guitars',
+                      'keyboards']
+        light_reqs = ['spotlights', 'red lights', 'green lights',
+                      'blue lights', 'yellow lights']
+        other_reqs = ['water bottles', 'pink mentos']
+
         for band in models.Band.objects.all():
             sow(f"{band}")
             for _ in range(randint(0,5)):
@@ -181,6 +192,22 @@ class Command(BaseCommand):
                 concert.light_tech = choices(light_techs, k=randint(1,5))
                 concert.sound_tech = choices(audio_techs, k=randint(1,5))
                 concert.save()
+                # Make technical requirements
+                sound = ''
+                for req in choices(audio_reqs, k=randint(0, len(audio_reqs) + 1)):
+                    sound += f'- {randint(1,10)} {req}\n'
+                light = ''
+                for req in choices(light_reqs, k=randint(0, len(light_reqs) + 1)):
+                    light += f'- {randint(1,10)} {req}\n'
+                other = ''
+                for req in choices(other_reqs, k=randint(0, len(other_reqs) + 1)):
+                    other += f'- {randint(1,10)} {req}\n'
+                tech_req = models.TechnicalNeed.objects.create(
+                    concert_name=concert,
+                    sound=sound,
+                    light=light,
+                    other_technical_needs=other
+                )
 
         # Festivals
         # ========================================

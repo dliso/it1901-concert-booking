@@ -1,12 +1,34 @@
 {% extends 'base.html' %}
+{% load bootstrap_pagination %}
 
 
 {% block content %}
 <h1>Stages</h1>
 
-<ul>
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-primary" href="{% url 'admin:bands_stage_add' %}">
+            Add stage
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% bootstrap_paginate page_obj %}
+    </div>
+</div>
+
+<div class="row">
     {% for stage in stage_list %}
     {% include './stage_card.html' %}
     {% endfor %}
-</ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% bootstrap_paginate page_obj %}
+    </div>
+</div>
+
 {% endblock content %}

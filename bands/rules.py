@@ -28,3 +28,6 @@ add_perm('bands.change_technicalneed', is_superuser | is_manager)
 # add_perm('bands.delete_technicalneed', is_superuser | is_manager)
 
 add_perm('stage.view_econ_report', is_concert_booker | is_chief_booker)
+
+add_perm('concert.edit', is_chief_booker)
+add_perm('concert.edit_tech_staff', is_concert_booker | is_chief_booker)

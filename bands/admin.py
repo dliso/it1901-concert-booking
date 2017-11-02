@@ -7,6 +7,7 @@ from . import models
 admin.site.register(models.Band)
 admin.site.register(models.Genre)
 admin.site.register(models.Festival)
+admin.site.register(models.Offer)
 
 class TechnicalNeedAdmin(ObjectPermissionsModelAdmin):
     def response_change(self, request, obj):

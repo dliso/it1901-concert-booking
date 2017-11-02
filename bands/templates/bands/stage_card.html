@@ -1,6 +1,28 @@
+<div class="col-sm-6 col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="unset-margin">
+                <a href="{{ stage.get_absolute_url }}">
+                    {{ stage.name }}
+                </a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <dl>
+                <dt>Stage size</dt>
+                <dd>{{ stage.get_stage_size_display }}</dd>
 
-    <h2> <a href="{{ stage.get_absolute_url }}" >{{ stage.name }} </a></h2>
-    <li><p> {{ stage.get_stage_size_display }}</p></li>
-    <li><p> {{ stage.num_seats }} </p></li>
-    <li><p> {{stage.stage_costs }} </p></li>
-    <li><p> {{ stage.concert_set.count }} </p></li>
+                <dt>Seats</dt>
+                <dd>{{ stage.num_seats }}</dd>
+
+                <dt>Concerts</dt>
+                <dd>{{ stage.concert_set.count }}</dd>
+
+                <dt>Cost</dt>
+                <dd>{{ stage.stage_costs }}</dd>
+
+            </dl>
+        </div>
+    </div>
+
+</div>

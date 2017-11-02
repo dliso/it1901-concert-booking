@@ -1,12 +1,34 @@
 {% extends 'base.html' %}
+{% load bootstrap_pagination %}
 
 
 {% block content %}
 <h1>Bands</h1>
 
-<ul class="list-unstyled">
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-primary" href="{% url 'admin:bands_band_add' %}">
+            Add band
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% bootstrap_paginate page_obj %}
+    </div>
+</div>
+
+<div class="row">
     {% for band in band_list %}
     {% include './band_card.html' %}
     {% endfor %}
-</ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% bootstrap_paginate page_obj %}
+    </div>
+</div>
+
 {% endblock content %}

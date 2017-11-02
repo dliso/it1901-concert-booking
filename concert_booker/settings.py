@@ -118,7 +118,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
@@ -138,3 +138,12 @@ AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+DATE_FORMAT = "d. M Y"
+TIME_FORMAT = "H:i"
+DATETIME_FORMAT = "d. M Y H:i"
+SHORT_DATE_FORMAT = "d-m-y"
+SHORT_DATETIME_FORMAT = "d-m-y H:i"
+
+MONTH_DAY_FORMAT = "d M"
+YEAR_MONGTH_FORMAT = "M Y"
