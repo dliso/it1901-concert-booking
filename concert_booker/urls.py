@@ -28,14 +28,25 @@ auth_urls = [
 
 stage_urls = [
     url(r'^$', band_views.StageList.as_view(), name='stagelist'),
-    # url(r'^(?P<pk>[0-9]+)/$', band_views.StageList.as_view(), name='stagelist'),
+    url(r'^(?P<stage_pk>[0-9]+)/economy/$',
+        band_views.StageEconReport.as_view(), name='econreport'),
+    url(r'^(?P<pk>[0-9]+)/$', band_views.StageDetail.as_view(), name='detail'),
 ]
 
 
 concert_urls = [
     url(r'^$', band_views.ConcertList.as_view(), name='list'),
+    url(r'^report/$', band_views.ConcertReport.as_view(), name='report'),
+    url(r'^create/$', band_views.ConcertCreate.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)$', band_views.ConcertDetail.as_view(), name='detail'),
+    url(r'^(?P<pk>[0-9]+)/edit$', band_views.ConcertEdit.as_view(), name='edit'),
+    url(r'^(?P<pk>[0-9]+)/edit_tech$', band_views.ConcertEditTech.as_view(), name='edit_tech'),
     url(r'^technician$', band_views.TechnicianList.as_view(), name='technicianList'),
+]
+
+band_urls = [
+    url(r'^(?P<pk>[0-9]+)$', band_views.BandDetail.as_view(), name='detail'),
+    url(r'^$', band_views.BandList.as_view(), name='list')
 ]
 
 
@@ -62,6 +73,7 @@ offer_urls = [
 
 
 urlpatterns = [
+    url(r'^search_band/$', band_views.BandSearch.as_view()),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include(auth_urls, namespace='auth')),
     url(r'^stages/', include(stage_urls, namespace='stages')),
@@ -70,4 +82,5 @@ urlpatterns = [
     url(r'^concert/', include(concert_urls, namespace='concert')),
     url(r'^festival/', include(festival_urls, namespace='festival')),
     url(r'^offer/', include(offer_urls, namespace='offer')),
+    url(r'^band/', include(band_urls, namespace='band')),
 ]

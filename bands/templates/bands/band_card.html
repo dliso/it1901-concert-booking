@@ -1,0 +1,41 @@
+<div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="unset-margin" style="width: 100%; height: 1.2em; overflow-x: hidden;">
+                <a href="{{ band.get_absolute_url }}">
+                    {{ band.name }}
+                </a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <dl>
+                <dt>Next concert</dt>
+                {% with concert=band.upcoming_concerts.first %}
+                <dd>
+                    {% if concert %}
+                    <a href="{{ concert.get_absolute_url }}">
+                        {{ concert.concert_time }}
+                    </a>
+                    {% else %}
+                    None planned
+                    {% endif %}
+                </dd>
+                {% endwith %}
+
+                <dt>Previous concert</dt>
+                {% with concert=band.previous_concerts.first %}
+                <dd>
+                    {% if concert %}
+                    <a href="{{ concert.get_absolute_url }}">
+                        {{ concert.concert_time }}
+                    </a>
+                    {% else %}
+                    None planned
+                    {% endif %}
+                </dd>
+                {% endwith %}
+
+            </dl>
+        </div>
+    </div>
+</div>

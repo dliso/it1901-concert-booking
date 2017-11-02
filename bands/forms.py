@@ -1,13 +1,12 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Div, Field, Layout, Submit
 from django import forms
 from django.contrib.auth.forms import forms
+from django.contrib.auth.models import Group, User
 from django.utils.timezone import now
-from django.contrib.auth.models import User, Group
-
-
 
 from . import models as band_models
+from . import groups
 
 
 class OfferForm(forms.Form):
@@ -55,7 +54,6 @@ class OfferDetailForm(forms.Form):
         help_text="Approve or disapprove offer"
     )
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         helper = FormHelper()
@@ -69,7 +67,6 @@ class OfferManagerDetailForm(forms.Form):
         help_text="Approve or disapprove offer"
     )
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         helper = FormHelper()
@@ -77,4 +74,43 @@ class OfferManagerDetailForm(forms.Form):
         helper.add_input(Submit('submit', 'Submit'))
 
 
+class SearchForm(forms.Form):
+    query = forms.fields.CharField(required=False,
+                                   label="Band name")
+    stage = forms.ModelMultipleChoiceField(
+        band_models.Stage.objects,
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        help_text="Restrict results to bands that have performed on all the selected stages."
+    )
 
+    def __init__(self, *args, show_stages=True, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'query',
+            Field('stage', type='checkbox' if show_stages else 'hidden'),
+        )
+        self.helper.add_input(Submit('submit', 'Search'))
+
+
+class ConcertForm(forms.ModelForm):
+    class Meta:
+        model = band_models.Concert
+        exclude = []
+
+    sound_tech = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.get(name=groups.Groups.AUDIO_TECHS.value).user_set,
+        widget=forms.CheckboxSelectMultiple
+    )
+
+    light_tech = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.get(name=groups.Groups.LIGHT_TECHS.value).user_set,
+        widget=forms.CheckboxSelectMultiple
+    )
+
+
+class ConcertTechForm(ConcertForm):
+    class Meta:
+        model = band_models.Concert
+        fields = ['light_tech', 'sound_tech']

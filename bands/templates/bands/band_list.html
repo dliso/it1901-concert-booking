@@ -3,12 +3,12 @@
 
 
 {% block content %}
-<h1>Stages</h1>
+<h1>Bands</h1>
 
 <div class="row">
     <div class="col-md-12">
-        <a class="btn btn-primary" href="{% url 'admin:bands_stage_add' %}">
-            Add stage
+        <a class="btn btn-primary" href="{% url 'admin:bands_band_add' %}">
+            Add band
         </a>
     </div>
 </div>
@@ -20,8 +20,8 @@
 </div>
 
 <div class="row">
-    {% for stage in stage_list %}
-    {% include './stage_card.html' %}
+    {% for band in band_list %}
+    {% include './band_card.html' %}
     {% endfor %}
 </div>
 
