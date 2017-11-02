@@ -76,8 +76,5 @@ class OfferManagerDetailForm(forms.Form):
         self.helper = helper
         helper.add_input(Submit('submit', 'Submit'))
 
-class ConcertDetailForm(forms.Form):
-    group = Group.objects.get(name='technicians')
-    techs = group.user_set.all()
 
-    
+
