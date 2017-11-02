@@ -3,6 +3,7 @@ from crispy_forms.layout import Submit
 from django import forms
 from django.contrib.auth.forms import forms
 from django.utils.timezone import now
+from django.contrib.auth.models import User, Group
 
 
 
@@ -74,3 +75,9 @@ class OfferManagerDetailForm(forms.Form):
         helper = FormHelper()
         self.helper = helper
         helper.add_input(Submit('submit', 'Submit'))
+
+class ConcertDetailForm(forms.Form):
+    group = Group.objects.get(name='technicians')
+    techs = group.user_set.all()
+
+    

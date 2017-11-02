@@ -14,8 +14,12 @@ class StageList(LoginRequiredMixin, ListView):
     model = models.Stage
 
 
-class ConcertDetail(LoginRequiredMixin, DetailView):
+class ConcertDetail(LoginRequiredMixin, DetailView, FormView):
     model = models.Concert
+
+    def is_member(self):
+        return self.request.user.groups.filter(name="booking_chiefs").exists()
+
 
 
 class ConcertList(LoginRequiredMixin, ListView):

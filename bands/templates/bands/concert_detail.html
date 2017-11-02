@@ -46,4 +46,11 @@
 </ul>
 
 
+    {% if view.is_member == True %}
+        {% load crispy_forms_tags %}
+        {% block content1 %}
+        {% crispy form %}
+        {% endblock content1 %}
+    {% endif %}
+
 {% endblock content %}
