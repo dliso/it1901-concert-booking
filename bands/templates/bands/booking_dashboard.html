@@ -87,11 +87,15 @@
  $(document).ready(() => {
      $("#calendar").fullCalendar({
          events: '{% url "api:occurrences" %}',
+         defaultView: 'agendaWeek',
          header: {
-             right: 'month,basicWeek,basicDay',
+             right: 'month,agendaWeek,agendaDay',
              left: 'prev,today,next'
          },
-         firstDay: 1
+         firstDay: 1,
+         timeFormat: 'HH:mm',
+         slotLabelFormat: 'HH:mm',
+         slotDuration: '00:30:00',
      })
  })
 </script>
