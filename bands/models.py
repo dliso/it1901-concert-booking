@@ -68,6 +68,7 @@ class Stage(models.Model):
 
     num_seats = models.IntegerField()
     stage_size = models.CharField(choices=STAGE_SIZE_CHOICES, max_length=1)
+    stage_costs = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
