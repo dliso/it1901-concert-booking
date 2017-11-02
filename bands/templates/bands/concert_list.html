@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
 
+{% load bootstrap_pagination %}
 
 {% block content %}
 <h1>Concerts</h1>
 
-<a class="btn btn-primary" href="{% url 'admin:bands_concert_add' %}">Create concert</a>
+<div class="row">
+    <div class="col-md-12">
+        <a class="btn btn-primary" href="{% url 'admin:bands_concert_add' %}">Create concert</a>
+    </div>
+</div>
 
-<ul class="list-unstyled">
+<div class="row">
+    <div class="col-md-12">
+        {% bootstrap_paginate page_obj %}
+    </div>
+</div>
+
+<div class="row">
     {% for Concert in concert_list %}
     {% include './concert_card.html' %}
     {% endfor %}
-</ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% bootstrap_paginate page_obj %}
+    </div>
+</div>
+
 {% endblock content %}

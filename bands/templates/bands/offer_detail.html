@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <h1>{{ offer.concert_name }}</h1>
+
+
+    <h4>Time: {{ offer.time }}</h4>
+    <h4>Price: {{ offer.price }}</h4>
+    <h4>Band: {{ offer.band.name }}</h4>
+
+    <h4>description</h4>><br>
+    <p>{{ offer.concert_description }}</p>
+    {% load crispy_forms_tags %}
+
+    {% block content1 %}
+        {% crispy form %}
+    {% endblock content1 %}
+
+{% endblock content %}

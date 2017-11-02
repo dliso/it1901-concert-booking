@@ -11,9 +11,18 @@ MAX_BANDNAME_LENGTH = MAX_CHARFIELD_LENGTH_GENERAL
 MAX_STAGENAME_LENGTH = MAX_CHARFIELD_LENGTH_GENERAL
 
 
+class Genre(models.Model):
+    name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name + " - " + self.description
+
+
 class Band(models.Model):
     name = models.CharField(max_length=MAX_BANDNAME_LENGTH)
     manager = models.ForeignKey(User, null=True, blank=True)
+    genre = models.ForeignKey(Genre)
 
     genre = models.ForeignKey('Genre', null=False, blank=False)
     sold_albums = models.PositiveIntegerField(default=0)
@@ -51,13 +60,6 @@ class TechnicalNeed(models.Model):
     def get_absolute_url(self):
         return self.concert_name.get_absolute_url()
 
-class Genre(models.Model):
-    name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.name + " - " + self.description
-
 
 class Stage(models.Model):
     STAGE_SIZE_CHOICES = (('S','Small'),
@@ -68,6 +70,7 @@ class Stage(models.Model):
 
     num_seats = models.IntegerField()
     stage_size = models.CharField(choices=STAGE_SIZE_CHOICES, max_length=1)
+    stage_costs = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -90,6 +93,9 @@ class Stage(models.Model):
     def upcoming_concerts(self):
         return self.concert_set.order_by("concert_time").filter(concert_time__gte=timezone.now())
 
+    def econ_report_url(self):
+        return reverse("stages:econreport", args=[self.id])
+
 
 class Concert(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
@@ -108,6 +114,28 @@ class Concert(models.Model):
 
     def get_absolute_url(self):
         return reverse('concert:detail', args=[self.id])
+
+    def edit_tech_url(self):
+        return reverse('concert:edit_tech', args=[self.id])
+
+    def tickets_sold(self):
+        # TODO Actual implementation
+        return 15 * sum(map(len, [self.name, self.band_name.name]))
+
+    def total_expenses(self):
+        # TODO Actual implementation
+        return 13579 * sum(map(len,
+                               [self.stage_name.name, self.band_name.name]))
+
+    def profit(self):
+        # TODO Actual implementation
+        return self.ticket_price*self.tickets_sold() - self.total_expenses()
+
+    @classmethod
+    def upcoming(self):
+        return self.objects \
+                   .filter(concert_time__gte=timezone.now()) \
+                   .order_by('concert_time')
 
     # This model has to be expanded to include which bands are playing, what
     # stage it's happening on, technical requirements, who's performing
@@ -138,3 +166,24 @@ class Festival(models.Model):
             } for stage, concs in grouped
         ]
         return by_stage
+
+    def first_concert(self):
+        return self.concerts.order_by('concert_time').first()
+
+    def last_concert(self):
+        return self.concerts.order_by('-concert_time').first()
+
+
+class Offer(models.Model):
+    price = models.DecimalField(max_digits=13, decimal_places=2, default=0)
+    concert_name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
+    band = models.ForeignKey(Band)
+    time = models.DateTimeField(blank=True, null=True)
+    accepted_status = models.BooleanField(default=False)
+    is_pending_status = models.BooleanField(default=True)
+    stage = models.ForeignKey(Stage)
+    genre = models.ForeignKey(Genre)
+    concert_description = models.TextField(blank=True)
+
+    def get_absolute_url(self):
+        return reverse('offer:offerDetail', args=[self.id])

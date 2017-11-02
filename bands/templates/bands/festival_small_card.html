@@ -1,0 +1,36 @@
+<div class="col-sm-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="unset-margin">
+                <a href="{% url 'festival:detail' festival.id %}">
+                    {{ festival.name }}
+                </a>
+            </h3>
+        </div>
+
+        <div class="panel-body" style="height:150px">
+            <ul class="list-unstyled">
+                <li>
+                    {{ festival.concerts.all.count }} concerts
+                </li>
+                <li>
+                    {{ festival.stages.distinct.count }} stages
+                </li>
+                <li>
+                    Starts {{ festival.first_concert.concert_time }}:
+                    <a href="{{ festival.first_concert.get_absolute_url }}">
+                        {{ festival.first_concert }}
+                    </a>
+                </li>
+                <li>
+                    Ends {{ festival.last_concert.concert_time }}:
+                    <a href="{{ festival.last_concert.get_absolute_url }}">
+                        {{ festival.last_concert }}
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+</div>

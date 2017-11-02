@@ -1,14 +1,16 @@
-<li>
+<div class="col-sm-6">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a href="{% url 'concert:detail' Concert.id %}">
-                <h2> {{ Concert.name }} </h2>
-            </a>
+            <h3 class="unset-margin" style="height: 1.2em; overflow-x: hidden; width: 100%;">
+                <a href="{% url 'concert:detail' Concert.id %}">
+                    {{ Concert.name }}
+                </a>
+            </h3>
             <h4> {{ Concert.band_name }} </h4>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" style="height: 350px; overflow-y: auto;">
             <p> {{ Concert.concert_description}} </p>
-            <p> Scene: {{ Concert.stage_name }}</p>
+            <p> Stage: {{ Concert.stage_name }}</p>
             <p> Time: {{ Concert.concert_time }}</p>
             <h3> Light technicians </h3>
             <ul>
@@ -28,4 +30,4 @@
             </ul>
         </div>
     </div>
-</li>
+</div>

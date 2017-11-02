@@ -37,13 +37,18 @@ stage_urls = [
     url(r'^(?P<pk>[0-9]+)/previous/$',
         band_views.StageDetail.as_view(show_upcoming=0, show_previous='all'),
         name='previous'),
+    url(r'^(?P<stage_pk>[0-9]+)/economy/$',
+        band_views.StageEconReport.as_view(), name='econreport'),
 ]
 
 
 concert_urls = [
     url(r'^$', band_views.ConcertList.as_view(), name='list'),
+    url(r'^report/$', band_views.ConcertReport.as_view(), name='report'),
     url(r'^create/$', band_views.ConcertCreate.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)$', band_views.ConcertDetail.as_view(), name='detail'),
+    url(r'^(?P<pk>[0-9]+)/edit$', band_views.ConcertEdit.as_view(), name='edit'),
+    url(r'^(?P<pk>[0-9]+)/edit_tech$', band_views.ConcertEditTech.as_view(), name='edit_tech'),
     url(r'^technician$', band_views.TechnicianList.as_view(), name='technicianList'),
 ]
 
@@ -65,6 +70,16 @@ festival_urls = [
 ]
 
 
+offer_urls = [
+    url(r'^$', band_views.OfferList.as_view(), name='offerList'),
+    url(r'^(?P<pk>[0-9]+)$', band_views.OfferDetail.as_view(), name='offerDetail'),
+    url(r'^manager$', band_views.OfferManagerList.as_view(), name='offerManagerView'),
+    url(r'^manager(?P<pk>[0-9]+)$', band_views.OfferManagerDetail.as_view(), name='offerManagerDetail'),
+    url(r'^new$', band_views.OfferView.as_view(), name='new'),
+]
+
+
+
 urlpatterns = [
     url(r'^search_band/$', band_views.BandSearch.as_view()),
     url(r'^admin/', admin.site.urls),
@@ -74,5 +89,6 @@ urlpatterns = [
     url(r'^$', acc_views.Dashboard.as_view()),
     url(r'^concert/', include(concert_urls, namespace='concert')),
     url(r'^festival/', include(festival_urls, namespace='festival')),
+    url(r'^offer/', include(offer_urls, namespace='offer')),
     url(r'^band/', include(band_urls, namespace='band')),
 ]

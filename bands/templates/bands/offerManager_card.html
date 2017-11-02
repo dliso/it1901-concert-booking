@@ -1,0 +1,16 @@
+<li>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="{% url 'offer:offerManagerDetail' offer.id %}">
+                <h2> {{ offer.concert_name }} </h2>
+            </a>
+        </div>
+        <div class="panel-body">
+            <p> price: {{ offer.price }}</p>
+            <p> Time: {{ offer.time }}</p>
+            <p> Band: {{ offer.band.name }}</p>
+            <p> Description:</p><br>
+            <p> {{ offer.band.name }}</p>
+        </div>
+    </div>
+</li>
