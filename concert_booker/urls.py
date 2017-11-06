@@ -29,9 +29,17 @@ auth_urls = [
 
 stage_urls = [
     url(r'^$', band_views.StageList.as_view(), name='stagelist'),
+    url(r'^(?P<pk>[0-9]+)/$',
+        band_views.StageDetail.as_view(show_upcoming=5, show_previous=5),
+        name='detail'),
+    url(r'^(?P<pk>[0-9]+)/upcoming/$',
+        band_views.StageDetail.as_view(show_upcoming='all', show_previous=0),
+        name='upcoming'),
+    url(r'^(?P<pk>[0-9]+)/previous/$',
+        band_views.StageDetail.as_view(show_upcoming=0, show_previous='all'),
+        name='previous'),
     url(r'^(?P<stage_pk>[0-9]+)/economy/$',
         band_views.StageEconReport.as_view(), name='econreport'),
-    url(r'^(?P<pk>[0-9]+)/$', band_views.StageDetail.as_view(), name='detail'),
 ]
 
 

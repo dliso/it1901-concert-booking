@@ -8,7 +8,6 @@ from django.utils.timezone import now
 from . import models as band_models
 from . import groups
 
-
 class OfferForm(forms.Form):
     concert_name = forms.CharField(
         help_text="What you would like the name of your concert to be",
@@ -100,12 +99,12 @@ class ConcertForm(forms.ModelForm):
         exclude = []
 
     sound_tech = forms.ModelMultipleChoiceField(
-        queryset=Group.objects.get(name=groups.Groups.AUDIO_TECHS.value).user_set,
+        queryset=User.objects.filter(groups__name=groups.Groups.AUDIO_TECHS.value),
         widget=forms.CheckboxSelectMultiple
     )
 
     light_tech = forms.ModelMultipleChoiceField(
-        queryset=Group.objects.get(name=groups.Groups.LIGHT_TECHS.value).user_set,
+        queryset=User.objects.filter(groups__name=groups.Groups.LIGHT_TECHS.value),
         widget=forms.CheckboxSelectMultiple
     )
 
