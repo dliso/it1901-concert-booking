@@ -62,6 +62,28 @@ class Command(BaseCommand):
             else:
                 sow(f"{name} already exists")
 
+        # Booking managers
+        sow('--- creating booking managers')
+        booker_group = Group.objects.get(name=Groups.CONCERT_BOOKERS.value)
+        for i in range(5):
+            name = f'booking_manager_{i}'
+            if not User.objects.filter(username=name).exists():
+                user = User.objects.create_user(name, '', password)
+                booker_group.user_set.add(user)
+            else:
+                sow(f"{name} already exists")
+
+        # Booking chiefs
+        sow('--- creating chief booking managers')
+        booker_group = Group.objects.get(name=Groups.CHIEF_BOOKERS.value)
+        for i in range(5):
+            name = f'chief_booking_manager_{i}'
+            if not User.objects.filter(username=name).exists():
+                user = User.objects.create_user(name, '', password)
+                booker_group.user_set.add(user)
+            else:
+                sow(f"{name} already exists")
+
         # Stages
         # ========================================
         sow('--- creating stages')
@@ -141,6 +163,8 @@ class Command(BaseCommand):
                     manager = User.objects.get(username=new_manager_name)
                 else:
                     manager = User.objects.create_user(new_manager_name, '', password)
+                    manager.is_staff = True
+                    manager.save()
                 Band.objects.create(name=band_name, manager=manager,
                                     genre=choice(models.Genre.objects.all()))
 
