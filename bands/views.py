@@ -117,10 +117,11 @@ class OfferList(UserPassesTestMixin, ListView):
         return self.request.user.groups.filter(name="booking_chiefs").exists()
 
 
-class OfferDetail(UserPassesTestMixin, FormView, DetailView):
+class OfferDetail(PermissionRequiredMixin, FormView, DetailView):
     model = models.Offer
     form_class = forms.OfferDetailForm
     template_name = 'bands/offer_detail.html'
+    permission_required = 'offer.view'
 
 
     def test_func(self):
