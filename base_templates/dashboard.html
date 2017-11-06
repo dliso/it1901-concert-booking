@@ -16,7 +16,7 @@
         <ul class="list-group">
             {% for concert in upcoming_concerts %}
             <li class="list-group-item">
-                <a href="">
+                <a href="{{ concert.get_absolute_url }}">
                     {{ concert }}
                 </a>
                 <p>
@@ -56,7 +56,7 @@
     <div class="col-sm-12">
         <h3>Your roles</h3>
         <div class="btn-group">
-            {% has_perm 'book_concert' user as can_book_concert %}
+            {% has_perm 'concert.book' user as can_book_concert %}
             {% if can_book_concert %}
             <a class="btn btn-default" href="{% url 'dashboards:booking' %}">Booking manager</a>
             {% endif %}
