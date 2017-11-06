@@ -22,12 +22,24 @@ def is_chief_booker(user):
     return user.groups.filter(name=Groups.CHIEF_BOOKERS.value).exists()
 
 
+is_booker = is_chief_booker | is_concert_booker
+
+
 add_perm('bands', always_allow)
 # add_perm('bands.add_technicalneed', is_superuser | is_manager)
 add_perm('bands.change_technicalneed', is_superuser | is_manager)
 # add_perm('bands.delete_technicalneed', is_superuser | is_manager)
 
-add_perm('stage.view_econ_report', is_concert_booker | is_chief_booker)
+add_perm('stage.view_econ_report', is_booker)
 
+add_perm('concert.book', is_booker)
 add_perm('concert.edit', is_chief_booker)
-add_perm('concert.edit_tech_staff', is_concert_booker | is_chief_booker)
+add_perm('concert.edit_tech_staff', is_booker)
+
+add_perm('offer.view', is_booker)
+add_perm('offer.create', is_booker)
+add_perm('offer.approve', is_chief_booker)
+add_perm('offer.accept', always_deny)
+
+add_perm('booking.view', is_booker)
+add_perm('booking.view_dashboard', is_booker)

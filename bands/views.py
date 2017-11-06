@@ -67,8 +67,11 @@ class FestivalDetail(LoginRequiredMixin, DetailView):
     model = models.Festival
 
 
-class BookingDashboard(TemplateView):
+class BookingDashboard(PermissionRequiredMixin, TemplateView):
     template_name = 'bands/booking_dashboard.html'
+    permission_required = 'booking.view_dashboard'
+    raise_exception = True
+    permission_denied_message = 'You do not have permission to handle bookings.'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
