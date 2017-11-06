@@ -50,6 +50,19 @@
         </ul>
     </div>
 
+    <div class="col-sm-4">
+        <h3>Artists you manage</h3>
+        <ul class="list-group">
+            {% for band in user.manages.all %}
+            <li class="list-group-item">
+                <a href="{{ band.get_manager_url }}">
+                    {{ band }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
 </div>
 
 <div class="row">
@@ -62,6 +75,9 @@
             {% endif %}
         </div>
     </div>
+</div>
+
+<div class="row">
 </div>
 
 {% endblock content %}
