@@ -155,8 +155,8 @@ class Command(BaseCommand):
         now = timezone.now()
         year = now.year
         years = list(range(year - 5, year + 2))
-        months = [9, 10, 11]
-        days = list(range(1, 30))
+        months = [(now.month + i) % 12 for i in range(1)]
+        days = [(now.day + i) % 28 for i in range(-5, 6)]
         hours = [16, 18, 20, 22]
         for year in years:
             times.append(now.replace(year=year))
