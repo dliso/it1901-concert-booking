@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>403 Forbidden</h1>
+
+<p>
+    {% if exception %}
+    {{ exception }}
+    {% else %}
+    You do not have the required permission.
+    {% endif %}
+</p>
+
+{% endblock content %}
