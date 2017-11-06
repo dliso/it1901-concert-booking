@@ -184,6 +184,14 @@ class BandDetail(DetailView):
     model = models.Band
 
 
+class BandManagerDetail(PermissionRequiredMixin, DetailView):
+    model = models.Band
+    template_name = 'bands/band_manager_detail.html'
+    permission_required = 'band.manage'
+    permission_denied_message = 'You are not the manager of this artist.'
+    raise_exception = True
+
+
 class BandList(ListView):
     model = models.Band
     paginate_by = 24

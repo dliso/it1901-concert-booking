@@ -24,12 +24,21 @@ class Genre(models.Model):
 
 class Band(models.Model):
     name = models.CharField(max_length=MAX_BANDNAME_LENGTH)
-    manager = models.ForeignKey(User, null=True, blank=True)
+    manager = models.ForeignKey(User, null=True, blank=True,
+                                related_name='manages')
     genre = models.ForeignKey(Genre)
 
     genre = models.ForeignKey('Genre', null=False, blank=False)
     sold_albums = models.PositiveIntegerField(default=0)
     total_streams = models.PositiveIntegerField(default=0)
+
+    @property
+    def band(self):
+        return self
+
+    @classmethod
+    def my_bands(self, user):
+        return self.objects.filter(manager=user)
 
     def previous_concerts(self):
         return Concert.objects.filter(
@@ -51,6 +60,10 @@ class Band(models.Model):
     def get_absolute_url(self):
         return reverse("band:detail",args=[self.id])
 
+    def get_manager_url(self):
+        return reverse("band:manager_detail", args=[self.id])
+
+
 class TechnicalNeed(models.Model):
     concert_name = models.ForeignKey('Concert')
     sound = models.TextField(blank = True)
@@ -62,6 +75,10 @@ class TechnicalNeed(models.Model):
 
     def get_absolute_url(self):
         return self.concert_name.get_absolute_url()
+
+    @property
+    def band(self):
+        return self.concert_name.band_name
 
 
 class Stage(models.Model):
