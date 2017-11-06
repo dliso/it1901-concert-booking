@@ -28,7 +28,7 @@ class StageDetail(DetailView):
         return context
 
 
-class ConcertDetail(LoginRequiredMixin, DetailView, FormView):
+class ConcertDetail(LoginRequiredMixin, DetailView):
     model = models.Concert
 
 
