@@ -81,9 +81,10 @@ class BookingDashboard(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class OfferView(UserPassesTestMixin, FormView):
+class OfferView(PermissionRequiredMixin, FormView):
     form_class = forms.OfferForm
     template_name = 'bands/offer.html'
+    permission_required = 'offer.view'
 
 
     def test_func(self):
