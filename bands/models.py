@@ -184,6 +184,7 @@ class Offer(models.Model):
     stage = models.ForeignKey(Stage)
     genre = models.ForeignKey(Genre)
     concert_description = models.TextField(blank=True)
+    rejected_status = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse('offer:offerDetail', args=[self.id])

@@ -61,9 +61,10 @@ class OfferDetailForm(forms.Form):
 
 
 class OfferManagerDetailForm(forms.Form):
-    acceptable = forms.BooleanField(
+    Offer_response = forms.ChoiceField(
         required=True,
-        help_text="Approve or disapprove offer"
+        help_text="Approve or disapprove offer",
+        choices=((True,'Accept'),(False, 'Decline'))
     )
 
     def __init__(self, *args, **kwargs):

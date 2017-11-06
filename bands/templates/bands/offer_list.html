@@ -10,4 +10,13 @@
         {% endif %}
     {% endfor %}
 </ul>
+
+<h1>Offers sent to managers</h1>
+<ul class="list-unstyled">
+    {% for offer in offer_list %}
+        {% if offer.is_pending_status == False and offer.accepted_status == False %}
+            {% include './offers_card.html' %}
+        {% endif %}
+    {% endfor %}
+</ul>
 {% endblock content %}

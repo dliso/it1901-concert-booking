@@ -18,9 +18,22 @@ def is_concert_booker(user):
 
 
 @predicate
+def is_a_manager(user):
+    for b in models.Band.objects.all():
+        if b.manager == user:
+            return True
+    return False
+
+@predicate
 def is_chief_booker(user):
     return user.groups.filter(name=Groups.CHIEF_BOOKERS.value).exists()
 
+
+add_perm('offer.view', is_concert_booker)
+
+add_perm('offerlist.view', is_chief_booker)
+
+add_perm('offermanager.view', is_a_manager)
 
 add_perm('bands', always_allow)
 # add_perm('bands.add_technicalneed', is_superuser | is_manager)
