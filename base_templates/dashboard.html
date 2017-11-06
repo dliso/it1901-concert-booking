@@ -55,18 +55,15 @@
 <div class="row">
     <div class="col-sm-12">
         <h3>Your roles</h3>
-        <ul>
-
+        <div class="btn-group">
             {% has_perm 'book_concert' user as can_book_concert %}
             {% if can_book_concert %}
-            <li>
-                Concert booker
-            </li>
+            <a class="btn btn-default" href="{% url 'dashboards:booking' %}">Booking manager</a>
             {% endif %}
-
-        </ul>
+        </div>
     </div>
 </div>
+
 
 {% comment %}
 <h1>Users</h1>
