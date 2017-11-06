@@ -22,6 +22,9 @@
 
     <div class="col-sm-4">
         <h3>Pending offers</h3>
+        <p>
+            {{ pending_offers.count}} pending offer{{ pending_offers.count|pluralize }}.
+        </p>
         <ul class="list-group">
             {% for offer in pending_offers %}
             <li class="list-group-item">
@@ -32,14 +35,15 @@
                     {{ offer.band }}
                 </p>
             </li>
-            {% empty %}
-            No pending offers.
             {% endfor %}
         </ul>
     </div>
 
     <div class="col-sm-4">
         <h3>Accepted offers</h3>
+        <p>
+            {{ accepted_offers.count}} accepted offer{{ accepted_offers.count|pluralize }}.
+        </p>
         <ul class="list-group">
             {% for offer in accepted_offers %}
             <li class="list-group-item">
@@ -50,14 +54,15 @@
                     {{ offer.band }}
                 </p>
             </li>
-            {% empty %}
-            No pending offers.
             {% endfor %}
         </ul>
     </div>
 
     <div class="col-sm-4">
         <h3>Rejected offers</h3>
+        <p>
+            {{ rejected_offers.count}} rejected offer{{ rejected_offers.count|pluralize }}.
+        </p>
         <ul class="list-group">
             {% for offer in rejected_offers %}
             <li class="list-group-item">
@@ -68,8 +73,6 @@
                     {{ offer.band }}
                 </p>
             </li>
-            {% empty %}
-            No pending offers.
             {% endfor %}
         </ul>
     </div>
@@ -96,6 +99,8 @@
          timeFormat: 'HH:mm',
          slotLabelFormat: 'HH:mm',
          slotDuration: '00:30:00',
+         scrollTime: '14:00:00',
+         columnFormat: 'ddd D. MMM',
      })
  })
 </script>
