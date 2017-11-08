@@ -14,11 +14,13 @@ Execute the following commands in a terminal:
 - `cd it1901-concert-booking` (Windows: `dir it1901-concert-booking`)
 - `npm install -g bower`
 - Optional:
+  - `pip3 install virtualenv`
   - `python3 -m virtualenv venv`
   - `source venv/bin/activate` (Windows: `\venv\Scripts\activate`)
 - `pip3 install -r requirements.txt`
 - `python3 manage.py bower install`
 - `python3 manage.py collectstatic`
+- `python3 manage.py migrate`
 - `python3 manage.py makefakedata` to fill the database with randomish data
 - `python3 manage.py runserver`
 
