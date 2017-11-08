@@ -21,7 +21,7 @@ function handleFormChange(event) {
           document.getElementById("id_stage")
           ;
   const selectedStage = stage_info_map.get(stageField.value);
-    if (event.target !== priceField) {
+    if (event.target === stageField) {
         priceField.value = (selectedStage.fields.stage_costs*1.5)/selectedStage.fields.num_seats;
       //Formula calculating an example ticket prize
       //(Total costs + profit)/Total tickets
