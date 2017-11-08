@@ -29,42 +29,47 @@
 {% endfor %}
 
 
-<h3> Concerts sorted by Genre</h3>
+<h3>Genre Report</h3>
+
+{% for genre in festival.concerts_by_genre %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ genre.genre }}
+        </h3>
+    </div>
     <table class="table">
-    <tr>
-        <th>Genre</th>
-        <th>Concerts</th>
-        <th>Stages</th>
-        <th>Attendees</th>
-    </tr>
-    {% for genre in festival.concerts_by_genre %}
-    <tr>
-        <td>{{ genre.genre }}</td>
+        <tr>
+            <td class="col-xs-2">Total tickets sold</td>
+            <td>{{ genre.total_tickets_sold }}</td>
+        </tr>
+        <tr>
+            <td>Total profits</td>
+            <td>{{ genre.total_profit }}</td>
+        </tr>
+    </table>
+
+    <table class="table">
+        <tr>
+            <th class="col-xs-2">Concert</th>
+            <th class="col-xs-1">Time</th>
+            <th class="col-xs-1">Stage</th>
+            <th class="col-xs-1">Tickets sold</th>
+            <th class="col-xs-1">Profit</th>
+        </tr>
         {% for concert in genre.concerts %}
-            <td>{{ concert }}</td>
-
-                {% for scene in festival.concerts_by_genre %}
-                    <td>{{ scene.scene }}</td>
-
-                    {% for attendees in festival.concert_by_genre %}
-                        <td>{{ attendees.attendees }}</td>
-                    {% endfor %}
-
-
-               {% endfor %}
+        <tr>
+            <td><a href="{{ concert.get_absolute_url }}">{{ concert }}</a></td>
+            <td>{{ concert.concert_time }}</td>
+            <td>{{ concert.stage_name }}</td>
+            <td>{{ concert.tickets_sold }}</td>
+            <td>{{ concert.profit }}</td>
+        </tr>
         {% endfor %}
-    </tr>
-    {% endfor %}
-</table>
+    </table>
 
-<!-- <h2>Concerts</h2> -->
-<!-- <hr/> -->
-<!-- <ul> -->
-<!-- {% for concert in festival.concerts.all %} -->
-<!-- {{ concert.stage_name }} -->
-<!-- {% empty %} -->
-<!-- No concerts added to festival yet. -->
-<!-- {% endfor %} -->
-<!-- </ul> -->
+</div>
+{% endfor %}
+
 
 {% endblock content %}

@@ -19,7 +19,7 @@ class Genre(models.Model):
     description = models.TextField(blank=True)
 
     def __str__(self):
-        return self.name + " - " + self.description
+        return self.name
 
 
 class Band(models.Model):
@@ -207,7 +207,6 @@ class Festival(models.Model):
         return Stage.objects.filter(concert__in=self.concerts.all())
 
     def concerts_by_stage(self):
-        ConcertsByStage = namedtuple('ConcertsByStage', ['stage', 'concerts'])
         concerts = self.concerts.order_by('stage_name')
         grouped = groupby(concerts, lambda c: c.stage_name)
         by_stage = [
@@ -219,20 +218,18 @@ class Festival(models.Model):
         return by_stage
 
     def concerts_by_genre(self):
-        ConcertByGenre = namedtuple('ConcertByGenre', ['genre', 'concerts', 'stages', 'attendees'])
         concerts = self.concerts.order_by('genre_music')
-        #scene = models.ForeignKey('stage_name')
-        attendees = ('num_seats')
-        scene = ('stages')
         collected = groupby(concerts, lambda c: c.genre_music)
         by_genre = [
             {
                 'genre': genre,
                 'concerts': sorted(list(concs), key=lambda c: c.concert_time),
-                'stages': scene,
-                'attendees':attendees,
             } for genre, concs in collected
         ]
+        for genre in by_genre:
+            concerts = genre['concerts']
+            genre['total_tickets_sold'] = sum([c.tickets_sold() for c in concerts])
+            genre['total_profit'] = sum([c.profit() for c in concerts])
         return by_genre
 
     def first_concert(self):
