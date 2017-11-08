@@ -48,10 +48,5 @@ add_perm('concert.book', is_booker)
 add_perm('concert.edit', is_chief_booker)
 add_perm('concert.edit_tech_staff', is_booker)
 
-add_perm('offer.view', is_booker | is_manager)
-add_perm('offer.create', is_booker)
-add_perm('offer.approve', is_chief_booker)
-add_perm('offer.accept', always_deny)
-
 add_perm('booking.view', is_booker | is_manager)
 add_perm('booking.view_dashboard', is_booker)
