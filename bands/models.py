@@ -257,6 +257,9 @@ class Offer(models.Model):
     concert_description = models.TextField(blank=True)
     rejected_status = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.concert_name
+
     def calendar_title(self):
         return f'{self.stage}\n\n{self.concert_name}'
 
@@ -276,24 +279,54 @@ class Offer(models.Model):
         }
 
     def get_absolute_url(self):
-        return reverse('offer:offerDetail', args=[self.id])
+        if self.is_pending_status:
+            return reverse('offer:offerDetail', args=[self.id])
+        else:
+            return reverse('offer:offerManagerDetail', args=[self.id])
 
     @classmethod
     def pending(self):
-        return self.objects.filter(is_pending_status=True)
+        return self.objects.filter(
+            is_pending_status=True,
+            rejected_status=False,
+            accepted_status=False)
+
+    @classmethod
+    def unsendable(self):
+        return self.objects.filter(
+            is_pending_status=True,
+            rejected_status=True,
+            accepted_status=False)
+
+    @classmethod
+    def sent_to_artist(self):
+        return self.objects.filter(
+            is_pending_status=False,
+            accepted_status=False,
+            rejected_status=False)
 
     @classmethod
     def accepted(self):
-        return self.objects.filter(accepted_status=True)
+        return self.objects.filter(
+            is_pending_status=False,
+            accepted_status=True,
+            rejected_status=False)
 
     @classmethod
     def rejected(self):
-        return self.objects.filter(is_pending_status=False, accepted_status=False)
+        return self.objects.filter(
+            is_pending_status=False,
+            accepted_status=False,
+            rejected_status=True)
 
     def status(self):
-        if self.accepted_status:
-            return 'Accepted'
-        elif self.is_pending_status:
+        if self.is_pending_status and not self.rejected_status and not self.accepted_status:
             return 'Pending'
-        else:
-            return 'Rejected'
+        if self.is_pending_status and self.rejected_status and not self.accepted_status:
+            return 'Unsendable'
+        if not self.is_pending_status and not self.rejected_status and not self.accepted_status:
+            return 'Sent to artist'
+        if not self.is_pending_status and self.rejected_status and not self.accepted_status:
+            return 'Rejected by artist'
+        if not self.is_pending_status and not self.rejected_status and self.accepted_status:
+            return 'Accepted by artist'

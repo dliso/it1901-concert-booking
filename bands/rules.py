@@ -35,6 +35,10 @@ add_perm('offer.view', is_concert_booker)
 add_perm('offerlist.view', is_booker)
 add_perm('offermanager.view', is_a_manager)
 
+add_perm('offer.send_to_band', is_chief_booker)
+add_perm('offer.accept', is_manager)
+add_perm('offer.create', is_booker)
+
 def is_pr_responsible(user):
     return user.groups.filter(name=Groups.PR_MANAGERS.value).exists()
 

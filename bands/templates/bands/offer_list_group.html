@@ -1,0 +1,19 @@
+<h3>{{ title|title }}</h3>
+<p>
+    {{ offers.count }}
+    {{ title }}
+    offer{{ offers.count|pluralize }}.
+</p>
+<ul class="list-group">
+    {% for offer in offers|slice:":5" %}
+    <li class="list-group-item">
+        <p>
+            <a href="{{ offer.get_absolute_url }}?next={{ request.path }}">
+                {{ offer.concert_name }}
+            </a>
+        </p>
+        <p> {{ offer.band }} </p>
+        <p> {{ offer.time }} </p>
+    </li>
+    {% endfor %}
+</ul>

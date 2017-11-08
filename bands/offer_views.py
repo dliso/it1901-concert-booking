@@ -8,7 +8,7 @@ from . import forms, models
 class Create(PermissionRequiredMixin, FormView):
     form_class = forms.OfferForm
     template_name = 'bands/offer_create.html'
-    permission_required = "offer.view"
+    permission_required = "offer.create"
 
     def get_success_url(self):
         req = self.request
@@ -39,7 +39,8 @@ class OfferDetail(PermissionRequiredMixin, FormView, DetailView):
     model = models.Offer
     form_class = forms.OfferDetailForm
     template_name = 'bands/offer_detail.html'
-    permission_required = "offerlist.view"
+    permission_required = "offer.send_to_band"
+    raise_exception = True
 
     def get_success_url(self):
         req = self.request
@@ -47,12 +48,13 @@ class OfferDetail(PermissionRequiredMixin, FormView, DetailView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        if data['acceptable'] == True:
-            offers = models.Offer.objects.all()
-            for o in offers:
-                if str(o.id) == self.kwargs['pk']:
-                    o.is_pending_status = False
-                    o.save()
+        o = self.get_object()
+        if data['acceptable'] == 'yes':
+            o.is_pending_status = False
+            o.save()
+        else:
+            o.rejected_status = True
+            o.save()
         return super().form_valid(form)
 
 class OfferManagerList(PermissionRequiredMixin, ListView):
@@ -65,7 +67,8 @@ class OfferManagerDetail(PermissionRequiredMixin, FormView, DetailView):
     model = models.Offer
     form_class = forms.OfferManagerDetailForm
     template_name = 'bands/offerManager_detail.html'
-    permission_required = "offermanager.view"
+    permission_required = "offer.accept"
+    raise_exception = True
 
     def get_success_url(self):
         req = self.request

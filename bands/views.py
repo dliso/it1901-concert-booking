@@ -88,9 +88,11 @@ class BookingDashboard(PermissionRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['pending_offers'] = models.Offer.pending()[:5]
-        context['accepted_offers'] = models.Offer.accepted()[:5]
-        context['rejected_offers'] = models.Offer.rejected()[:5]
+        context['pending_offers'] = models.Offer.pending()
+        context['unsendable_offers'] = models.Offer.unsendable()
+        context['sent_offers'] = models.Offer.sent_to_artist()
+        context['accepted_offers'] = models.Offer.accepted()
+        context['rejected_offers'] = models.Offer.rejected()
         return context
 
 

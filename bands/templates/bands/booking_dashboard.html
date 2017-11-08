@@ -21,62 +21,25 @@
 <div class="row">
 
     <div class="col-sm-4">
-        <h3>Pending offers</h3>
-        <p>
-            {{ pending_offers.count}} pending offer{{ pending_offers.count|pluralize }}.
-        </p>
-        <ul class="list-group">
-            {% for offer in pending_offers %}
-            <li class="list-group-item">
-                <a href="{{ offer.get_absolute_url }}">
-                    {{ offer.concert_name }}
-                </a>
-                <p>
-                    {{ offer.band }}
-                </p>
-            </li>
-            {% endfor %}
-        </ul>
+        {% include './offer_list_group.html' with title='pending' offers=pending_offers %}
     </div>
 
     <div class="col-sm-4">
-        <h3>Accepted offers</h3>
-        <p>
-            {{ accepted_offers.count}} accepted offer{{ accepted_offers.count|pluralize }}.
-        </p>
-        <ul class="list-group">
-            {% for offer in accepted_offers %}
-            <li class="list-group-item">
-                <a href="{{ offer.get_absolute_url }}">
-                    {{ offer.concert_name }}
-                </a>
-                <p>
-                    {{ offer.band }}
-                </p>
-            </li>
-            {% endfor %}
-        </ul>
+        {% include './offer_list_group.html' with title='rejected' offers=unsendable_offers %}
     </div>
 
+</div>
+
+<div class="row">
     <div class="col-sm-4">
-        <h3>Rejected offers</h3>
-        <p>
-            {{ rejected_offers.count}} rejected offer{{ rejected_offers.count|pluralize }}.
-        </p>
-        <ul class="list-group">
-            {% for offer in rejected_offers %}
-            <li class="list-group-item">
-                <a href="{{ offer.get_absolute_url }}">
-                    {{ offer.concert_name }}
-                </a>
-                <p>
-                    {{ offer.band }}
-                </p>
-            </li>
-            {% endfor %}
-        </ul>
+        {% include './offer_list_group.html' with title='waiting for artist' offers=sent_offers %}
     </div>
-
+    <div class="col-sm-4">
+        {% include './offer_list_group.html' with title='accepted by artist' offers=accepted_offers %}
+    </div>
+    <div class="col-sm-4">
+        {% include './offer_list_group.html' with title='rejected by artist' offers=rejected_offers %}
+    </div>
 </div>
 
 {% include './calendar.html' %}

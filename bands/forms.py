@@ -48,9 +48,15 @@ class OfferForm(forms.Form):
 
 
 class OfferDetailForm(forms.Form):
-    acceptable = forms.BooleanField(
+    acceptable = forms.ChoiceField(
+        help_text="Can this offer be sent to the artist?",
         required=True,
-        help_text="Approve or disapprove offer"
+        widget=forms.widgets.RadioSelect,
+        choices=(
+            ('yes', 'Yes, send'),
+            ('no', 'No, discard'),
+
+        )
     )
 
     def __init__(self, *args, **kwargs):
