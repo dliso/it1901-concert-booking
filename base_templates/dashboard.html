@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% load rules %}
+{% load static %}
+
+{% block extra_head %}
+<link rel='stylesheet' type='text/css' href="{% static 'fullcalendar/dist/fullcalendar.css' %}" />
+<script type='text/javascript' src="{% static 'moment/moment.js' %}"></script>
+<script type='text/javascript' src="{% static 'fullcalendar/dist/fullcalendar.js' %}"></script>
+{% endblock extra_head %}
 
 {% block content %}
 <h1>Responsibilities</h1>
@@ -11,45 +18,8 @@
 
 <div class="row">
 
-    <div class="col-sm-4">
-        <h3>Upcoming concerts</h3>
-        <ul class="list-group">
-            {% for concert in upcoming_concerts %}
-            <li class="list-group-item">
-                <a href="{{ concert.get_absolute_url }}">
-                    {{ concert }}
-                </a>
-                <p>
-                    {{ concert.concert_time }}
-                </p>
-            </li>
-            {% empty %}
-            No upcoming concerts.
-            {% endfor %}
-        </ul>
-    </div>
 
-    <div class="col-sm-4">
-        <h3>Pending offers</h3>
-        <ul class="list-group">
-            {% for offer in pending_offers %}
-            <li class="list-group-item">
-                <a href="{{ offer.get_absolute_url }}">
-                    {{ offer.concert_name }}
-                </a>
-                <p>
-                    {{ offer.band }}
-                </p>
-                <p>
-                    {{ offer.status }}
-                </p>
-            </li>
-            {% empty %}
-            No pending offers.
-            {% endfor %}
-        </ul>
-    </div>
-
+    {% if user.manages.all %}
     <div class="col-sm-4">
         <h3>Artists you manage</h3>
         <ul class="list-group">
@@ -62,6 +32,7 @@
             {% endfor %}
         </ul>
     </div>
+    {% endif %}
 
 </div>
 
@@ -79,5 +50,7 @@
 
 <div class="row">
 </div>
+
+{% include 'bands/calendar.html' %}
 
 {% endblock content %}
