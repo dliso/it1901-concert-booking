@@ -26,7 +26,7 @@ class StageList(LoginRequiredMixin, ListView):
                      .annotate(num_concerts=Count('concert')) \
                      .order_by('-num_concerts')
 
-class StageDetail(DetailView):
+class StageDetail(LoginRequiredMixin, DetailView):
     model = models.Stage
     show_upcoming = 0
     show_previous = 0
@@ -103,7 +103,7 @@ class BookingDashboard(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class BandDetail(DetailView):
+class BandDetail(LoginRequiredMixin, DetailView):
     model = models.Band
 
 
@@ -115,17 +115,19 @@ class BandManagerDetail(PermissionRequiredMixin, DetailView):
     raise_exception = True
 
 
-class BandList(ListView):
+class BandList(LoginRequiredMixin, ListView):
     model = models.Band
     paginate_by = 24
 
 
-class ConcertCreate(CreateView):
+class ConcertCreate(PermissionRequiredMixin, CreateView):
     """View for creating concerts. We need to add some JavaScript to compute
     price suggestions, so we can't just use the admin page."""
     model = models.Concert
     template_name = 'bands/concert_create.html'
     form_class = forms.ConcertForm
+    permission_required = 'concert.create'
+    raise_exception = True
 
     def get_context_data(self):
         context = super().get_context_data()
