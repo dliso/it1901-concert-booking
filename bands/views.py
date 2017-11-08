@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
                                   TemplateView, UpdateView)
 from rules.contrib.views import PermissionRequiredMixin
+from bands.groups import Groups
 
 from . import forms, models
 
@@ -94,12 +95,7 @@ class BookingDashboard(PermissionRequiredMixin, TemplateView):
 class OfferView(PermissionRequiredMixin, FormView):
     form_class = forms.OfferForm
     template_name = 'bands/offer.html'
-    permission_required = 'offer.view'
-
-
-    def test_func(self):
-        return self.request.user.groups.filter(name="booking_responsibles").exists()
-
+    permission_required = "offer.view"
 
     def get_success_url(self):
         req = self.request
@@ -119,23 +115,18 @@ class OfferView(PermissionRequiredMixin, FormView):
 
         return super().form_valid(form)
 
-class OfferList(UserPassesTestMixin, ListView):
+class OfferList(PermissionRequiredMixin, ListView):
     model = models.Offer
     template_name = 'bands/offer_list.html'
+    permission_required = "offerlist.view"
 
-    def test_func(self):
-        return self.request.user.groups.filter(name="booking_chiefs").exists()
 
 
 class OfferDetail(PermissionRequiredMixin, FormView, DetailView):
     model = models.Offer
     form_class = forms.OfferDetailForm
     template_name = 'bands/offer_detail.html'
-    permission_required = 'offer.view'
-
-
-    def test_func(self):
-        return self.request.user.groups.filter(name="booking_chiefs").exists()
+    permission_required = "offerlist.view"
 
     def get_success_url(self):
         req = self.request
@@ -151,20 +142,17 @@ class OfferDetail(PermissionRequiredMixin, FormView, DetailView):
                     o.save()
         return super().form_valid(form)
 
-class OfferManagerList(UserPassesTestMixin, ListView):
+class OfferManagerList(PermissionRequiredMixin, ListView):
     model = models.Offer
     template_name = 'bands/offerManager_list.html'
+    permission_required = "offermanager.view"
 
-    def test_func(self):
-        return self.request.user.groups.filter(name="managers").exists()
 
-class OfferManagerDetail(UserPassesTestMixin, FormView, DetailView):
+class OfferManagerDetail(PermissionRequiredMixin, FormView, DetailView):
     model = models.Offer
     form_class = forms.OfferManagerDetailForm
     template_name = 'bands/offerManager_detail.html'
-
-    def test_func(self):
-        return self.request.user.groups.filter(name="managers").exists()
+    permission_required = "offermanager.view"
 
     def get_success_url(self):
         req = self.request
@@ -172,10 +160,10 @@ class OfferManagerDetail(UserPassesTestMixin, FormView, DetailView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        if data['acceptable'] == True:
-            offers = models.Offer.objects.all()
-            for o in offers:
-                if str(o.id) == self.kwargs['pk']:
+        offers = models.Offer.objects.all()
+        for o in offers:
+            if str(o.id) == self.kwargs['pk']:
+                if data['Offer_response'] == True:
                     o.accepted_status = True
 
                     c = models.Concert()
@@ -188,6 +176,9 @@ class OfferManagerDetail(UserPassesTestMixin, FormView, DetailView):
 
                     o.save()
                     c.save()
+                else:
+                    o.rejected_status = True
+                    o.save()
         return super().form_valid(form)
 
 
@@ -240,7 +231,7 @@ class ConcertEditTech(PermissionRequiredMixin, UpdateView):
 
     permission_required = 'concert.edit_tech_staff'
 
-    
+
 class BandSearch(FormView):
     form_class = forms.SearchForm
     success_url = "."
