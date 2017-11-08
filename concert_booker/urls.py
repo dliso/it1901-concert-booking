@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 from accounts import views as acc_views
 from bands import views as band_views
 from bands import api_views
+from bands import offer_views
 
 auth_urls = [
     url(r'^signup/$', acc_views.SignUpView.as_view(), name='signup'),
@@ -77,11 +78,11 @@ festival_urls = [
 
 
 offer_urls = [
-    url(r'^$', band_views.OfferList.as_view(), name='offerList'),
-    url(r'^(?P<pk>[0-9]+)$', band_views.OfferDetail.as_view(), name='offerDetail'),
-    url(r'^manager$', band_views.OfferManagerList.as_view(), name='offerManagerView'),
-    url(r'^manager/(?P<pk>[0-9]+)$', band_views.OfferManagerDetail.as_view(), name='offerManagerDetail'),
-    url(r'^new$', band_views.OfferView.as_view(), name='new'),
+    url(r'^$', offer_views.OfferList.as_view(), name='offerList'),
+    url(r'^(?P<pk>[0-9]+)$', offer_views.OfferDetail.as_view(), name='offerDetail'),
+    url(r'^manager$', offer_views.OfferManagerList.as_view(), name='offerManagerView'),
+    url(r'^manager/(?P<pk>[0-9]+)$', offer_views.OfferManagerDetail.as_view(), name='offerManagerDetail'),
+    url(r'^new$', offer_views.OfferView.as_view(), name='new'),
 ]
 
 
