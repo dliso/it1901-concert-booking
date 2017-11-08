@@ -167,3 +167,8 @@ SHORT_DATETIME_FORMAT = "d-m-y H:i"
 
 MONTH_DAY_FORMAT = "d M"
 YEAR_MONTH_FORMAT = "M Y"
+
+DATETIME_INPUT_FORMATS = [
+    '%Y-%m-%d %H:%M',
+    '%Y-%m-%d',
+]
