@@ -58,6 +58,7 @@
                         <li><a href="{% url 'festival:list' %}">Festivals</a></li>
                         <li><a href="{% url 'concert:list' %}">Concerts</a></li>
                         <li><a href="{% url 'band:list' %}">Bands</a></li>
+                        <li><a href="{% url 'offer:offerList' %}">Offers</a></li>
 
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -66,7 +67,6 @@
                         <li><a href="">{{ user.username }}</a></li>
                         <li><a href="{% url 'auth:logout' %}?next={{ request.path }}">Log out</a></li>
                         {% else %}
-                        <li><a href="{% url 'auth:signup' %}?next={{ request.path }}">Sign up</a></li>
                         <li><a href="{% url 'auth:login' %}?next={{ request.path }}">Log in</a></li>
                         {% endif %}
                     </ul>
