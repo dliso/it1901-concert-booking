@@ -2,6 +2,7 @@ from django.views.generic import (CreateView, DetailView, FormView, ListView,
                                   TemplateView, UpdateView)
 from rules.contrib.views import PermissionRequiredMixin
 
+from django.core import serializers
 from . import forms, models
 
 
@@ -9,6 +10,11 @@ class Create(PermissionRequiredMixin, FormView):
     form_class = forms.OfferForm
     template_name = 'bands/offer_create.html'
     permission_required = "offer.create"
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['stage_info'] = serializers.serialize("json", models.Stage.objects.all())
+        return context
 
     def get_success_url(self):
         req = self.request

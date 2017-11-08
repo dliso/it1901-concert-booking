@@ -101,6 +101,7 @@ class Command(BaseCommand):
                     models.Stage.objects.create(
                         name=f'{name}',
                         num_seats=randint(1,10)*100,
+                        stage_costs=randint(10, 50) * 1000,
                         stage_size=choice(stage_sizes)[0]
                     )
                 except IntegrityError:

@@ -1,6 +1,10 @@
 const print = console.log;
 
-const form = document.getElementById("create-concert-form");
+let form = document.getElementById("create-concert-form");
+
+if (form === null) {
+    form = document.forms[0];
+}
 
 function handleFormChange(event) {
   const stage_info_string = document.getElementById("stage_info").innerHTML;
@@ -8,8 +12,14 @@ function handleFormChange(event) {
   const stage_info_map = new Map(stage_info.map(stage=>{
     return [stage.pk.toString(), stage]
   }));
-  const priceField = document.getElementById("id_ticket_price");
-  const stageField = document.getElementById("id_stage_name");
+    const priceField =
+          document.getElementById("id_ticket_price") ||
+          document.getElementById("id_price")
+          ;
+    const stageField =
+          document.getElementById("id_stage_name") ||
+          document.getElementById("id_stage")
+          ;
   const selectedStage = stage_info_map.get(stageField.value);
     if (event.target !== priceField) {
         priceField.value = (selectedStage.fields.stage_costs*1.5)/selectedStage.fields.num_seats;

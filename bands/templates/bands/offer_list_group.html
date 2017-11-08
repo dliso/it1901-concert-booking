@@ -5,7 +5,7 @@
     offer{{ offers.count|pluralize }}.
 </p>
 <ul class="list-group">
-    {% for offer in offers|slice:":5" %}
+    {% for offer in offers %}
     <li class="list-group-item">
         <p>
             <a href="{{ offer.get_absolute_url }}?next={{ request.path }}">
