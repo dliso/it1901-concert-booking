@@ -5,16 +5,68 @@
 
 <h1>{{ festival.name }}</h1>
 
-<a class="btn btn-primary"
-   href="{% url 'admin:bands_festival_change' festival.id %}">
-    Edit</a>
+<div>
+    <a class="btn btn-default"
+       href="{% url 'festival:pr_detail' festival.id %}">
+        PR Overview
+    </a>
 
-<a class="btn btn-danger"
-   href="{% url 'admin:bands_festival_delete' festival.id %}">
-    Delete</a>
+    <a class="btn btn-primary"
+       href="{% url 'admin:bands_festival_change' festival.id %}">
+        Edit</a>
 
-<h3>Stage overview</h3>
+    <a class="btn btn-danger"
+       href="{% url 'admin:bands_festival_delete' festival.id %}">
+        Delete</a>
+</div>
+
+<hr/>
+
+<a class="btn btn-default" href="#stage-report"> Stage overview </a>
+<a class="btn btn-default" href="#genre-report"> Genre overview </a>
+
+<h3 id="stage-report">Stage overview</h3>
 {% for stage in festival.concerts_by_stage %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ stage.stage }}
+        </h3>
+    </div>
+    <table class="table">
+        <tr>
+            <td class="col-xs-2">Total tickets sold</td>
+            <td>{{ stage.total_tickets_sold }}</td>
+        </tr>
+        <tr>
+            <td>Total profits</td>
+            <td>{{ stage.total_profit }}</td>
+        </tr>
+    </table>
+
+    <table class="table">
+        <tr>
+            <th class="col-xs-2">Concert</th>
+            <th class="col-xs-1">Time</th>
+            <th class="col-xs-1">Stage</th>
+            <th class="col-xs-1">Tickets sold</th>
+            <th class="col-xs-1">Profit</th>
+        </tr>
+        {% for concert in stage.concerts %}
+        <tr>
+            <td><a href="{{ concert.get_absolute_url }}">{{ concert }}</a></td>
+            <td>{{ concert.concert_time }}</td>
+            <td>{{ concert.stage_name }}</td>
+            <td>{{ concert.tickets_sold }}</td>
+            <td>{{ concert.profit }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% comment %}
 <h4>{{ stage.stage }}</h4>
 <ul class="list-unstyled">
     {% for concert in stage.concerts %}
@@ -26,10 +78,13 @@
     </li>
     {% endfor %}
 </ul>
+{% endcomment %}
+
 {% endfor %}
 
+<hr/>
 
-<h3>Genre Report</h3>
+<h3 id="genre-report">Genre Report</h3>
 
 {% for genre in festival.concerts_by_genre %}
 <div class="panel panel-default">
