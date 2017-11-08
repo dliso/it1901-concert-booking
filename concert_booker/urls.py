@@ -74,7 +74,7 @@ offer_urls = [
     url(r'^$', band_views.OfferList.as_view(), name='offerList'),
     url(r'^(?P<pk>[0-9]+)$', band_views.OfferDetail.as_view(), name='offerDetail'),
     url(r'^manager$', band_views.OfferManagerList.as_view(), name='offerManagerView'),
-    url(r'^manager(?P<pk>[0-9]+)$', band_views.OfferManagerDetail.as_view(), name='offerManagerDetail'),
+    url(r'^manager/(?P<pk>[0-9]+)$', band_views.OfferManagerDetail.as_view(), name='offerManagerDetail'),
     url(r'^new$', band_views.OfferView.as_view(), name='new'),
 ]
 

@@ -2,6 +2,9 @@
 
 
 {% block content %}
+<h1>Concert Offers</h1>
+<a class="btn btn-primary" href="{% url 'offer:new' %}">Make an offer</a>
+
 <h1>Offers pending review</h1>
 <ul class="list-unstyled">
     {% for offer in offer_list %}

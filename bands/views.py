@@ -83,9 +83,6 @@ class OfferView(PermissionRequiredMixin, FormView):
     template_name = 'bands/offer.html'
     permission_required = "offer.view"
 
-
-
-
     def get_success_url(self):
         req = self.request
         return req.GET.get('next', '/')

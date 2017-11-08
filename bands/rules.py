@@ -31,7 +31,7 @@ def is_chief_booker(user):
 
 add_perm('offer.view', is_concert_booker)
 
-add_perm('offerlist.view', is_chief_booker)
+add_perm('offerlist.view', is_concert_booker | is_chief_booker)
 
 add_perm('offermanager.view', is_a_manager)
 
