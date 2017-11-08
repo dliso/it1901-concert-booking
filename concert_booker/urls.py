@@ -71,8 +71,11 @@ genre_urls = [
 
 festival_urls = [
     url(r'^$', band_views.FestivalList.as_view(), name='list'),
+    url(r'^create/$', band_views.FestivalCreate.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)$', band_views.FestivalDetail.as_view(),
         name='detail'),
+    url(r'^(?P<pk>[0-9]+)/edit$', band_views.FestivalEdit.as_view(),
+        name='edit'),
     url(r'^(?P<pk>[0-9]+)/pr_detail$', band_views.FestivalPRDetail.as_view()
         , name='pr_detail'),
 ]

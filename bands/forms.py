@@ -8,10 +8,29 @@ from django.utils.timezone import now
 from . import models as band_models
 from . import groups
 
+
 class StageChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, stage):
         return f'{stage.name} - {stage.get_stage_size_display()} size stage ' \
             f'- {stage.num_seats} seats'
+
+
+class ConcertChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, concert):
+        return f'{concert.name} - {concert.concert_time}'
+
+
+class FestivalForm(forms.ModelForm):
+    class Meta:
+        model = band_models.Festival
+        exclude = []
+
+    concerts = ConcertChoiceField(
+        queryset=band_models.Concert.objects.order_by('-concert_time'),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+    )
+
 
 class OfferForm(forms.Form):
     concert_name = forms.CharField(

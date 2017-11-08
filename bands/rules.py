@@ -50,6 +50,8 @@ add_perm('bands.change_technicalneed', is_manager)
 
 add_perm('band.manage', is_manager)
 
+add_perm('festival.create', is_superuser)
+
 add_perm('stage.create', is_superuser)
 add_perm('stage.view_econ_report', is_booker)
 

@@ -87,6 +87,15 @@ class FestivalDetail(LoginRequiredMixin, DetailView):
     model = models.Festival
 
 
+class FestivalCreate(PermissionRequiredMixin, CreateView):
+    model = models.Festival
+    permission_required = 'festival.create'
+    raise_exception = True
+    form_class = forms.FestivalForm
+
+class FestivalEdit(FestivalCreate, UpdateView):
+    pass
+
 class BookingDashboard(PermissionRequiredMixin, TemplateView):
     template_name = 'bands/booking_dashboard.html'
     permission_required = 'booking.view_dashboard'
