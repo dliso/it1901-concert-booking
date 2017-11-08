@@ -247,7 +247,7 @@ class Offer(models.Model):
             'end_recurring_period': None,
             'calendar': 'offers',
             'color': '#222',
-            # 'url': self.get_absolute_url(),
+            'url': self.get_absolute_url(),
         }
 
     def get_absolute_url(self):
