@@ -52,6 +52,11 @@ class Band(models.Model):
             band_name=self
         ).order_by('-concert_time')
 
+    #def genre_concerts(self):
+    #    return Concert.objects.filter(
+    #        concert_name = concerts
+    #        genre = genre_music
+    #    ).order_by(genre_music)
     # This model has to be expanded to include at least genres.
 
     def __str__(self):
@@ -212,6 +217,23 @@ class Festival(models.Model):
             } for stage, concs in grouped
         ]
         return by_stage
+
+    def concerts_by_genre(self):
+        ConcertByGenre = namedtuple('ConcertByGenre', ['genre', 'concerts', 'stages', 'attendees'])
+        concerts = self.concerts.order_by('genre_music')
+        #scene = models.ForeignKey('stage_name')
+        attendees = ('num_seats')
+        scene = ('stages')
+        collected = groupby(concerts, lambda c: c.genre_music)
+        by_genre = [
+            {
+                'genre': genre,
+                'concerts': sorted(list(concs), key=lambda c: c.concert_time),
+                'stages': scene,
+                'attendees':attendees,
+            } for genre, concs in collected
+        ]
+        return by_genre
 
     def first_concert(self):
         return self.concerts.order_by('concert_time').first()
