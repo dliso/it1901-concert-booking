@@ -12,9 +12,13 @@
 <ul class="list-group">
     {% for offer in offers %}
     <li class="list-group-item">
-        <a href="{{ offer.get_absolute_url }}">
-            {{ offer }}
-        </a>
+        <p>
+            <a href="{{ offer.get_absolute_url }}">
+                {{ offer }}
+            </a>
+        </p>
+        <p> {{ offer.concert_time }} </p>
+        <p> {{ offer.stage_name }} </p>
     </li>
     {% endfor %}
 </ul>

@@ -260,8 +260,14 @@ class StageEconReport(PermissionRequiredMixin, ListView):
         return context
 
 
+class PRDashboard(PermissionRequiredMixin, ListView):
+    model = models.Festival
+    template_name = "bands/pr_dashboard.html"
+    permission_required = 'festival.view_pr_details'
+
+
 class FestivalPRDetail(PermissionRequiredMixin, DetailView):
     model = models.Festival
     template_name = "bands/festival_pr_detail.html"
 
-    permission_required = 'bands.concert.view_pr_details'
+    permission_required = 'festival.view_pr_details'

@@ -17,10 +17,8 @@
 </ul>
 
 <div class="row">
-
-
     {% if user.manages.all %}
-    <div class="col-sm-4">
+    <div class="col-sm-12">
         <h3>Artists you manage</h3>
         <ul class="list-group">
             {% for band in user.manages.all %}
@@ -33,17 +31,24 @@
         </ul>
     </div>
     {% endif %}
-
 </div>
 
 <div class="row">
     <div class="col-sm-12">
         <h3>Your roles</h3>
         <div class="btn-group">
+
             {% has_perm 'concert.book' user as can_book_concert %}
             {% if can_book_concert %}
             <a class="btn btn-default" href="{% url 'dashboards:booking' %}">Booking manager</a>
             {% endif %}
+
+            {% has_perm 'festival.view_pr_details' user as perm %}
+            {% if perm %}
+            <a class="btn btn-default"
+               href="{% url 'dashboards:pr' %}">PR Manager</a>
+            {% endif %}
+
         </div>
     </div>
 </div>

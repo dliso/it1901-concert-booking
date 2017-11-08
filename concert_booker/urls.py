@@ -93,6 +93,8 @@ offer_urls = [
 dashboard_urls = [
     url(r'^bookingdashboard/$', band_views.BookingDashboard.as_view(),
         name='booking'),
+    url(r'^pr_dashboard/$', band_views.PRDashboard.as_view()
+        , name='pr'),
 ]
 
 

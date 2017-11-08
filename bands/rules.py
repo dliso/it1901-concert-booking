@@ -62,4 +62,4 @@ add_perm('concert.edit_tech_staff', is_booker)
 add_perm('booking.view', is_booker | is_manager)
 add_perm('booking.view_dashboard', is_booker)
 
-add_perm('bands.concert.view_pr_details', is_pr_responsible)
+add_perm('festival.view_pr_details', is_pr_responsible)
