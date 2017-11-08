@@ -30,6 +30,7 @@ class Command(BaseCommand):
         # ========================================
         password = 'qweqweqwe'
         all_users = User.objects.all()
+        all_users.delete()
         # Admin
         sow('--- creating admin')
         try:
@@ -145,9 +146,27 @@ class Command(BaseCommand):
             "Ebony Bones", "The Edge", "Eliza Doolittle", "Ella Mai",
             "Engineers", "Erasure", "Eurythmics", "Example", "The Faces",
         ]
+        about_band_texts = [
+            "Aliquam erat volutpat.",
+            "Nunc eleifend leo vitae magna.",
+            "In id erat non orci commodo lobortis.",
+            "Proin neque massa, cursus ut, gravida ut, lobortis eget, lacus.",
+            "Sed diam.",
+            "Praesent fermentum tempor tellus.",
+            "Nullam tempus.",
+            "Mauris ac felis vel velit tristique imperdiet.",
+            "Donec at pede.",
+            "Etiam vel neque nec dui dignissim bibendum.",
+            "Vivamus id enim.",
+            "Phasellus neque orci, porta a, aliquet quis, semper a, massa.",
+            "Phasellus purus.",
+            "Pellentesque tristique imperdiet tortor.",
+            "Nam euismod tellus id erat.",
+        ]
         legal_characters = 'abcdefghijklmnopqrstuvwxyz_'
+        Band = models.Band
+        Band.objects.all().delete()
         for band_name in band_names:
-            Band = models.Band
             if not Band.objects.filter(name=band_name).exists():
                 manager_name = band_name.lower()
                 new_manager_name = ''
@@ -166,6 +185,7 @@ class Command(BaseCommand):
                     manager.is_staff = True
                     manager.save()
                 Band.objects.create(name=band_name, manager=manager,
+                                    about_band=choice(about_band_texts),
                                     genre=choice(models.Genre.objects.all()))
 
         # Concerts
