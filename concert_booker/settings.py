@@ -148,6 +148,7 @@ BOWER_INSTALLED_APPS = (
     'jquery-ui',
     'bootstrap',
     'fullcalendar',
+    'eonasdan-bootstrap-datetimepicker#latest',
 )
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

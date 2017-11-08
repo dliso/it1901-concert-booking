@@ -1,9 +1,25 @@
 {% extends 'base.html' %}
 
+{% load static %}
 {% load crispy_forms_tags %}
+
+{% block extra_head %}
+<script type="text/javascript" src="{% static 'moment/moment.js' %}"></script>
+<script type="text/javascript" src="{% static 'moment/locale/nb.js' %}"></script>
+<script type="text/javascript" src="{% static 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
+<link href="{% static 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet"/>
+{% endblock %}
 
 {% block content %}
 <h1>Create offer</h1>
 {% crispy form %}
+
+<script>
+ $(function () {
+     $("#id_time").datetimepicker({
+         locale: 'nb',
+     });
+ });
+</script>
 
 {% endblock content %}
