@@ -95,11 +95,9 @@ class Stage(models.Model):
     def color(self):
         mod = 99
         hue = (sum(map(ord, self.name)) % mod) / mod
-        print(hue)
         rgb = colorsys.hsv_to_rgb(hue, 0.5, 0.5)
         r, g, b = map(lambda x: hex(int(255*x))[2:], rgb)
         color = f'#{r}{g}{b}'
-        print(color)
         return color
 
     def __str__(self):
