@@ -110,7 +110,7 @@ class Command(BaseCommand):
         # Genres
         # ========================================
         sow('--- creating genres')
-        genres = ['Pop', 'Gangster rap']
+        genres = ['Pop', 'Gangster rap', 'Rock', 'Funk', 'Electronica']
         for genre in genres:
             if not models.Genre.objects.filter(name=genre).exists():
                 try:
