@@ -31,6 +31,7 @@ class Band(models.Model):
     genre = models.ForeignKey('Genre', null=False, blank=False)
     sold_albums = models.PositiveIntegerField(default=0)
     total_streams = models.PositiveIntegerField(default=0)
+    about_band = models.TextField(blank=True)
 
     @property
     def band(self):
@@ -196,9 +197,14 @@ class Concert(models.Model):
 class Festival(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
     concerts = models.ManyToManyField(Concert)
+    class Meta:
+        permissions = (
+            ("view_pr_page", "Can view PR pages"),
+        )
 
     def __str__(self):
         return self.name
+
 
     def get_absolute_url(self):
         return reverse('festival:detail', args=[self.id])

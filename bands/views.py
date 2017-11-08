@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core import serializers
 from django.db.models import Count, Min
+from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
                                   TemplateView, UpdateView)
 from rules.contrib.views import PermissionRequiredMixin
+
 from bands.groups import Groups
 
 from . import forms, models
@@ -326,3 +328,10 @@ class StageEconReport(PermissionRequiredMixin, ListView):
         print(context['summary'])
 
         return context
+
+
+class FestivalPRDetail(PermissionRequiredMixin, DetailView):
+    model = models.Festival
+    template_name = "bands/festival_pr_detail.html"
+
+    permission_required = 'bands.concert.view_pr_details'

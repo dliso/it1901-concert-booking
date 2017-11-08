@@ -56,26 +56,26 @@
 
 {% comment %}
 TODO:
-Vi må finne ut hva vi skal gjøre dersom et band har spilt både
-uavhengige konserter og konserter på festival
 
 Filtrer på kun tidligere konserter
+Filtrer på kun kommende konserter
+
 {% endcomment %}
 
 <h4><b>Popularity</b></h4>
 <table class="table">
     <tr>
-        <th class="col-md-4">Sold albums</th>
-        <th class="col-md-4">Total streams</th>
-        <th class="col-md-4"> </th>
+        <th class="col-md-4 col-sm-4 col-xs-4">Sold albums</th>
+        <th class="col-md-8 col-sm-8 col-xs-8">Total streams</th>
     </tr>
     <tr>
         <td>{{ band.sold_albums }}</td>
         <td>{{ band.total_streams }}</td>
-        <td> </td>
     </tr>
 
 </table>
 
+<h5><b>About band</b></h5>
+{{ band.about_band }}
 
 {% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<h1>{{ festival.name }}</h1>
+
+<h4><b>Concerts</b></h4>
+
+<table class="table">
+
+    <tr>
+        <th class="col-md-2 col-sm-2 col-xs-2">Date</th>
+        <th class="col-md-2 col-sm-2 col-xs-2">Concert</th>
+        <th class="col-md-2 col-sm-2 col-xs-2">Band</th>
+        <th class="col-md-5 col-sm-6 col-xs-6">About band</th>
+    </tr>
+    {% for concert in festival.concerts.all %}
+    <tr>
+        <td>{{ concert.concert_time|date:"d M Y" }}</td>
+        <td>{{ concert }}</td>
+        <td>{{ concert.band_name }}</td>
+        <td>{{ concert.band_name.about_band }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock content %}
+

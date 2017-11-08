@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
@@ -70,6 +71,8 @@ festival_urls = [
     url(r'^$', band_views.FestivalList.as_view(), name='list'),
     url(r'^(?P<pk>[0-9]+)$', band_views.FestivalDetail.as_view(),
         name='detail'),
+    url(r'^(?P<pk>[0-9]+)/pr_detail$', band_views.FestivalPRDetail.as_view()
+        , name='pr_detail'),
 ]
 
 

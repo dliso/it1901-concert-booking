@@ -35,6 +35,10 @@ add_perm('offer.view', is_concert_booker)
 add_perm('offerlist.view', is_booker)
 add_perm('offermanager.view', is_a_manager)
 
+def is_pr_responsible(user):
+    return user.groups.filter(name=Groups.PR_MANAGERS.value).exists()
+
+
 add_perm('bands', always_allow)
 # add_perm('bands.add_technicalneed', is_superuser | is_manager)
 add_perm('bands.change_technicalneed', is_manager)
@@ -50,3 +54,5 @@ add_perm('concert.edit_tech_staff', is_booker)
 
 add_perm('booking.view', is_booker | is_manager)
 add_perm('booking.view_dashboard', is_booker)
+
+add_perm('bands.concert.view_pr_details', is_pr_responsible)
