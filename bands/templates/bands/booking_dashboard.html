@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel='stylesheet' type='text/css' href="{% static 'fullcalendar/dist/fullcalendar.css' %}" />
+<script type='text/javascript' src="{% static 'moment/moment.js' %}"></script>
+<script type='text/javascript' src="{% static 'fullcalendar/dist/fullcalendar.js' %}"></script>
+{% endblock extra_head %}
+
+{% block content %}
+<h1>Booking Dashboard</h1>
+
+<div class="row">
+    <div class="col-sm-12">
+        <a class="btn btn-primary" href="{% url 'offer:new' %}?next={{ request.path }}">
+            Make an offer
+        </a>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-sm-4">
+        {% include './offer_list_group.html' with title='pending' offers=pending_offers %}
+    </div>
+
+    <div class="col-sm-4">
+        {% include './offer_list_group.html' with title='rejected' offers=unsendable_offers %}
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        {% include './offer_list_group.html' with title='waiting for artist' offers=sent_offers %}
+    </div>
+    <div class="col-sm-4">
+        {% include './offer_list_group.html' with title='accepted by artist' offers=accepted_offers %}
+    </div>
+    <div class="col-sm-4">
+        {% include './offer_list_group.html' with title='rejected by artist' offers=rejected_offers %}
+    </div>
+</div>
+
+{% include './calendar.html' %}
+
+{% endblock content %}

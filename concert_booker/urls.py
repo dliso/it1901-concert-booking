@@ -13,12 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from accounts import views as acc_views
 from bands import views as band_views
+from bands import api_views
+from bands import offer_views
 
 auth_urls = [
     url(r'^signup/$', acc_views.SignUpView.as_view(), name='signup'),
@@ -28,6 +31,7 @@ auth_urls = [
 
 stage_urls = [
     url(r'^$', band_views.StageList.as_view(), name='stagelist'),
+    url(r'^create/$', band_views.StageCreate.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)/$',
         band_views.StageDetail.as_view(show_upcoming=5, show_previous=5),
         name='detail'),
@@ -54,6 +58,8 @@ concert_urls = [
 
 band_urls = [
     url(r'^(?P<pk>[0-9]+)$', band_views.BandDetail.as_view(), name='detail'),
+    url(r'^(?P<pk>[0-9]+)/manager/$', band_views.BandManagerDetail.as_view(),
+        name='manager_detail'),
     url(r'^$', band_views.BandList.as_view(), name='list')
 ]
 
@@ -65,19 +71,37 @@ genre_urls = [
 
 festival_urls = [
     url(r'^$', band_views.FestivalList.as_view(), name='list'),
+    url(r'^create/$', band_views.FestivalCreate.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)$', band_views.FestivalDetail.as_view(),
         name='detail'),
+    url(r'^(?P<pk>[0-9]+)/edit$', band_views.FestivalEdit.as_view(),
+        name='edit'),
+    url(r'^(?P<pk>[0-9]+)/pr_detail$', band_views.FestivalPRDetail.as_view()
+        , name='pr_detail'),
 ]
 
 
 offer_urls = [
-    url(r'^$', band_views.OfferList.as_view(), name='offerList'),
-    url(r'^(?P<pk>[0-9]+)$', band_views.OfferDetail.as_view(), name='offerDetail'),
-    url(r'^manager$', band_views.OfferManagerList.as_view(), name='offerManagerView'),
-    url(r'^manager(?P<pk>[0-9]+)$', band_views.OfferManagerDetail.as_view(), name='offerManagerDetail'),
-    url(r'^new$', band_views.OfferView.as_view(), name='new'),
+    url(r'^$', offer_views.OfferList.as_view(), name='offerList'),
+    url(r'^(?P<pk>[0-9]+)$', offer_views.OfferDetail.as_view(), name='offerDetail'),
+    url(r'^manager$', offer_views.OfferManagerList.as_view(), name='offerManagerView'),
+    url(r'^manager/(?P<pk>[0-9]+)$', offer_views.OfferManagerDetail.as_view(), name='offerManagerDetail'),
+    url(r'^new$', offer_views.Create.as_view(), name='new'),
 ]
 
+
+dashboard_urls = [
+    url(r'^bookingdashboard/$', band_views.BookingDashboard.as_view(),
+        name='booking'),
+    url(r'^pr_dashboard/$', band_views.PRDashboard.as_view()
+        , name='pr'),
+]
+
+
+api_urls = [
+    url(r'^occurrences/$', api_views.occurrences,
+        name='occurrences'),
+]
 
 
 urlpatterns = [
@@ -91,4 +115,7 @@ urlpatterns = [
     url(r'^festival/', include(festival_urls, namespace='festival')),
     url(r'^offer/', include(offer_urls, namespace='offer')),
     url(r'^band/', include(band_urls, namespace='band')),
+    url(r'', include(dashboard_urls, namespace='dashboards')),
+    url(r'^schedule/', include('schedule.urls'), name='scheduler'),
+    url(r'^api/', include(api_urls, namespace='api')),
 ]

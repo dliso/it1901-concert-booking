@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>Add new stage</h1>
+
+<form action="{{ request.path }}" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-primary" type="submit" value="Submit"/>
+</form>
+
+{% endblock content %}

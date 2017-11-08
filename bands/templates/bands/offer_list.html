@@ -2,10 +2,22 @@
 
 
 {% block content %}
+<h1>Concert Offers</h1>
+<a class="btn btn-primary" href="{% url 'offer:new' %}">Make an offer</a>
+
 <h1>Offers pending review</h1>
 <ul class="list-unstyled">
     {% for offer in offer_list %}
         {% if offer.is_pending_status == True %}
+            {% include './offers_card.html' %}
+        {% endif %}
+    {% endfor %}
+</ul>
+
+<h1>Offers sent to managers</h1>
+<ul class="list-unstyled">
+    {% for offer in offer_list %}
+        {% if offer.is_pending_status == False and offer.accepted_status == False %}
             {% include './offers_card.html' %}
         {% endif %}
     {% endfor %}

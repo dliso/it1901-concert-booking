@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% load rules %}
+{% load static %}
+
+{% block extra_head %}
+<link rel='stylesheet' type='text/css' href="{% static 'fullcalendar/dist/fullcalendar.css' %}" />
+<script type='text/javascript' src="{% static 'moment/moment.js' %}"></script>
+<script type='text/javascript' src="{% static 'fullcalendar/dist/fullcalendar.js' %}"></script>
+{% endblock extra_head %}
 
 {% block content %}
 <h1>Responsibilities</h1>
@@ -10,113 +17,45 @@
 </ul>
 
 <div class="row">
-
-    <div class="col-sm-4">
-        <h3>Upcoming concerts</h3>
+    {% if user.manages.all %}
+    <div class="col-sm-12">
+        <h3>Artists you manage</h3>
         <ul class="list-group">
-            {% for concert in upcoming_concerts %}
+            {% for band in user.manages.all %}
             <li class="list-group-item">
-                <a href="">
-                    {{ concert }}
+                <a href="{{ band.get_manager_url }}">
+                    {{ band }}
                 </a>
-                <br/>
-                {{ concert.concert_time }}
             </li>
-            {% empty %}
-            No upcoming concerts.
             {% endfor %}
         </ul>
     </div>
-
-    <div class="col-sm-4">
-        <h3>Pending offers</h3>
-    </div>
-
+    {% endif %}
 </div>
 
 <div class="row">
     <div class="col-sm-12">
         <h3>Your roles</h3>
-        <ul>
+        <div class="btn-group">
 
-            {% has_perm 'book_concert' user as can_book_concert %}
+            {% has_perm 'concert.book' user as can_book_concert %}
             {% if can_book_concert %}
-            <li>
-                Concert booker
-            </li>
+            <a class="btn btn-default" href="{% url 'dashboards:booking' %}">Booking manager</a>
             {% endif %}
 
-        </ul>
+            {% has_perm 'festival.view_pr_details' user as perm %}
+            {% if perm %}
+            <a class="btn btn-default"
+               href="{% url 'dashboards:pr' %}">PR Manager</a>
+            {% endif %}
+
+        </div>
     </div>
 </div>
 
-{% comment %}
-<h1>Users</h1>
+<div class="row">
+</div>
 
-<ul>
-    {% for user in user_list %}
-    <li>{{ user.username }}</li>
-    {% endfor %}
-</ul>
-
-{% if group_list %}
-<h1>Groups</h1>
-{% for group in group_list %}
-<h4> {{ group }} </h4>
-
-<ul>
-    {% for member in group.user_set.all %}
-    <li> {{ member }} </li>
-    {% empty %}
-    No members.
-    {% endfor %}
-</ul>
-
-{% endfor %}
-{% endif %}
-
-<h1>Bands</h1>
-<ul>
-    {% for band in band_list %}
-    <li>
-        <a href="{% url 'admin:bands_band_change' band.id %}">
-            {{ band }}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-
-<h1>Stages</h1>
-<ul>
-    {% for stage in stage_list %}
-    <li>
-        <a href="{% url 'admin:bands_stage_change' stage.id %}">
-            {{ stage }}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-
-<h1>Concerts</h1>
-<ul>
-    {% for concert in concert_list %}
-    <li>
-        <a href="{% url 'concert:detail' concert.id %}">
-            {{ concert }}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-
-<h1>Festivals</h1>
-<ul>
-    {% for festival in festival_list %}
-    <li>
-        <a href="{% url 'festival:detail' festival.id %}"> {{ festival }} </a>
-    </li>
-    {% endfor %}
-</ul>
-
-{% endcomment %}
+{% include 'bands/calendar.html' %}
 
 {% endblock content %}

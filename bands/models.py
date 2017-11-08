@@ -1,5 +1,8 @@
+import base64
+import colorsys
 from collections import namedtuple
 from itertools import groupby
+from math import sin
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -16,17 +19,27 @@ class Genre(models.Model):
     description = models.TextField(blank=True)
 
     def __str__(self):
-        return self.name + " - " + self.description
+        return self.name
 
 
 class Band(models.Model):
     name = models.CharField(max_length=MAX_BANDNAME_LENGTH)
-    manager = models.ForeignKey(User, null=True, blank=True)
+    manager = models.ForeignKey(User, null=True, blank=True,
+                                related_name='manages')
     genre = models.ForeignKey(Genre)
 
     genre = models.ForeignKey('Genre', null=False, blank=False)
     sold_albums = models.PositiveIntegerField(default=0)
     total_streams = models.PositiveIntegerField(default=0)
+    about_band = models.TextField(blank=True)
+
+    @property
+    def band(self):
+        return self
+
+    @classmethod
+    def my_bands(self, user):
+        return self.objects.filter(manager=user)
 
     def previous_concerts(self):
         return Concert.objects.filter(
@@ -40,6 +53,11 @@ class Band(models.Model):
             band_name=self
         ).order_by('-concert_time')
 
+    #def genre_concerts(self):
+    #    return Concert.objects.filter(
+    #        concert_name = concerts
+    #        genre = genre_music
+    #    ).order_by(genre_music)
     # This model has to be expanded to include at least genres.
 
     def __str__(self):
@@ -47,6 +65,10 @@ class Band(models.Model):
 
     def get_absolute_url(self):
         return reverse("band:detail",args=[self.id])
+
+    def get_manager_url(self):
+        return reverse("band:manager_detail", args=[self.id])
+
 
 class TechnicalNeed(models.Model):
     concert_name = models.ForeignKey('Concert')
@@ -60,6 +82,10 @@ class TechnicalNeed(models.Model):
     def get_absolute_url(self):
         return self.concert_name.get_absolute_url()
 
+    @property
+    def band(self):
+        return self.concert_name.band_name
+
 
 class Stage(models.Model):
     STAGE_SIZE_CHOICES = (('S','Small'),
@@ -71,6 +97,14 @@ class Stage(models.Model):
     num_seats = models.IntegerField()
     stage_size = models.CharField(choices=STAGE_SIZE_CHOICES, max_length=1)
     stage_costs = models.PositiveIntegerField(default=0)
+
+    def color(self):
+        mod = 99
+        hue = (sum(map(ord, self.name)) % mod) / mod
+        rgb = colorsys.hsv_to_rgb(hue, 0.5, 0.5)
+        r, g, b = map(lambda x: hex(int(255*x))[2:], rgb)
+        color = f'#{r}{g}{b}'
+        return color
 
     def __str__(self):
         return self.name
@@ -112,6 +146,24 @@ class Concert(models.Model):
     def __str__(self):
         return self.name
 
+    def calendar_title(self):
+        return f'{self.stage_name}\n\n{self.name}'
+
+    def json(self):
+        return {
+            'id': self.pk,
+            'title': self.calendar_title(),
+            'start': self.concert_time,
+            'end': self.concert_time + timezone.timedelta(hours=2),
+            'existed': False,
+            'event_id': self.pk,
+            'rule': None,
+            'end_recurring_period': None,
+            'calendar': 'default',
+            'color': self.stage_name.color(),
+            'url': self.get_absolute_url(),
+        }
+
     def get_absolute_url(self):
         return reverse('concert:detail', args=[self.id])
 
@@ -145,9 +197,14 @@ class Concert(models.Model):
 class Festival(models.Model):
     name = models.CharField(max_length=MAX_CHARFIELD_LENGTH_GENERAL)
     concerts = models.ManyToManyField(Concert)
+    class Meta:
+        permissions = (
+            ("view_pr_page", "Can view PR pages"),
+        )
 
     def __str__(self):
         return self.name
+
 
     def get_absolute_url(self):
         return reverse('festival:detail', args=[self.id])
@@ -156,7 +213,6 @@ class Festival(models.Model):
         return Stage.objects.filter(concert__in=self.concerts.all())
 
     def concerts_by_stage(self):
-        ConcertsByStage = namedtuple('ConcertsByStage', ['stage', 'concerts'])
         concerts = self.concerts.order_by('stage_name')
         grouped = groupby(concerts, lambda c: c.stage_name)
         by_stage = [
@@ -166,6 +222,21 @@ class Festival(models.Model):
             } for stage, concs in grouped
         ]
         return by_stage
+
+    def concerts_by_genre(self):
+        concerts = self.concerts.order_by('genre_music')
+        collected = groupby(concerts, lambda c: c.genre_music)
+        by_genre = [
+            {
+                'genre': genre,
+                'concerts': sorted(list(concs), key=lambda c: c.concert_time),
+            } for genre, concs in collected
+        ]
+        for genre in by_genre:
+            concerts = genre['concerts']
+            genre['total_tickets_sold'] = sum([c.tickets_sold() for c in concerts])
+            genre['total_profit'] = sum([c.profit() for c in concerts])
+        return by_genre
 
     def first_concert(self):
         return self.concerts.order_by('concert_time').first()
@@ -184,6 +255,78 @@ class Offer(models.Model):
     stage = models.ForeignKey(Stage)
     genre = models.ForeignKey(Genre)
     concert_description = models.TextField(blank=True)
+    rejected_status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.concert_name
+
+    def calendar_title(self):
+        return f'{self.stage}\n\n{self.concert_name}'
+
+    def json(self):
+        return {
+            'id': 'offer-' + str(self.pk),
+            'title': self.calendar_title(),
+            'start': self.time,
+            'end': self.time + timezone.timedelta(hours=2),
+            'existed': False,
+            'event_id': 'offer-' + str(self.pk),
+            'rule': None,
+            'end_recurring_period': None,
+            'calendar': 'offers',
+            'color': '#222',
+            'url': self.get_absolute_url(),
+        }
 
     def get_absolute_url(self):
-        return reverse('offer:offerDetail', args=[self.id])
+        if self.is_pending_status:
+            return reverse('offer:offerDetail', args=[self.id])
+        else:
+            return reverse('offer:offerManagerDetail', args=[self.id])
+
+    @classmethod
+    def pending(self):
+        return self.objects.filter(
+            is_pending_status=True,
+            rejected_status=False,
+            accepted_status=False)
+
+    @classmethod
+    def unsendable(self):
+        return self.objects.filter(
+            is_pending_status=True,
+            rejected_status=True,
+            accepted_status=False)
+
+    @classmethod
+    def sent_to_artist(self):
+        return self.objects.filter(
+            is_pending_status=False,
+            accepted_status=False,
+            rejected_status=False)
+
+    @classmethod
+    def accepted(self):
+        return self.objects.filter(
+            is_pending_status=False,
+            accepted_status=True,
+            rejected_status=False)
+
+    @classmethod
+    def rejected(self):
+        return self.objects.filter(
+            is_pending_status=False,
+            accepted_status=False,
+            rejected_status=True)
+
+    def status(self):
+        if self.is_pending_status and not self.rejected_status and not self.accepted_status:
+            return 'Pending'
+        if self.is_pending_status and self.rejected_status and not self.accepted_status:
+            return 'Unsendable'
+        if not self.is_pending_status and not self.rejected_status and not self.accepted_status:
+            return 'Sent to artist'
+        if not self.is_pending_status and self.rejected_status and not self.accepted_status:
+            return 'Rejected by artist'
+        if not self.is_pending_status and not self.rejected_status and self.accepted_status:
+            return 'Accepted by artist'

@@ -30,6 +30,7 @@ class Command(BaseCommand):
         # ========================================
         password = 'qweqweqwe'
         all_users = User.objects.all()
+        all_users.delete()
         # Admin
         sow('--- creating admin')
         try:
@@ -62,6 +63,28 @@ class Command(BaseCommand):
             else:
                 sow(f"{name} already exists")
 
+        # Booking managers
+        sow('--- creating booking managers')
+        booker_group = Group.objects.get(name=Groups.CONCERT_BOOKERS.value)
+        for i in range(5):
+            name = f'booking_manager_{i}'
+            if not User.objects.filter(username=name).exists():
+                user = User.objects.create_user(name, '', password)
+                booker_group.user_set.add(user)
+            else:
+                sow(f"{name} already exists")
+
+        # Booking chiefs
+        sow('--- creating chief booking managers')
+        booker_group = Group.objects.get(name=Groups.CHIEF_BOOKERS.value)
+        for i in range(5):
+            name = f'chief_booking_manager_{i}'
+            if not User.objects.filter(username=name).exists():
+                user = User.objects.create_user(name, '', password)
+                booker_group.user_set.add(user)
+            else:
+                sow(f"{name} already exists")
+
         # Stages
         # ========================================
         sow('--- creating stages')
@@ -78,6 +101,7 @@ class Command(BaseCommand):
                     models.Stage.objects.create(
                         name=f'{name}',
                         num_seats=randint(1,10)*100,
+                        stage_costs=randint(10, 50) * 1000,
                         stage_size=choice(stage_sizes)[0]
                     )
                 except IntegrityError:
@@ -88,7 +112,7 @@ class Command(BaseCommand):
         # Genres
         # ========================================
         sow('--- creating genres')
-        genres = ['Pop', 'Gangster rap']
+        genres = ['Pop', 'Gangster rap', 'Rock', 'Funk', 'Electronica']
         for genre in genres:
             if not models.Genre.objects.filter(name=genre).exists():
                 try:
@@ -123,9 +147,27 @@ class Command(BaseCommand):
             "Ebony Bones", "The Edge", "Eliza Doolittle", "Ella Mai",
             "Engineers", "Erasure", "Eurythmics", "Example", "The Faces",
         ]
+        about_band_texts = [
+            "Aliquam erat volutpat.",
+            "Nunc eleifend leo vitae magna.",
+            "In id erat non orci commodo lobortis.",
+            "Proin neque massa, cursus ut, gravida ut, lobortis eget, lacus.",
+            "Sed diam.",
+            "Praesent fermentum tempor tellus.",
+            "Nullam tempus.",
+            "Mauris ac felis vel velit tristique imperdiet.",
+            "Donec at pede.",
+            "Etiam vel neque nec dui dignissim bibendum.",
+            "Vivamus id enim.",
+            "Phasellus neque orci, porta a, aliquet quis, semper a, massa.",
+            "Phasellus purus.",
+            "Pellentesque tristique imperdiet tortor.",
+            "Nam euismod tellus id erat.",
+        ]
         legal_characters = 'abcdefghijklmnopqrstuvwxyz_'
+        Band = models.Band
+        Band.objects.all().delete()
         for band_name in band_names:
-            Band = models.Band
             if not Band.objects.filter(name=band_name).exists():
                 manager_name = band_name.lower()
                 new_manager_name = ''
@@ -141,7 +183,10 @@ class Command(BaseCommand):
                     manager = User.objects.get(username=new_manager_name)
                 else:
                     manager = User.objects.create_user(new_manager_name, '', password)
+                    manager.is_staff = True
+                    manager.save()
                 Band.objects.create(name=band_name, manager=manager,
+                                    about_band=choice(about_band_texts),
                                     genre=choice(models.Genre.objects.all()))
 
         # Concerts
@@ -155,8 +200,8 @@ class Command(BaseCommand):
         now = timezone.now()
         year = now.year
         years = list(range(year - 5, year + 2))
-        months = [9, 10, 11]
-        days = list(range(1, 30))
+        months = [(now.month + i) % 12 for i in range(1)]
+        days = [(now.day + i) % 28 for i in range(-5, 6)]
         hours = [16, 18, 20, 22]
         for year in years:
             times.append(now.replace(year=year))
@@ -176,18 +221,20 @@ class Command(BaseCommand):
             sow(f"{band}")
             for _ in range(randint(0,5)):
                 tagline = choice(taglines)
+                concert_time=timezone.datetime(
+                    choice(years),
+                    choice(months),
+                    choice(days),
+                    choice(hours),
+                    tzinfo=now.tzinfo,
+                )
                 concert = Concert.objects.create(
                     name=f'{band.name} {tagline}',
                     band_name=band,
                     stage_name=choice(stages),
                     genre_music=choice(genres),
-                    concert_time=timezone.datetime(
-                        choice(years),
-                        choice(months),
-                        choice(days),
-                        choice(hours),
-                    ),
                     ticket_price=randint(100,1000),
+                    concert_time=concert_time,
                 )
                 concert.light_tech = choices(light_techs, k=randint(1,5))
                 concert.sound_tech = choices(audio_techs, k=randint(1,5))

@@ -6,10 +6,10 @@ from .groups import Groups
 
 
 @predicate
-def is_manager(user, tech_need):
-    if not tech_need:
+def is_manager(user, obj):
+    if not obj:
         return False
-    return user == tech_need.concert_name.band_name.manager
+    return user == obj.band.manager
 
 
 @predicate
@@ -18,16 +18,48 @@ def is_concert_booker(user):
 
 
 @predicate
+def is_a_manager(user):
+    for b in models.Band.objects.all():
+        if b.manager == user:
+            return True
+    return False
+
+@predicate
 def is_chief_booker(user):
     return user.groups.filter(name=Groups.CHIEF_BOOKERS.value).exists()
 
 
+is_booker = is_chief_booker | is_concert_booker
+
+add_perm('offer.view', is_concert_booker)
+add_perm('offerlist.view', is_booker)
+add_perm('offermanager.view', is_a_manager)
+
+add_perm('offer.send_to_band', is_chief_booker)
+add_perm('offer.accept', is_manager)
+add_perm('offer.create', is_booker)
+
+def is_pr_responsible(user):
+    return user.groups.filter(name=Groups.PR_MANAGERS.value).exists()
+
+
 add_perm('bands', always_allow)
 # add_perm('bands.add_technicalneed', is_superuser | is_manager)
-add_perm('bands.change_technicalneed', is_superuser | is_manager)
+add_perm('bands.change_technicalneed', is_manager)
 # add_perm('bands.delete_technicalneed', is_superuser | is_manager)
 
-add_perm('stage.view_econ_report', is_concert_booker | is_chief_booker)
+add_perm('band.manage', is_manager)
 
+add_perm('festival.create', is_superuser)
+
+add_perm('stage.create', is_superuser)
+add_perm('stage.view_econ_report', is_booker)
+
+add_perm('concert.book', is_booker)
 add_perm('concert.edit', is_chief_booker)
-add_perm('concert.edit_tech_staff', is_concert_booker | is_chief_booker)
+add_perm('concert.edit_tech_staff', is_booker)
+
+add_perm('booking.view', is_booker | is_manager)
+add_perm('booking.view_dashboard', is_booker)
+
+add_perm('festival.view_pr_details', is_pr_responsible)

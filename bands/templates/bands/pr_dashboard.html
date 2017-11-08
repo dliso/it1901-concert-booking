@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>PR Dashboard</h1>
+
+<h3>Festivals</h3>
+<table class="table">
+    <tr>
+        <th>Festival</th>
+        <th>PR Page</th>
+    </tr>
+    {% for festival in festival_list %}
+    <tr>
+        <td><a href="{{ festival.get_absolute_url }}">{{ festival }}</a></td>
+        <td><a href="{% url 'festival:pr_detail' festival.id %}">Link</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock content %}

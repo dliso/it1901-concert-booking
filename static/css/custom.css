@@ -54,3 +54,7 @@ html {
     flex: 1 0 auto;
     width: 25%;
 }
+
+.radio, .radio + .radio {
+    margin: 5px;
+}

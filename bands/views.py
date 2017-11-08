@@ -1,12 +1,22 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core import serializers
 from django.db.models import Count, Min
+from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import (CreateView, DetailView, FormView, ListView,
-                                  UpdateView)
+                                  TemplateView, UpdateView)
 from rules.contrib.views import PermissionRequiredMixin
 
+from bands.groups import Groups
+
 from . import forms, models
+
+
+class StageCreate(PermissionRequiredMixin, CreateView):
+    model = models.Stage
+    fields = '__all__'
+    permission_required = 'stage.create'
+    raise_exception = True
 
 
 class StageList(LoginRequiredMixin, ListView):
@@ -16,7 +26,7 @@ class StageList(LoginRequiredMixin, ListView):
                      .annotate(num_concerts=Count('concert')) \
                      .order_by('-num_concerts')
 
-class StageDetail(DetailView):
+class StageDetail(LoginRequiredMixin, DetailView):
     model = models.Stage
     show_upcoming = 0
     show_previous = 0
@@ -77,119 +87,56 @@ class FestivalDetail(LoginRequiredMixin, DetailView):
     model = models.Festival
 
 
-class OfferView(UserPassesTestMixin, FormView):
-    form_class = forms.OfferForm
-    template_name = 'bands/offer.html'
+class FestivalCreate(PermissionRequiredMixin, CreateView):
+    model = models.Festival
+    permission_required = 'festival.create'
+    raise_exception = True
+    form_class = forms.FestivalForm
+
+class FestivalEdit(FestivalCreate, UpdateView):
+    pass
+
+class BookingDashboard(PermissionRequiredMixin, TemplateView):
+    template_name = 'bands/booking_dashboard.html'
+    permission_required = 'booking.view_dashboard'
+    raise_exception = True
+    permission_denied_message = 'You do not have permission to handle bookings.'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pending_offers'] = models.Offer.pending()
+        context['unsendable_offers'] = models.Offer.unsendable()
+        context['sent_offers'] = models.Offer.sent_to_artist()
+        context['accepted_offers'] = models.Offer.accepted()
+        context['rejected_offers'] = models.Offer.rejected()
+        return context
 
 
-    def test_func(self):
-        return self.request.user.groups.filter(name="booking_responsibles").exists()
-
-
-    def get_success_url(self):
-        req = self.request
-        return req.GET.get('next', '/')
-
-    def form_valid(self, form):
-        data = form.cleaned_data
-        o = models.Offer()
-        o.band = data['band']
-        o.concert_description = data['concert_description']
-        o.concert_name = data['concert_name']
-        o.stage = data['stage']
-        o.genre = o.band.genre
-        o.price = data['price']
-        o.time = data['time']
-        o.save()
-
-        return super().form_valid(form)
-
-class OfferList(UserPassesTestMixin, ListView):
-    model = models.Offer
-    template_name = 'bands/offer_list.html'
-
-    def test_func(self):
-        return self.request.user.groups.filter(name="booking_chiefs").exists()
-
-
-class OfferDetail(UserPassesTestMixin, FormView, DetailView):
-    model = models.Offer
-    form_class = forms.OfferDetailForm
-    template_name = 'bands/offer_detail.html'
-
-
-    def test_func(self):
-        return self.request.user.groups.filter(name="booking_chiefs").exists()
-
-    def get_success_url(self):
-        req = self.request
-        return req.GET.get('next', '/offer')
-
-    def form_valid(self, form):
-        data = form.cleaned_data
-        if data['acceptable'] == True:
-            offers = models.Offer.objects.all()
-            for o in offers:
-                if str(o.id) == self.kwargs['pk']:
-                    o.is_pending_status = False
-                    o.save()
-        return super().form_valid(form)
-
-class OfferManagerList(UserPassesTestMixin, ListView):
-    model = models.Offer
-    template_name = 'bands/offerManager_list.html'
-
-    def test_func(self):
-        return self.request.user.groups.filter(name="managers").exists()
-
-class OfferManagerDetail(UserPassesTestMixin, FormView, DetailView):
-    model = models.Offer
-    form_class = forms.OfferManagerDetailForm
-    template_name = 'bands/offerManager_detail.html'
-
-    def test_func(self):
-        return self.request.user.groups.filter(name="managers").exists()
-
-    def get_success_url(self):
-        req = self.request
-        return req.GET.get('next', '/offer/manager')
-
-    def form_valid(self, form):
-        data = form.cleaned_data
-        if data['acceptable'] == True:
-            offers = models.Offer.objects.all()
-            for o in offers:
-                if str(o.id) == self.kwargs['pk']:
-                    o.accepted_status = True
-
-                    c = models.Concert()
-                    c.name = o.concert_name
-                    c.band_name = o.band
-                    c.stage_name = o.stage
-                    c.genre_music = o.band.genre
-                    c.concert_time = o.time
-                    c.concert_description = o.concert_description
-
-                    o.save()
-                    c.save()
-        return super().form_valid(form)
-
-
-class BandDetail(DetailView):
+class BandDetail(LoginRequiredMixin, DetailView):
     model = models.Band
 
 
-class BandList(ListView):
+class BandManagerDetail(PermissionRequiredMixin, DetailView):
+    model = models.Band
+    template_name = 'bands/band_manager_detail.html'
+    permission_required = 'band.manage'
+    permission_denied_message = 'You are not the manager of this artist.'
+    raise_exception = True
+
+
+class BandList(LoginRequiredMixin, ListView):
     model = models.Band
     paginate_by = 24
 
 
-class ConcertCreate(CreateView):
+class ConcertCreate(PermissionRequiredMixin, CreateView):
     """View for creating concerts. We need to add some JavaScript to compute
     price suggestions, so we can't just use the admin page."""
     model = models.Concert
     template_name = 'bands/concert_create.html'
     form_class = forms.ConcertForm
+    permission_required = 'concert.create'
+    raise_exception = True
 
     def get_context_data(self):
         context = super().get_context_data()
@@ -216,7 +163,7 @@ class ConcertEditTech(PermissionRequiredMixin, UpdateView):
 
     permission_required = 'concert.edit_tech_staff'
 
-    
+
 class BandSearch(FormView):
     form_class = forms.SearchForm
     success_url = "."
@@ -311,3 +258,16 @@ class StageEconReport(PermissionRequiredMixin, ListView):
         print(context['summary'])
 
         return context
+
+
+class PRDashboard(PermissionRequiredMixin, ListView):
+    model = models.Festival
+    template_name = "bands/pr_dashboard.html"
+    permission_required = 'festival.view_pr_details'
+
+
+class FestivalPRDetail(PermissionRequiredMixin, DetailView):
+    model = models.Festival
+    template_name = "bands/festival_pr_detail.html"
+
+    permission_required = 'festival.view_pr_details'

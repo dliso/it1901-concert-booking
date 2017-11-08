@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1> {{ band.name }} </h1>
+<h4>Manager page</h4>
+
+<h3>Concerts</h3>
+{% with band.concert_set.all as offers %}
+{% if offers %}
+<ul class="list-group">
+    {% for offer in offers %}
+    <li class="list-group-item">
+        <p>
+            <a href="{{ offer.get_absolute_url }}">
+                {{ offer }}
+            </a>
+        </p>
+        <p> {{ offer.concert_time }} </p>
+        <p> {{ offer.stage_name }} </p>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+No concerts.
+{% endif %}
+{% endwith %}
+
+<h3>Booking offers</h3>
+
+{% with band.offer_set.all as offers %}
+{% if offers %}
+<ul class="list-group">
+    {% for offer in offers %}
+    <li class="list-group-item">
+        <a href="{{ offer.get_absolute_url }}">
+            {{ offer.concert_name }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+No offers.
+{% endif %}
+{% endwith %}
+
+{% endblock content %}

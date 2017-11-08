@@ -21,6 +21,7 @@ class Dashboard(LoginRequiredMixin, ListView):
         context['group_list'] = Group.objects.all()
         context['concert_list'] = band_models.Concert.objects.all()
         context['upcoming_concerts'] = band_models.Concert.upcoming()[:5]
+        context['pending_offers'] = band_models.Offer.objects.all()[:5]
         return context
 
 

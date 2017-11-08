@@ -8,6 +8,30 @@ from django.utils.timezone import now
 from . import models as band_models
 from . import groups
 
+
+class StageChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, stage):
+        return f'{stage.name} - {stage.get_stage_size_display()} size stage ' \
+            f'- {stage.num_seats} seats'
+
+
+class ConcertChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, concert):
+        return f'{concert.name} - {concert.concert_time}'
+
+
+class FestivalForm(forms.ModelForm):
+    class Meta:
+        model = band_models.Festival
+        exclude = []
+
+    concerts = ConcertChoiceField(
+        queryset=band_models.Concert.objects.order_by('-concert_time'),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+
 class OfferForm(forms.Form):
     concert_name = forms.CharField(
         help_text="What you would like the name of your concert to be",
@@ -20,15 +44,18 @@ class OfferForm(forms.Form):
         required=True,
     )
 
-    price = forms.DecimalField(help_text="Give price you want included in offer",
-                               required=True,
-                               max_digits=15,
-    )
-
-    stage = forms.ModelChoiceField(
+    stage = StageChoiceField(
         band_models.Stage.objects,
         help_text="Select a suitable stage",
         required=True
+    )
+
+    price = forms.DecimalField(
+        help_text="Ticket price you want included in offer. "
+        "When selecting a stage, this field will automatically update to the "
+        "break-even price assuming the concert sells out.",
+        required=True,
+        max_digits=15,
     )
 
     band = forms.ModelChoiceField(
@@ -48,9 +75,15 @@ class OfferForm(forms.Form):
 
 
 class OfferDetailForm(forms.Form):
-    acceptable = forms.BooleanField(
+    acceptable = forms.ChoiceField(
+        help_text="Can this offer be sent to the artist?",
         required=True,
-        help_text="Approve or disapprove offer"
+        widget=forms.widgets.RadioSelect,
+        choices=(
+            ('yes', 'Yes, send'),
+            ('no', 'No, discard'),
+
+        )
     )
 
     def __init__(self, *args, **kwargs):
@@ -61,9 +94,10 @@ class OfferDetailForm(forms.Form):
 
 
 class OfferManagerDetailForm(forms.Form):
-    acceptable = forms.BooleanField(
+    Offer_response = forms.ChoiceField(
         required=True,
-        help_text="Approve or disapprove offer"
+        help_text="Approve or disapprove offer",
+        choices=((True,'Accept'),(False, 'Decline'))
     )
 
     def __init__(self, *args, **kwargs):

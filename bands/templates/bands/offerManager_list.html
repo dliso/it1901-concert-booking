@@ -5,7 +5,7 @@
 <h1>Your offers</h1>
 <ul class="list-unstyled">
     {% for offer in offer_list %}
-        {% if offer.is_pending_status == False and offer.band.manager == user and offer.accepted_status == False%}
+        {% if offer.is_pending_status == False and offer.band.manager == user and offer.accepted_status == False and offer.rejected_status != True%}
             {% include './offerManager_card.html' %}
         {% endif %}
     {% endfor %}

@@ -6,16 +6,19 @@
     <h1>{{ offer.concert_name }}</h1>
 
 
-    <h4>Time: {{ offer.time }}</h4>
-    <h4>Price: {{ offer.price }}</h4>
-    <h4>Band: {{ offer.band.name }}</h4>
+    <p>Time: {{ offer.time }}</p>
+    <p>Price: {{ offer.price }}</p>
+    <p>Band: {{ offer.band.name }}</p>
 
-    <h4>description</h4>><br>
+    <h4>Description</h4><br>
     <p>{{ offer.concert_description }}</p>
+
     {% load crispy_forms_tags %}
 
-    {% block content1 %}
+    <div class="well">
+        {% block content1 %}
         {% crispy form %}
-    {% endblock content1 %}
+        {% endblock content1 %}
+    </div>
 
 {% endblock content %}
