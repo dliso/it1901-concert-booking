@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Calendar</h3>
+        <div id="calendar"></div>
+    </div>
+</div>
+
+<script>
+ $(document).ready(() => {
+     $("#calendar").fullCalendar({
+         events: '{% url "api:occurrences" %}',
+         defaultView: 'agendaWeek',
+         header: {
+             right: 'month,agendaWeek,agendaDay',
+             left: 'prev,today,next'
+         },
+         firstDay: 1,
+         timeFormat: 'HH:mm',
+         slotLabelFormat: 'HH:mm',
+         slotDuration: '00:30:00',
+         scrollTime: '14:00:00',
+         columnFormat: 'ddd D. MMM',
+     })
+ })
+</script>
