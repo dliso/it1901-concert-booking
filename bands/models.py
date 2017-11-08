@@ -234,6 +234,24 @@ class Offer(models.Model):
     concert_description = models.TextField(blank=True)
     rejected_status = models.BooleanField(default=False)
 
+    def calendar_title(self):
+        return f'{self.stage}\n\n{self.concert_name}'
+
+    def json(self):
+        return {
+            'id': 'offer-' + str(self.pk),
+            'title': self.calendar_title(),
+            'start': self.time,
+            'end': self.time + timezone.timedelta(hours=2),
+            'existed': False,
+            'event_id': 'offer-' + str(self.pk),
+            'rule': None,
+            'end_recurring_period': None,
+            'calendar': 'offers',
+            'color': '#222',
+            # 'url': self.get_absolute_url(),
+        }
+
     def get_absolute_url(self):
         return reverse('offer:offerDetail', args=[self.id])
 

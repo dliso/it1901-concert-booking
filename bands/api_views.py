@@ -16,7 +16,13 @@ def occurrences(request):
         concert_time__lte=end
     )
 
+    offers = models.Offer.objects.filter(
+        time__gte=start,
+        time__lte=end
+    )
+
     return JsonResponse(
-        [c.json() for c in concerts],
+        [c.json() for c in concerts] +
+        [o.json() for o in offers],
         safe=False
     )
