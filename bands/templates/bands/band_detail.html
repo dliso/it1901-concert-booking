@@ -16,7 +16,7 @@
     </tr>
     {% for concert in band.previous_concerts %}
     <tr>
-        <td>{{ concert }}</td>
+        <td><a href="{{ concert.get_absolute_url }}">{{ concert }}</a></td>
         <td>{{ concert.stage_name }}</td>
         <td>{{ concert.concert_time|date:"d M Y" }}</td>
         <td>{{ concert.festival_set.first|default_if_none:"<i>Independent concert</i>" }}</td>
@@ -41,7 +41,7 @@
     </tr>
     {% for concert in band.upcoming_concerts %}
     <tr>
-        <td>{{ concert }}</td>
+        <td><a href="{{ concert.get_absolute_url }}">{{ concert }}</a></td>
         <td>{{ concert.stage_name }}</td>
         <td>{{ concert.concert_time|date:"d M Y" }}</td>
         <td>{{ concert.festival_set.first|default_if_none:"<i>Independent concert</i>" }}</td>

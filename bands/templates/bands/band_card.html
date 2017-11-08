@@ -34,6 +34,10 @@
                     {% endif %}
                 </dd>
                 {% endwith %}
+                <dt>Number of concerts</dt>
+                <dd>
+                    {{ band.concert_set.count }}
+                </dd>
 
             </dl>
         </div>
