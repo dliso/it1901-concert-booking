@@ -200,18 +200,20 @@ class Command(BaseCommand):
             sow(f"{band}")
             for _ in range(randint(0,5)):
                 tagline = choice(taglines)
+                concert_time=timezone.datetime(
+                    choice(years),
+                    choice(months),
+                    choice(days),
+                    choice(hours),
+                    tzinfo=now.tzinfo,
+                )
                 concert = Concert.objects.create(
                     name=f'{band.name} {tagline}',
                     band_name=band,
                     stage_name=choice(stages),
                     genre_music=choice(genres),
-                    concert_time=timezone.datetime(
-                        choice(years),
-                        choice(months),
-                        choice(days),
-                        choice(hours),
-                    ),
                     ticket_price=randint(100,1000),
+                    concert_time=concert_time,
                 )
                 concert.light_tech = choices(light_techs, k=randint(1,5))
                 concert.sound_tech = choices(audio_techs, k=randint(1,5))
