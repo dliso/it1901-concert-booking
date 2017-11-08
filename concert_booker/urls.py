@@ -82,7 +82,7 @@ offer_urls = [
     url(r'^(?P<pk>[0-9]+)$', offer_views.OfferDetail.as_view(), name='offerDetail'),
     url(r'^manager$', offer_views.OfferManagerList.as_view(), name='offerManagerView'),
     url(r'^manager/(?P<pk>[0-9]+)$', offer_views.OfferManagerDetail.as_view(), name='offerManagerDetail'),
-    url(r'^new$', offer_views.OfferView.as_view(), name='new'),
+    url(r'^new$', offer_views.Create.as_view(), name='new'),
 ]
 
 

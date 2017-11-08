@@ -5,9 +5,9 @@ from rules.contrib.views import PermissionRequiredMixin
 from . import forms, models
 
 
-class OfferView(PermissionRequiredMixin, FormView):
+class Create(PermissionRequiredMixin, FormView):
     form_class = forms.OfferForm
-    template_name = 'bands/offer.html'
+    template_name = 'bands/offer_create.html'
     permission_required = "offer.view"
 
     def get_success_url(self):
