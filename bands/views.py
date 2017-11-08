@@ -12,6 +12,13 @@ from bands.groups import Groups
 from . import forms, models
 
 
+class StageCreate(PermissionRequiredMixin, CreateView):
+    model = models.Stage
+    fields = '__all__'
+    permission_required = 'stage.create'
+    raise_exception = True
+
+
 class StageList(LoginRequiredMixin, ListView):
     model = models.Stage
     paginate_by = 12

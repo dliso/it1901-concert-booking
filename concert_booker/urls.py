@@ -31,6 +31,7 @@ auth_urls = [
 
 stage_urls = [
     url(r'^$', band_views.StageList.as_view(), name='stagelist'),
+    url(r'^create/$', band_views.StageCreate.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)/$',
         band_views.StageDetail.as_view(show_upcoming=5, show_previous=5),
         name='detail'),
