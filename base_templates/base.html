@@ -63,7 +63,6 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
-                        <!-- TODO urls -->
                         <li><a href="">{{ user.username }}</a></li>
                         <li><a href="{% url 'auth:logout' %}?next={{ request.path }}">Log out</a></li>
                         {% else %}
@@ -86,15 +85,11 @@
         <footer class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-md-4">
+                        {% if user.is_superuser %}
                         <h4>Administrator actions</h4>
                         <a href="/admin/">Admin page</a>
-                    </div>
-                    <div class="col-sm-4">
-                        <h4>License info</h4>
-                    </div>
-                    <div class="col-sm-4">
-                        <h4>More footer stuff, maybe</h4>
+                        {% endif %}
                     </div>
                 </div>
             </div>
