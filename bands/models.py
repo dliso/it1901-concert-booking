@@ -34,6 +34,14 @@ class Band(models.Model):
     about_band = models.TextField(blank=True)
 
     @property
+    def get_sold_albums(self):
+        return (len(self.name) * len(self.manager.username)) * 100
+
+    @property
+    def get_total_streams(self):
+        return (len(self.name) ** len(self.manager.username)) % 100000000
+
+    @property
     def band(self):
         return self
 
