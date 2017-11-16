@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['name',['name',['../classaccounts_1_1apps_1_1AccountsConfig.html#aad0e2a3ef0a4803c57dd765619143d3d',1,'accounts.apps.AccountsConfig.name()'],['../classbands_1_1apps_1_1BandsConfig.html#a2c2dc8f3d3a4f7492cd8d5b01f06718b',1,'bands.apps.BandsConfig.name()'],['../classbands_1_1models_1_1Genre.html#a40d5e66a307cc1ecdbb1781245d3349b',1,'bands.models.Genre.name()'],['../classbands_1_1models_1_1Band.html#a75f1b4bf206b88b756762dd8013c5b84',1,'bands.models.Band.name()'],['../classbands_1_1models_1_1Stage.html#a95197df3fb241ff84dc1e8282e8bf5df',1,'bands.models.Stage.name()'],['../classbands_1_1models_1_1Concert.html#a65c10e4592685903243e4aca7e08298f',1,'bands.models.Concert.name()'],['../classbands_1_1models_1_1Festival.html#acffccc17b3081b212a8f765124d85cf7',1,'bands.models.Festival.name()'],['../classmisc__tools_1_1apps_1_1MiscToolsConfig.html#a2c61baf04225dcdea2ff5b61de91e9b6',1,'misc_tools.apps.MiscToolsConfig.name()']]],
+  ['num_5fconcerts',['num_concerts',['../classbands_1_1views_1_1StageList.html#abef62ebbbb92375b5d194906812dcd52',1,'bands::views::StageList']]],
+  ['num_5fseats',['num_seats',['../classbands_1_1models_1_1Stage.html#a72c3db5c2f7855c3e004495f59a2adbf',1,'bands::models::Stage']]]
+];
